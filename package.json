@@ -1,6 +1,5 @@
 {
   "name": "@ordercloud/angular-cms-components",
-  "version": "1.0.0-beta.1",
   "author": "Four51",
   "license": "MIT",
   "scripts": {
@@ -13,7 +12,9 @@
     "buildconfig-prod": "cp -f angular.build.json angular.json",
     "buildconfig-dev": "cp -f angular.dev.json angular.json",
     "plugin-dev": "webpack --config plugin/webpack/development.config.js",
-    "plugin-prod": "webpack --config plugin/webpack/production.config.js"
+    "plugin-prod": "webpack --config plugin/webpack/production.config.js",
+    "publish-please": "publish-please",
+    "prepublishOnly": "publish-please guard"
   },
   "private": true,
   "dependencies": {
@@ -70,6 +71,7 @@
     "ngx-spinner": "^9.0.2",
     "npm-run-all": "^4.1.5",
     "protractor": "~7.0.0",
+    "publish-please": "^5.5.1",
     "slick-carousel": "^1.8.1",
     "tinymce": "^5.4.1",
     "ts-node": "~8.3.0",

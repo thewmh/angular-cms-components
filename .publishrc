@@ -1,0 +1,15 @@
+{
+  "validations": {
+    "branch": "master",
+    "uncommittedChanges": true,
+    "untrackedFiles": true,
+    "gitTag": true,
+    "vulnerableDependencies": false,
+    "sensitiveData": false
+  },
+  "confirm": true,
+  "publishCommand": "cd projects/lib && npm publish",
+  "publishTag": "beta",
+  "prePublishScript": "npm run build",
+  "postPublishScript": false
+}
