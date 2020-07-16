@@ -17,7 +17,7 @@ A component library that can be used to quickly integrate with the OrderCloud CM
     ```
 3. In your root app module import either `CmsAdminModule` for access to admin/buyer components or `CmsBuyerModule` for just the buyer components. Here we're registering `CmsAdminModule` for access to all components
     ```typescript
-    import { CmsAdminModule, Configuration } from '@ordercloud/angular-sdk';
+    import { CmsAdminModule, Configuration } from '@ordercloud/angular-cms-components';
 
     @NgModule({
     declarations: [...],
@@ -34,7 +34,7 @@ A component library that can be used to quickly integrate with the OrderCloud CM
         - `{"glob": "**/*","input": "node_modules/tinymce","output": "/tinymce/"}`
 5. In angular.json add two entries to the scripts array
         - `"node_modules/tinymce/tinymce.min.js"`
-        - `"node_modules/marketplace-cms-components/plugin.min.js"`
+        - `"node_modules/@ordercloud/angular-cms-components/plugin.min.js"`
 
 Now you can use any of the components in your application
 
