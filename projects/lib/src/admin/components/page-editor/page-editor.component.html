@@ -1,0 +1,171 @@
+<div *ngIf="htmlEditorOnly">
+  <cms-html-editor
+    [initialValue]="page.Content"
+    [editorOptions]="editorOptions"
+  ></cms-html-editor>
+</div>
+<div *ngIf="!htmlEditorOnly">
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="form-group">
+        <label for="pageTitle">Page Title</label>
+        <input
+          id="pageTitle"
+          type="text"
+          class="form-control"
+          [(ngModel)]="page.Title"
+          #pageTitle
+          required
+          maxlength="100"
+          (keyup)="onPageTitleKeyUp(pageTitle.value)"
+          placeholder="Choose a descriptive title for this page"
+        />
+        <small id="pageTitleHelp" class="form-text text-muted">
+          {{ 100 - (page.Title ? page.Title.length : 0) }} / 100 characters
+          remaining.
+        </small>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <label for="pageStatus">Page Status</label>
+      <div id="pageStatus">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="pageActive1"
+            name="pageActiveStatus"
+            class="custom-control-input"
+            [checked]="page.Active"
+            (change)="onPageStatusChange()"
+          />
+          <label class="custom-control-label" for="pageActive1">Active</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input
+            type="radio"
+            id="pageActive2"
+            name="pageActiveStatus"
+            class="custom-control-input"
+            [checked]="!page.Active"
+            (change)="onPageStatusChange()"
+          />
+          <label class="custom-control-label" for="pageActive2">Disabled</label>
+        </div>
+      </div>
+      <!-- <div class="checkbox">
+        <label for="pageActive">
+          <input id="pageActive" type="checkbox" [(ngModel)]="page.active" />
+          Active
+        </label>
+      </div> -->
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="custom-control custom-checkbox">
+      <input
+        class="custom-control-input"
+        id="pageNavigation"
+        type="checkbox"
+        (change)="onPageNavigationChange()"
+        [(ngModel)]="pageNavigation"
+      />
+      <label class="custom-control-label" for="pageNavigation"
+        >Show in navigation</label
+      >
+    </div>
+  </div>
+  <div class="form-group" [ngbCollapse]="!pageNavigation">
+    <label for="pageNavigationTitle">Navigation Title</label>
+    <input
+      id="pageNavigationTitle"
+      type="text"
+      class="form-control"
+      placeholder="Choose a short, one to three word title for navigation elements"
+      [(ngModel)]="page.NavigationTitle"
+    />
+  </div>
+  <div class="form-group">
+    <div class="custom-control custom-checkbox">
+      <input
+        class="custom-control-input"
+        id="automaticUrl"
+        type="checkbox"
+        (change)="onAutomaticUrlChange()"
+        [(ngModel)]="automaticUrl"
+      />
+      <label class="custom-control-label" for="automaticUrl"
+        >Generate Page Location based on Page Title</label
+      >
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pageUrl">Page Location</label>
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">{{ renderSiteUrl }}/pages/</span>
+      </div>
+      <input
+        id="pageUrl"
+        type="text"
+        class="form-control"
+        [(ngModel)]="page.Url"
+        [readOnly]="automaticUrl"
+        required
+        aria-describedby="pageUrlHelp"
+        placeholder="Choose a location for this page"
+      />
+    </div>
+    <small id="pageUrlHelp" class="form-text text-muted"
+      >Kebab case recommended, use text relevant to this page for best SEO
+      results. When "Generate" is checked, we will come up with a SEO friendly
+      URL for you.
+    </small>
+  </div>
+  <div class="form-group">
+    <label for="pageTitle">Description</label>
+    <textarea
+      id="pageDescription"
+      type="text"
+      class="form-control"
+      [(ngModel)]="page.Description"
+      maxlength="300"
+      required
+      aria-describedby="pageDescriptionHelp"
+      placeholder="Describe this page in 300 characters or less"
+    ></textarea>
+    <small id="pageDescriptionHelp" class="form-text text-muted">
+      {{ 300 - (page.Description ? page.Description.length : 0) }} / 300
+      characters remaining.
+    </small>
+  </div>
+  <div class="form-group">
+    <label for="pageHeaderEmbeds">Header Embeds</label>
+    <textarea
+      id="pageHeaderEmbeds"
+      type="text"
+      rows="4"
+      class="form-control"
+      [(ngModel)]="page.HeaderEmbeds"
+      placeholder="Copy and paste any scripts you want to execute in the <head> element"
+    ></textarea>
+  </div>
+  <div class="form-group">
+    <label for="pageContent">Page Content</label>
+    <cms-html-editor
+      [initialValue]="page.Content"
+      [editorOptions]="editorOptions"
+    ></cms-html-editor>
+  </div>
+  <div class="form-group">
+    <label for="pageFooterEmbeds">Footer Embeds</label>
+    <textarea
+      id="pageFooterEmbeds"
+      type="text"
+      rows="4"
+      class="form-control"
+      [(ngModel)]="page.FooterEmbeds"
+      placeholder="Copy and paste any scripts you want to execute at the bottom of the <body> element"
+    ></textarea>
+  </div>
+</div>

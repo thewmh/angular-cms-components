@@ -1,0 +1,13 @@
+<div class="modal-content">
+  <div class="modal-body">
+    <h5 class="text-center">{{message || 'Are you sure?'}}</h5>
+  </div>
+  <div class="modal-footer">
+    <button (click)="cancel.emit()"
+            type="button"
+            class="btn btn-secondary">{{cancelText || 'Cancel'}}</button>
+    <button (click)="proceed.emit()"
+            type="button"
+            class="btn btn-primary">{{confirmText || 'Proceed'}}</button>
+  </div>
+</div>

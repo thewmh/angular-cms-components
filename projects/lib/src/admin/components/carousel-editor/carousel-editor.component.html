@@ -1,0 +1,111 @@
+<div class="modal-header">
+    <h4 class="modal-title">Carousel Builder</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-6 col-xl-7">
+            <h4 class="text-muted">Drag to rearrange the order of your carousel slides</h4>
+            <button class="btn btn-primary add-image-btn" (click)="openAssetPicker()">Add Image</button>
+            <div class="slides">
+                <div class="slide" *ngFor="let slide of slides" (click)="selectSlide(slide)"
+                    [ngClass]="{'slide-selected': isSelected(slide)}">
+                    <img src="{{slide.ImageUrl}}" alt="{{slide.ImageTitle}}">
+                    <span (click)="deleteSlide(slide)" class="icon-delete_forever">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path
+                                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z" />
+                            </svg>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-5" *ngIf="selectedSlide">
+            <h4 class="text-muted">Edit Slide {{getSlideIndex(selectedSlide) + 1}}</h4>
+            <form [formGroup]="slideEditForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="slide-h1">Heading</label>
+                    <input formControlName="Heading" id="slide-h1" class="form-control" type="text" />
+                </div>
+                <div class="form-group">
+                    <label for="slide-h2">Subheading</label>
+                    <input formControlName="Subheading" id="slide-h2" class="form-control" type="text" />
+                </div>
+                <div class="form-group">
+                    <label for="slide-actiontext">Action Text</label>
+                    <input formControlName="ActionText" id="slide-actiontext" class="form-control" type="text" />
+                </div>
+                <div class="form-group">
+                    <label for="slide-actionurl">Action URL</label>
+                    <input formControlName="ActionUrl" id="slide-actionurl" class="form-control" type="text" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <form [formGroup]="carouselSettingsForm" autocomplete="off">
+        <h4 class="text-muted">
+            Carousel Settings
+        </h4>
+        <div class="row">
+            <div class="col-lg-6 col-xl-4">
+                <div class="form-group">
+                    <label for="carousel-speed">Carousel Speed <span class="text-muted">(milliseconds)</span></label>
+                    <input formControlName="speed" id="carousel-speed" class="form-control" type="number"
+                        ngbAutofocus />
+                </div>
+                <div class="form-group">
+                    <label for="carousel-slides-to-show">Slides to Show</label>
+                    <input formControlName="slidesToShow" id="carousel-slides-to-show" class="form-control"
+                        type="number" />
+                </div>
+                <div class="form-group">
+                    <label for="carousel-slides-to-scroll">Slides to Scroll</label>
+                    <input formControlName="slidesToScroll" id="carousel-slides-to-scroll" class="form-control"
+                        type="number" />
+                </div>
+                <div class="form-group">
+                    <label for="carousel-rows">Rows</label>
+                    <input formControlName="rows" id="carousel-rows" class="form-control" type="number" />
+                </div>
+            </div>
+            <div class="col-lg-6 col-xl-4 d-flex flex-column justify-content-between">
+                <div class="custom-control custom-checkbox">
+                    <input formControlName="autoplay" type="checkbox" class="custom-control-input"
+                        id="carousel-autoplay">
+                    <label class="custom-control-label" for="carousel-autoplay">Autoplay</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input formControlName="infinite" type="checkbox" class="custom-control-input"
+                        id="carousel-infinite-loop">
+                    <label class="custom-control-label" for="carousel-infinite-loop">Infinite Loop</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input formControlName="dots" type="checkbox" class="custom-control-input" id="carousel-show-dots">
+                    <label class="custom-control-label" for="carousel-show-dots">Show Dots</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input formControlName="arrows" type="checkbox" class="custom-control-input"
+                        id="carousel-show-arrows">
+                    <label class="custom-control-label" for="carousel-show-arrows">Show Arrows</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input formControlName="centerMode" type="checkbox" class="custom-control-input"
+                        id="carousel-center-mode">
+                    <label class="custom-control-label" for="carousel-center-mode">Center Mode</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input formControlName="fade" type="checkbox" class="custom-control-input"
+                        id="carousel-fade-transition">
+                    <label class="custom-control-label" for="carousel-fade-transition">Fade Transition</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" [disabled]="!slides.length" (click)="addCarousel()">Add
+        Carousel</button>
+</div>

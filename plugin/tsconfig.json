@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      "module": "commonjs",
+      "strict": false, // too noisy for now
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "noEmit": true // compilation is left up to babel
+    }
+  }

@@ -1,0 +1,82 @@
+// carousel
+$slide-height: 75px;
+$slide-width: $slide-height;
+$slide-margin: 20px;
+$slide-row-height: $slide-height + $slide-margin + $slide-margin;
+$slide-bg: #C4C4C4;
+$slide-selected-color: #ffe600;
+
+.text-muted {
+  color: black;
+  opacity: .5;
+  font-size: 15px;
+}
+
+:host {
+    background-color: #F8F8F8;
+}
+
+.form-group {
+  margin-bottom: .6rem;
+  display: flex;
+
+  label {
+      flex-grow: 1;
+  }
+
+  input {
+      width: initial;
+  }
+}
+
+.slides {
+    display: grid;
+    margin: 0px (-$slide-margin);
+    grid-template-columns: repeat(auto-fit, minmax($slide-row-height, $slide-row-height));
+    max-height: 2 * $slide-row-height;
+    overflow-y: auto;
+    cursor: move;
+}
+
+.slide-selected {
+    -webkit-box-shadow: 0px 0px 17px -3px $slide-selected-color;
+    -moz-box-shadow: 0px 0px 17px -3px $slide-selected-color;
+    box-shadow: 0px 0px 17px -3px $slide-selected-color;
+}
+
+.slide {
+  margin: $slide-margin;
+  height: $slide-height;
+  width: $slide-width;
+  border-radius: 15px;
+  background-color: $slide-bg;
+  position: relative;
+  img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+  }
+
+  .icon-delete_forever {
+    cursor: pointer;
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    background-color: #FF4158;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    text-align: center;
+
+    svg {
+      fill: white;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.add-image-btn {
+  margin: 15px 0;
+}

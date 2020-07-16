@@ -1,0 +1,13 @@
+<div class="modal-content">
+    <div class="modal-body">
+        <h2>New {{assetType}}</h2>
+        <cms-asset-update [assetType]="assetType" 
+        [isNew]="true"
+        (onSubmit)="submit.emit($event)"></cms-asset-update>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-outline-grey" (click)="cancel.emit()">
+            Cancel
+        </button>
+    </div>
+</div>

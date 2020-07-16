@@ -1,0 +1,20 @@
+<div
+  #root
+  class="section-template-renderer_root"
+  [ngClass]="{ selected: selected, loading: !rootHeight }"
+  [ngStyle]="{ 'height.px': rootHeight }"
+>
+  <iframe
+    *ngIf="iframeSource"
+    #iframe
+    class="section-template-renderer_iframe"
+    [ngStyle]="{
+      'height.px': height,
+      'width.px': previewWidth,
+      transform: transform
+    }"
+    [src]="iframeSource"
+    scrolling="no"
+    (load)="onIframeLoaded()"
+  ></iframe>
+</div>

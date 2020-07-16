@@ -1,0 +1,38 @@
+$asset-item-margin: 10px;
+
+.asset-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 -($asset-item-margin);
+}
+
+.asset-item {
+    cursor: pointer;
+    margin: $asset-item-margin;
+}
+
+.asset-image {
+    max-width: 200px;
+}
+
+.no-results {
+    background-color: #ececec;
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 25%;
+    &_msg {
+        padding: 5px 0 5px 0;
+    }
+}
+
+.modal-body {
+    min-height: 590px;
+}
+
+.pagination-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
