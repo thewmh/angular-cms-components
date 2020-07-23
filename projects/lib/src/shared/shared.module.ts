@@ -9,7 +9,6 @@ import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -19,7 +18,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     EditorModule,
     NgbModalModule,
     NgxSpinnerModule,
-    BrowserAnimationsModule,
     CommonModule
   ],
   exports: [
@@ -30,7 +28,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     EditorModule,
     NgbModalModule,
     NgxSpinnerModule,
-    BrowserAnimationsModule,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
