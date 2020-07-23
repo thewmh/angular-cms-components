@@ -9,15 +9,15 @@ A component library that can be used to quickly integrate with the OrderCloud CM
 ## Installation
 1. Install the component library
      ```
-     npm i @ordercloud/angular-cms-components
+     npm i --save @ordercloud/angular-cms-components
      ```
 2. Install the required peer dependencies
     ```
-    npm i bootstrap @ng-bootstrap/bootstrap tinymce @tinymce/tinymce/angular axios case jquery marketplace-javascript-sdk ngx-spinner
+    npm i --save bootstrap @ng-bootstrap/bootstrap tinymce @tinymce/tinymce-angular axios case jquery marketplace-javascript-sdk ngx-spinner
     ```
 3. In your root app module import either `CmsAdminModule` for access to admin/buyer components or `CmsBuyerModule` for just the buyer components. Here we're registering `CmsAdminModule` for access to all components
     ```typescript
-    import { CmsAdminModule, Configuration } from '@ordercloud/angular-sdk';
+    import { CmsAdminModule, Configuration } from '@ordercloud/angular-cms-components';
 
     @NgModule({
     declarations: [...],
@@ -31,10 +31,10 @@ A component library that can be used to quickly integrate with the OrderCloud CM
     export class AppModule {}
     ```
 4. In angular.json add an entry to the assets array
-        - `{"glob": "**/*","input": "node_modules/tinymce","output": "/tinymce/"}`
+    - `{"glob": "**/*","input": "node_modules/tinymce","output": "/tinymce/"}`
 5. In angular.json add two entries to the scripts array
-        - `"node_modules/tinymce/tinymce.min.js"`
-        - `"node_modules/marketplace-cms-components/plugin.min.js"`
+    - `"node_modules/tinymce/tinymce.min.js"`
+    - `"node_modules/@ordercloud/angular-cms-components/plugin.min.js"`
 
 Now you can use any of the components in your application
 
