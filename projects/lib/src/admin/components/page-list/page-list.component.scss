@@ -1,0 +1,35 @@
+.page-header {
+    margin: 1rem 0;
+}
+
+.col {
+    margin-left: 2rem;
+}
+
+.filter-group {
+    display: flex;
+    max-width: 450px;
+    
+    * {
+        margin-right: 1rem;
+    }
+}
+
+.page-list-table {
+    margin-top: 1rem;
+    tr {
+        th:first-child, td:first-child {
+            padding-left: 2rem;
+        }
+        th {
+            color: #8B8B8B;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        td {
+            font-size: 12px;
+        }
+    }
+}
