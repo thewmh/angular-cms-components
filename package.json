@@ -14,6 +14,7 @@
     "buildconfig-dev": "cp -f angular.dev.json angular.json",
     "plugin-dev": "webpack --config plugin/webpack/development.config.js",
     "plugin-prod": "webpack --config plugin/webpack/production.config.js",
+    "publish-lib": "cd dist/lib && npm publish",
     "publish-please": "publish-please",
     "prepublishOnly": "publish-please guard"
   },
