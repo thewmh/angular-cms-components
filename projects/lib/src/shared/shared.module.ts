@@ -5,7 +5,6 @@ import 'jquery';
 
 import { CommonModule } from '@angular/common';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ModuleWithProviders } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,7 +13,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
-    BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
@@ -26,7 +24,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   exports: [
     CommonModule,
-    BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
