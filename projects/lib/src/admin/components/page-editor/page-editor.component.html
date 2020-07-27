@@ -2,6 +2,7 @@
   <cms-html-editor
     [initialValue]="page.Content"
     [editorOptions]="editorOptions"
+    (htmlChange)="onPageContentChange($event)"
   ></cms-html-editor>
 </div>
 <div *ngIf="!htmlEditorOnly">
@@ -155,6 +156,7 @@
     <cms-html-editor
       [initialValue]="page.Content"
       [editorOptions]="editorOptions"
+      (htmlChange)="onPageContentChange($event)"
     ></cms-html-editor>
   </div>
   <div class="form-group">
