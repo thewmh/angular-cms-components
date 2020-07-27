@@ -1,20 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CmsPageEditorComponent } from './page-editor.component';
+import { PageEditorComponent } from './page-editor.component';
 
 describe('CmsPageEditorComponent', () => {
-  let component: CmsPageEditorComponent;
-  let fixture: ComponentFixture<CmsPageEditorComponent>;
+  let component: PageEditorComponent;
+  let fixture: ComponentFixture<PageEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CmsPageEditorComponent ]
-    })
-    .compileComponents();
+      declarations: [PageEditorComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CmsPageEditorComponent);
+    fixture = TestBed.createComponent(PageEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
