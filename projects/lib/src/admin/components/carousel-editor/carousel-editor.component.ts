@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CmsAssetPickerComponent } from '../asset-picker/asset-picker.component';
+import { AssetPickerComponent } from '../asset-picker/asset-picker.component';
 import { CarouselSlide } from '../../models/carousel-slide.interface';
 import { v4 as guid } from 'uuid';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './carousel-editor.component.html',
   styleUrls: ['./carousel-editor.component.scss']
 })
-export class CmsCarouselEditorComponent implements OnInit {
+export class CarouselEditorComponent implements OnInit {
   slideEditForm: FormGroup;
   carouselSettingsForm: FormGroup;
   selectedSlide: CarouselSlide;
@@ -104,7 +104,7 @@ export class CmsCarouselEditorComponent implements OnInit {
   }
 
   openAssetPicker() {
-    const modalRef = this.modalService.open(CmsAssetPickerComponent, {
+    const modalRef = this.modalService.open(AssetPickerComponent, {
       size: 'xl',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop',

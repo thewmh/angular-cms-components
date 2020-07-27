@@ -5,7 +5,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   templateUrl: './asset-upload.component.html',
   styleUrls: ['./asset-upload.component.scss']
 })
-export class CmsAssetUploadComponent implements OnInit {
+export class AssetUploadComponent implements OnInit {
   @Input() assetType;
   @Output() cancel = new EventEmitter();
   @Output() submit = new EventEmitter();

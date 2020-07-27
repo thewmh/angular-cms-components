@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MarketplaceSDK } from 'marketplace-javascript-sdk';
+import { HeadStartSDK } from '@ordercloud/headstart-sdk';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { debounceTime, takeWhile, filter } from 'rxjs/operators';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -10,7 +10,7 @@ import { NgxSpinnerService } from "ngx-spinner";
   templateUrl: './asset-picker.component.html',
   styleUrls: ['./asset-picker.component.scss']
 })
-export class CmsAssetPickerComponent implements OnInit, OnDestroy {
+export class AssetPickerComponent implements OnInit, OnDestroy {
   loading = true;
   alive = true;
   previousSearchTerm = ''
@@ -60,7 +60,7 @@ export class CmsAssetPickerComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.spinner.show();
     this.parameters.page = page;
-    return MarketplaceSDK.Assets.List(this.parameters)
+    return HeadStartSDK.Assets.List(this.parameters)
       .then(assetList => {
         this.list = assetList;
       })

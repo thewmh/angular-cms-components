@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { MarketplaceSDK, Asset } from 'marketplace-javascript-sdk';
+import { HeadStartSDK } from '@ordercloud/headstart-sdk';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -7,7 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   templateUrl: './asset-update.component.html',
   styleUrls: ['./asset-update.component.scss']
 })
-export class CmsAssetUpdateComponent implements OnInit {
+export class AssetUpdateComponent implements OnInit {
   @ViewChild("fileDropRef", { static: false }) fileDropEl: ElementRef;
   assetForm: FormGroup;
 
@@ -53,7 +53,7 @@ export class CmsAssetUpdateComponent implements OnInit {
   }
 
   deleteAsset(assetID: string) {
-    return MarketplaceSDK.Assets.Delete(assetID).then(() => {
+    return HeadStartSDK.Assets.Delete(assetID).then(() => {
       this.onDelete.emit();
     });
   }
@@ -61,7 +61,7 @@ export class CmsAssetUpdateComponent implements OnInit {
   saveChanges(asset) {
     let updatedAsset = asset.value;
     if (this.isNew) {
-      return MarketplaceSDK.Upload.UploadAsset(updatedAsset).then(() => {
+      return HeadStartSDK.Upload.UploadAsset(updatedAsset).then(() => {
         this.isNew = false;
         this.onSubmit.emit({
           action: 'UploadAsset',
@@ -69,7 +69,7 @@ export class CmsAssetUpdateComponent implements OnInit {
         });
       })
     } else {
-      return MarketplaceSDK.Assets.Update(updatedAsset.ID, updatedAsset).then(() => {
+      return HeadStartSDK.Assets.Update(updatedAsset.ID, updatedAsset).then(() => {
         this.onSubmit.emit({
           action: 'Update',
           asset: updatedAsset

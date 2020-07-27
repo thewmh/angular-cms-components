@@ -9,7 +9,7 @@ import {
   @Directive({
     selector: '[cmsDragAndDrop]'
   })
-  export class CmsDragAndDropDirective {
+  export class DragAndDropDirective {
     @HostBinding('class.fileover') fileOver: boolean;
     @Output() fileDropped = new EventEmitter<any>();
   

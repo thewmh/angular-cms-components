@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MarketplaceSDK } from 'marketplace-javascript-sdk';
+import { HeadStartSDK } from '@ordercloud/headstart-sdk';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -7,7 +7,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './asset-list.component.html',
   styleUrls: ['./asset-list.component.scss']
 })
-export class CmsAssetListComponent implements OnInit {
+export class AssetListComponent implements OnInit {
   assets: any;
   modalReference: NgbModalRef;
   assetTypes: string[] = ['Image', 'Theme', 'Attachment', 'Structured'];
@@ -24,7 +24,7 @@ export class CmsAssetListComponent implements OnInit {
   listAssets(assetType: string, searchTerm: string) {
     let options: any = { filters: { Type: assetType } };
     if (searchTerm) options = { ...options, search: searchTerm, searchOn: 'Title' };
-    return MarketplaceSDK.Assets.List(options).then(
+    return HeadStartSDK.Assets.List(options).then(
       (assets) => {
         this.assets = assets;
       }

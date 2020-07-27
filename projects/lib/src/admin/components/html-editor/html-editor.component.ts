@@ -6,13 +6,13 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CmsAssetPickerComponent } from '../asset-picker/asset-picker.component';
-import { CmsCarouselEditorComponent } from '../carousel-editor/carousel-editor.component';
+import { AssetPickerComponent } from '../asset-picker/asset-picker.component';
+import { CarouselEditorComponent } from '../carousel-editor/carousel-editor.component';
 import { v4 as guid } from 'uuid';
-import { CmsSectionPickerComponent } from '../section-picker/section-picker.component';
-import { CmsSectionDateSettingsComponent } from '../section-date-settings/section-date-settings.component';
-import { Asset } from 'marketplace-javascript-sdk';
-import * as MarketplaceSdkInstance from 'marketplace-javascript-sdk';
+import { SectionPickerComponent } from '../section-picker/section-picker.component';
+import { SectionDateSettingsComponent } from '../section-date-settings/section-date-settings.component';
+import { Asset } from '@ordercloud/headstart-sdk';
+import * as HeadStartSdkInstance from '@ordercloud/headstart-sdk';
 
 @Component({
   selector: 'cms-html-editor',
@@ -20,7 +20,7 @@ import * as MarketplaceSdkInstance from 'marketplace-javascript-sdk';
   styleUrls: ['./html-editor.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class CmsHtmlEditorComponent implements OnInit {
+export class HtmlEditorComponent implements OnInit {
   @Input() initialValue: string;
   @Input() editorOptions: any;
   resolvedEditorOptions: any = {};
@@ -125,7 +125,7 @@ export class CmsHtmlEditorComponent implements OnInit {
 
     // I think we need to set this here *and* in the plugin because it sets
     // it on different instances of the sdk
-    MarketplaceSdkInstance.Configuration.Set({
+    HeadStartSdkInstance.Configuration.Set({
       baseApiUrl: this.resolvedEditorOptions.ordercloud.marketplaceUrl
     });
 
@@ -158,7 +158,7 @@ export class CmsHtmlEditorComponent implements OnInit {
   }
 
   openAssetPicker(callback, value, meta) {
-    const modalRef = this.modalService.open(CmsAssetPickerComponent, {
+    const modalRef = this.modalService.open(AssetPickerComponent, {
       size: 'xl',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop',
@@ -178,7 +178,7 @@ export class CmsHtmlEditorComponent implements OnInit {
   }
 
   openCarouselEditor() {
-    const modalRef = this.modalService.open(CmsCarouselEditorComponent, {
+    const modalRef = this.modalService.open(CarouselEditorComponent, {
       size: 'xl',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop',
@@ -188,7 +188,7 @@ export class CmsHtmlEditorComponent implements OnInit {
   }
 
   openSectionPicker(data) {
-    const modalRef = this.modalService.open(CmsSectionPickerComponent, {
+    const modalRef = this.modalService.open(SectionPickerComponent, {
       size: 'xl',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop', //TODO: might wanna abstract these classes / centered as default settings for any modal that's opened from the editor
@@ -199,7 +199,7 @@ export class CmsHtmlEditorComponent implements OnInit {
   }
 
   openSectionDateSettings(data) {
-    const modalRef = this.modalService.open(CmsSectionDateSettingsComponent, {
+    const modalRef = this.modalService.open(SectionDateSettingsComponent, {
       size: 'md',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop',

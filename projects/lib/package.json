@@ -7,10 +7,10 @@
     "@angular/common": "^10.0.2",
     "@angular/core": "^10.0.2",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
+    "@ordercloud/headstart-sdk": "^1.6.2",
     "@tinymce/tinymce-angular": "^4.0.0",
     "bootstrap": "^4.5.0",
     "case": "^1.6.3",
-    "marketplace-javascript-sdk": "^1.5.0",
     "ngx-spinner": "^9.0.2",
     "tinymce": "^5.4.1"
   },

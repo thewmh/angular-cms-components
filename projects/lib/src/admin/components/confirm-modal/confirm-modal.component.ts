@@ -5,7 +5,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
   templateUrl: './confirm-modal.component.html',
   styleUrls: ['./confirm-modal.component.scss'],
 })
-export class CmsConfirmModalComponent {
+export class ConfirmModalComponent {
   @Input()
   confirmText?: string;
 

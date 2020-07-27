@@ -13,11 +13,7 @@
         </div>
     </form>
     <div *ngIf="!list?.Items?.length && !loading">
-        <div class="no-results-well">
-            <p class="no-results-well_msg text-center">
-                No Assets were found
-            </p>
-        </div>
+        <cms-no-results message="No assets were found"></cms-no-results>
     </div>
     <div class="asset-list" *ngIf="list?.Items?.length">
         <div class="asset-item" *ngFor="let asset of list.Items" (click)="modal.close(asset)">

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CmsPageListComponent } from './page-list.component';
+import { NoResultsComponent } from './no-results.component';
 
-describe('PageListComponent', () => {
-  let component: CmsPageListComponent;
-  let fixture: ComponentFixture<CmsPageListComponent>;
+describe('NoResultsComponent', () => {
+  let component: NoResultsComponent;
+  let fixture: ComponentFixture<NoResultsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CmsPageListComponent ]
+      declarations: [ NoResultsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CmsPageListComponent);
+    fixture = TestBed.createComponent(NoResultsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

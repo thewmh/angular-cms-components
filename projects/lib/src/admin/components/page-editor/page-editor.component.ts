@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { kebab } from 'case';
 import { PageContentDoc } from '../../models/page-content-doc.interface';
 
@@ -18,11 +18,12 @@ const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   templateUrl: './page-editor.component.html',
   styleUrls: ['./page-editor.component.scss']
 })
-export class CmsPageEditorComponent implements OnInit {
+export class PageEditorComponent implements OnInit {
   @Input() renderSiteUrl: string;
   @Input() editorOptions: any;
   @Input() pageContentDoc?: PageContentDoc;
   @Input() htmlEditorOnly?: boolean;
+  @Output() savePage = new EventEmitter<PageContentDoc>();
 
   page: Partial<PageContentDoc>;
   automaticUrl: boolean;
@@ -63,5 +64,10 @@ export class CmsPageEditorComponent implements OnInit {
 
   onPageStatusChange() {
     this.page.Active = !this.page.Active;
+  }
+
+  onSubmit() {
+    // TODO: validate required fields
+    this.savePage.emit(this.page as PageContentDoc);
   }
 }

@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col">
         <div class="filter-group">
-            <button type="button" class="btn btn-outline-primary w-100">Create Page</button>
+            <button type="button" (click)="onSelectPage()" class="btn btn-outline-primary w-100">Create Page</button>
             <input type="search" class="form-control" placeholder="Search pages...">
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
@@ -19,53 +19,93 @@
         </div>
     </div>
 </div>
-<div class="table-responsive">
-    <table class="table table-hover page-list-table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Section</th>
-                <th>Author</th>
-                <th>Date Created</th>
-                <th>Last Updated</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> About Us</td>
-                <td>About</td>
-                <td>Rob Watt</td>
-                <td>July 10th, 9:00am</td>
-                <td>July 10th, 9:00am</td>
-            </tr>
-            <tr>
-                <td><cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Featured</td>
-                <td>Home</td>
-                <td>Alexa Snyder</td>
-                <td>July 10th, 9:00am</td>
-                <td>July 10th, 9:00am</td>
-            </tr>
-            <tr>
-                <td><cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Reporting</td>
-                <td>Home</td>
-                <td>Cynthia Rico-Mendoza</td>
-                <td>July 10th, 9:00am</td>
-                <td>July 10th, 9:00am</td>
-            </tr>
-            <tr>
-                <td><cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Homepage</td>
-                <td>Home</td>
-                <td>Erin Dustin</td>
-                <td>July 10th, 9:00am</td>
-                <td>July 10th, 9:00am</td>
-            </tr>
-            <tr>
-                <td><cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Our Team</td>
-                <td>About</td>
-                <td>Rob Watt</td>
-                <td>July 10th, 9:00am</td>
-                <td>July 10th, 9:00am</td>
-            </tr>
-        </tbody>
-    </table>
+
+<!-- LIST VIEW -->
+<div *ngIf="!page?.length">
+    <div class="table-responsive" *ngIf="!loading && list?.Items?.length && !page?.length">
+        <table class="table table-hover page-list-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Date Created</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> About Us
+                    </td>
+                    <td>Rob Watt</td>
+                    <td>July 10th, 9:00am</td>
+                    <td>July 10th, 9:00am</td>
+                </tr>
+                <tr>
+                    <td>
+                        <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Featured
+                    </td>
+                    <td>Alexa Snyder</td>
+                    <td>July 10th, 9:00am</td>
+                    <td>July 10th, 9:00am</td>
+                </tr>
+                <tr>
+                    <td>
+                        <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Reporting
+                    </td>
+                    <td>Cynthia Rico-Mendoza</td>
+                    <td>July 10th, 9:00am</td>
+                    <td>July 10th, 9:00am</td>
+                </tr>
+                <tr>
+                    <td>
+                        <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Homepage
+                    </td>
+                    <td>Erin Dustin</td>
+                    <td>July 10th, 9:00am</td>
+                    <td>July 10th, 9:00am</td>
+                </tr>
+                <tr>
+                    <td>
+                        <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Our Team
+                    </td>
+                    <td>Rob Watt</td>
+                    <td>July 10th, 9:00am</td>
+                    <td>July 10th, 9:00am</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="!loading && !list?.Items?.length">
+        <cms-no-results message="No pages found"></cms-no-results>
+    </div>
 </div>
+
+<!-- DETAIL VIEW -->
+<div class="row mt-2" *ngIf="page?.length">
+    <div class="col-sm-3">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td *ngFor="let page of list.Items">
+                    <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> {{page.Title}}<br>
+                    <small class="text-muted">{{page.Author}}</small>
+                </td>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-9">
+        <div *ngFor="let page of page">
+            <cms-page-editor [renderSiteUrl]="renderSiteUrl" [editorOptions]="editorOptions" [pageContentDoc]="page" (savePage)="onSavePage($event)">
+            </cms-page-editor>
+        </div>
+    </div>
+</div>
+
+
+<ngx-spinner class="pagelist-spinner" type="ball-beat" bdColor="rgba(255, 255, 255, 0.38)" color="#969696"
+    [fullScreen]="false"></ngx-spinner>

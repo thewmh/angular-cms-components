@@ -1,41 +1,45 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CmsHtmlEditorComponent } from './components/html-editor/html-editor.component';
-import { CmsPageEditorComponent } from './components/page-editor/page-editor.component';
-import { CmsAssetPickerComponent } from './components/asset-picker/asset-picker.component';
-import { CmsCarouselEditorComponent } from './components/carousel-editor/carousel-editor.component';
-import { CmsConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
-import { CmsSectionPickerComponent } from './components/section-picker/section-picker.component';
-import { CmsSectionDateSettingsComponent } from './components/section-date-settings/section-date-settings.component';
+import { HtmlEditorComponent } from './components/html-editor/html-editor.component';
+import { PageEditorComponent } from './components/page-editor/page-editor.component';
+import { AssetPickerComponent } from './components/asset-picker/asset-picker.component';
+import { CarouselEditorComponent } from './components/carousel-editor/carousel-editor.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { SectionPickerComponent } from './components/section-picker/section-picker.component';
+import { SectionDateSettingsComponent } from './components/section-date-settings/section-date-settings.component';
 import { CmsBuyerModule } from '../buyer/public_api';
 import { CmsSharedModule } from '../shared/shared.module';
-import { CmsAssetListComponent } from './components/asset-list/asset-list.component';
-import { CmsAssetUpdateComponent } from './components/asset-update/asset-update.component';
-import { CmsAssetUploadComponent } from './components/asset-upload/asset-upload.component';
-import { CmsDragAndDropDirective } from './components/directives/drag-and-drop/drag-and-drop.directive';
-import { CmsAssetSearchComponent } from './components/asset-search/asset-search.component';
+import { AssetListComponent } from './components/asset-list/asset-list.component';
+import { AssetUpdateComponent } from './components/asset-update/asset-update.component';
+import { AssetUploadComponent } from './components/asset-upload/asset-upload.component';
+import { DragAndDropDirective } from './components/directives/drag-and-drop/drag-and-drop.directive';
+import { AssetSearchComponent } from './components/asset-search/asset-search.component';
+import { PageListComponent } from './components/page-list/page-list.component';
+import { StatusIconComponent } from './components/status-icon/status-icon.component';
 
 const declarations = [
-  CmsAssetSearchComponent,
-  CmsHtmlEditorComponent,
-  CmsPageEditorComponent,
-  CmsAssetPickerComponent,
-  CmsCarouselEditorComponent,
-  CmsConfirmModalComponent,
-  CmsSectionPickerComponent,
-  CmsSectionDateSettingsComponent,
-  CmsAssetListComponent,
-  CmsAssetUpdateComponent,
-  CmsAssetUploadComponent,
-  CmsDragAndDropDirective,
-]
+  AssetSearchComponent,
+  HtmlEditorComponent,
+  PageEditorComponent,
+  AssetPickerComponent,
+  CarouselEditorComponent,
+  ConfirmModalComponent,
+  SectionPickerComponent,
+  SectionDateSettingsComponent,
+  AssetListComponent,
+  AssetUpdateComponent,
+  AssetUploadComponent,
+  DragAndDropDirective,
+  PageListComponent,
+  StatusIconComponent
+];
 @NgModule({
   declarations,
   entryComponents: [
-    CmsConfirmModalComponent,
-    CmsAssetPickerComponent,
-    CmsCarouselEditorComponent,
-    CmsSectionPickerComponent,
-    CmsSectionDateSettingsComponent
+    ConfirmModalComponent,
+    AssetPickerComponent,
+    CarouselEditorComponent,
+    SectionPickerComponent,
+    SectionDateSettingsComponent
   ],
   imports: [
     CmsSharedModule.forRoot(),

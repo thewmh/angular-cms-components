@@ -14,7 +14,7 @@ import sectionPickerMock from './section-picker.mock';
   templateUrl: './section-picker.component.html',
   styleUrls: ['./section-picker.component.scss']
 })
-export class CmsSectionPickerComponent implements AfterViewChecked {
+export class SectionPickerComponent implements AfterViewChecked {
   @ViewChild('list', { read: ElementRef })
   listElement: ElementRef<HTMLDivElement>;
   @Input() data: any;

@@ -1,12 +1,12 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CmsSharedModule } from '../shared/shared.module';
-import { CmsSectionTemplateRendererComponent } from './components/section-template-renderer/section-template-renderer.component';
+import { SectionTemplateRendererComponent } from './components/section-template-renderer/section-template-renderer.component';
 
-const declarations = [CmsSectionTemplateRendererComponent]
+const declarations = [SectionTemplateRendererComponent]
 
 @NgModule({
   declarations: [
-    CmsSectionTemplateRendererComponent
+    SectionTemplateRendererComponent
   ],
   imports: [
     CmsSharedModule.forRoot()

@@ -9,8 +9,10 @@ import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NoResultsComponent } from './components/no-results/no-results.component';
 
 @NgModule({
+  declarations: [NoResultsComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -28,11 +30,12 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     EditorModule,
     NgbModalModule,
     NgxSpinnerModule,
+    NoResultsComponent
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CmsSharedModule {
   /**

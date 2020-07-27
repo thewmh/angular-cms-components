@@ -14,7 +14,7 @@ import { debounceTime, takeWhile, filter } from 'rxjs/operators';
   templateUrl: './asset-search.component.html',
   styleUrls: ['./asset-search.component.scss']
 })
-export class CmsAssetSearchComponent implements OnInit, OnDestroy {
+export class AssetSearchComponent implements OnInit, OnDestroy {
   @Input() assetType;
   alive = true;
   @Input()

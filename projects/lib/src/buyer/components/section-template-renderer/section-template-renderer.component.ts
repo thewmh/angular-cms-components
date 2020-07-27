@@ -14,7 +14,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   templateUrl: './section-template-renderer.component.html',
   styleUrls: ['./section-template-renderer.component.scss']
 })
-export class CmsSectionTemplateRendererComponent implements OnInit, OnChanges {
+export class SectionTemplateRendererComponent implements OnInit, OnChanges {
   @Input() html: string;
   @Input() selected: boolean;
   @Input() remoteCss: string;

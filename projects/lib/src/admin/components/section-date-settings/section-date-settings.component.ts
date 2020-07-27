@@ -6,7 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './section-date-settings.component.html',
   styleUrls: ['./section-date-settings.component.scss']
 })
-export class CmsSectionDateSettingsComponent implements OnInit {
+export class SectionDateSettingsComponent implements OnInit {
   @Input() data: any;
   startDate: string;
   endDate: string;

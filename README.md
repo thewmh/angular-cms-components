@@ -13,9 +13,9 @@ A component library that can be used to quickly integrate with the OrderCloud CM
      ```
 2. Install the required peer dependencies
     ```
-    npm i --save bootstrap @ng-bootstrap/bootstrap tinymce @tinymce/tinymce-angular axios case jquery marketplace-javascript-sdk ngx-spinner
+    npm i --save bootstrap @ng-bootstrap/bootstrap tinymce @tinymce/tinymce-angular axios case jquery @ordercloud/headstart-sdk ngx-spinner
     ```
-3. In your root app module import either `CmsAdminModule` for access to admin/buyer components or `CmsBuyerModule` for just the buyer components. Here we're registering `CmsAdminModule` for access to all components
+3. In your module import either `CmsAdminModule` for access to admin/buyer components or `CmsBuyerModule` for just the buyer components. Here we're registering `CmsAdminModule` for access to all components
     ```typescript
     import { CmsAdminModule, Configuration } from '@ordercloud/angular-cms-components';
 
@@ -25,11 +25,30 @@ A component library that can be used to quickly integrate with the OrderCloud CM
         CmsAdminModule.forRoot(),
         ...
     ],
-    providers: [...]
+    providers: [...],
     bootstrap: [AppComponent]
     })
     export class AppModule {}
     ```
+
+    If your app uses the [shared module pattern](https://www.pluralsight.com/guides/using-shared-modules-in-angular) you'll want to import it in your shared module *instead* (don't forget to export it as well)
+    ```typescript
+    import { CmsAdminModule, Configuration } from '@ordercloud/angular-cms-components';
+    @NgModule({
+    declarations: [...],
+    imports: [
+        CmsAdminModule.forRoot(),
+        ...
+    ],
+    exports: [
+        CmsAdminModule,
+        ...
+    ],
+    providers: [...],
+    })
+    export class SharedModule {}
+    ```
+
 4. In angular.json add an entry to the assets array
     - `{"glob": "**/*","input": "node_modules/tinymce","output": "/tinymce/"}`
 5. In angular.json add two entries to the scripts array

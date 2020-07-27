@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CmsSectionTemplateRendererComponent } from './section-template-renderer.component';
+import { SectionTemplateRendererComponent } from './section-template-renderer.component';
 
 describe('SectionTemplateRendererComponent', () => {
-  let component: CmsSectionTemplateRendererComponent;
-  let fixture: ComponentFixture<CmsSectionTemplateRendererComponent>;
+  let component: SectionTemplateRendererComponent;
+  let fixture: ComponentFixture<SectionTemplateRendererComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CmsSectionTemplateRendererComponent ]
+      declarations: [ SectionTemplateRendererComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CmsSectionTemplateRendererComponent);
+    fixture = TestBed.createComponent(SectionTemplateRendererComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,6 @@
-import { ContentDoc } from './content-doc.interface';
+import { Document } from '@ordercloud/headstart-sdk';
 
-export interface PageContentDoc extends ContentDoc {
+export interface PageContentDoc extends Document {
   Url: string;
   SiteUrl: string;
   Title: string;
