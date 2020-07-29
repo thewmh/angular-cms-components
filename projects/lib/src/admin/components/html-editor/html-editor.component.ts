@@ -3,7 +3,9 @@ import {
   OnInit,
   Input,
   NgZone,
-  ViewEncapsulation
+  ViewEncapsulation,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssetPickerComponent } from '../asset-picker/asset-picker.component';
@@ -23,6 +25,7 @@ import * as HeadStartSdkInstance from '@ordercloud/headstart-sdk';
 export class HtmlEditorComponent implements OnInit {
   @Input() initialValue: string;
   @Input() editorOptions: any;
+  @Output() onHtmlEditorChange = new EventEmitter<string>();
   resolvedEditorOptions: any = {};
 
   tinymceId = `tiny-angular_${guid()}`;
@@ -155,6 +158,10 @@ export class HtmlEditorComponent implements OnInit {
         return this.openSectionDateSettings.bind(this)(data);
       });
     };
+  }
+
+  onChange(content: string) {
+    this.onHtmlEditorChange.emit(content);
   }
 
   openAssetPicker(callback, value, meta) {

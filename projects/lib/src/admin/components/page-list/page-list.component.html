@@ -1,3 +1,4 @@
+<!-- FILTERS -->
 <div class="row">
     <div class="col">
         <h2 class="page-header">
@@ -6,11 +7,11 @@
     </div>
 </div>
 <hr>
-<div class="row">
+<div class="row filters-row">
     <div class="col">
         <div class="filter-group">
-            <button type="button" (click)="onSelectPage()" class="btn btn-outline-primary w-100">Create Page</button>
-            <input type="search" class="form-control" placeholder="Search pages...">
+            <button type="button" (click)="selectPage()" class="btn btn-outline-primary w-100">Create Page</button>
+            <input type="search" class="form-control" [(ngModel)]="searchTerm" (ngModelChange)="onSearchFieldChange($event)" placeholder="Search by title" />
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
                     <path d="M0 0h24v24H0z" fill="none" />
@@ -33,45 +34,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr *ngFor="let contentDoc of list.Items" (click)="selectPage(contentDoc)">
                     <td>
-                        <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> About Us
+                        <cms-status-icon [status]="contentDoc.Doc.Active ? 'active' : 'disabled'" class="mr-1"></cms-status-icon> {{contentDoc.Doc.Title}}
                     </td>
-                    <td>Rob Watt</td>
-                    <td>July 10th, 9:00am</td>
-                    <td>July 10th, 9:00am</td>
-                </tr>
-                <tr>
-                    <td>
-                        <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Featured
-                    </td>
-                    <td>Alexa Snyder</td>
-                    <td>July 10th, 9:00am</td>
-                    <td>July 10th, 9:00am</td>
-                </tr>
-                <tr>
-                    <td>
-                        <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Reporting
-                    </td>
-                    <td>Cynthia Rico-Mendoza</td>
-                    <td>July 10th, 9:00am</td>
-                    <td>July 10th, 9:00am</td>
-                </tr>
-                <tr>
-                    <td>
-                        <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Homepage
-                    </td>
-                    <td>Erin Dustin</td>
-                    <td>July 10th, 9:00am</td>
-                    <td>July 10th, 9:00am</td>
-                </tr>
-                <tr>
-                    <td>
-                        <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> Our Team
-                    </td>
-                    <td>Rob Watt</td>
-                    <td>July 10th, 9:00am</td>
-                    <td>July 10th, 9:00am</td>
+                    <td>{{contentDoc.Doc.Author}}</td>
+                    <td>{{contentDoc.Doc.DateCreated | date: 'short'}}</td>
+                    <td>{{contentDoc.Doc.DateLastUpdated | date: 'short'}}</td>
                 </tr>
             </tbody>
         </table>
@@ -82,30 +51,57 @@
 </div>
 
 <!-- DETAIL VIEW -->
-<div class="row mt-2" *ngIf="page?.length">
-    <div class="col-sm-3">
-        <table class="table table-hover">
+<div class="row" *ngIf="page?.length">
+    <div class="col-sm-3 page-list-col">
+        <table class="table table-hover page-list-table">
             <thead>
                 <tr>
                     <th>Title</th>
                 </tr>
             </thead>
             <tbody>
-                <td *ngFor="let page of list.Items">
-                    <cms-status-icon color="#70D97A" class="mr-1"></cms-status-icon> {{page.Title}}<br>
-                    <small class="text-muted">{{page.Author}}</small>
-                </td>
+                <tr class="new-page-row" *ngIf="page.length && !page[0].ID">
+                    <td>Your new page</td>
+                </tr>
+                <tr *ngFor="let page of list.Items" (click)="selectPage(page)">
+                    <td>
+                        <cms-status-icon [status]="page.Doc.Active ? 'active' : 'disabled'" class="mr-1"></cms-status-icon> {{page.Doc.Title}}<br>
+                        <small class="text-muted">{{page.Doc.Author}}</small>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-9 page-detail-col">
         <div *ngFor="let page of page">
-            <cms-page-editor [renderSiteUrl]="renderSiteUrl" [editorOptions]="editorOptions" [pageContentDoc]="page" (savePage)="onSavePage($event)">
+            <div class="page-list-toolbar">
+                <div class="page-title-container">
+                    <span (click)="goToList()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 7l-5 5 5 5V7z"></path></svg>
+    
+                    </span>
+                    <h4 class="page-title">{{page.Doc.Title || 'Your new page'}}</h4>
+                </div>
+                <div class="page-list-buttons">
+                    <button class="btn btn-primary" (click)="savePage(page)">Save</button>
+                    <button *ngIf="page.ID" class="btn btn-outline-danger" (click)="confirmDeletePage(confirmDeleteModalTemplate)">Delete</button>
+                </div>
+            </div>
+
+            <!-- CONFIRM DELETE MODAL -->
+            <ng-template #confirmDeleteModalTemplate>
+                <cms-confirm-modal message="Are you sure you want to delete this page?"
+                                        (proceed)="deletePage(page)"
+                                        (cancel)="confirmModal.close()">
+                </cms-confirm-modal>
+            </ng-template>
+            
+            <cms-page-editor (onEditorChange)="onEditorChange($event)" [renderSiteUrl]="renderSiteUrl" [editorOptions]="editorOptions" [pageContentDoc]="page.Doc">
             </cms-page-editor>
         </div>
     </div>
 </div>
 
-
+<!-- LOADING INDICATOR -->
 <ngx-spinner class="pagelist-spinner" type="ball-beat" bdColor="rgba(255, 255, 255, 0.38)" color="#969696"
     [fullScreen]="false"></ngx-spinner>

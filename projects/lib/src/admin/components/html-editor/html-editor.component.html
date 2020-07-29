@@ -2,4 +2,6 @@
   [initialValue]="initialValue"
   [init]="resolvedEditorOptions"
   [id]="tinymceId"
+  [(ngModel)]="initialValue"
+  (ngModelChange)="onChange($event)"
 ></editor>

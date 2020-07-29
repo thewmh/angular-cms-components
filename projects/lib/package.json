@@ -12,6 +12,7 @@
     "bootstrap": "^4.5.0",
     "case": "^1.6.3",
     "ngx-spinner": "^9.0.2",
+    "ordercloud-javascript-sdk": "4.0.0-12",
     "tinymce": "^5.4.1"
   },
   "dependencies": {

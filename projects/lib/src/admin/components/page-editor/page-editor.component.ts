@@ -23,13 +23,13 @@ export class PageEditorComponent implements OnInit {
   @Input() editorOptions: any;
   @Input() pageContentDoc?: PageContentDoc;
   @Input() htmlEditorOnly?: boolean;
-  @Output() savePage = new EventEmitter<PageContentDoc>();
+  @Output() onEditorChange = new EventEmitter<Partial<PageContentDoc>>();
 
   page: Partial<PageContentDoc>;
   automaticUrl: boolean;
   pageNavigation: boolean;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     if (this.pageContentDoc) {
@@ -48,26 +48,38 @@ export class PageEditorComponent implements OnInit {
     if (this.automaticUrl) {
       this.page.Url = kebab(value);
     }
+    this.onEditorChange.emit(this.page);
   }
 
   onAutomaticUrlChange() {
     if (this.automaticUrl && this.page.Title) {
       this.page.Url = kebab(this.page.Title);
     }
+    this.onEditorChange.emit(this.page);
   }
 
   onPageNavigationChange() {
     if (this.pageNavigation && !this.page.NavigationTitle) {
       this.page.NavigationTitle = this.page.Title;
     }
+    this.onEditorChange.emit(this.page);
+  }
+
+  onPageNavigationTitleChange() {
+    this.onEditorChange.emit(this.page);
   }
 
   onPageStatusChange() {
     this.page.Active = !this.page.Active;
+    this.onEditorChange.emit(this.page);
   }
 
-  onSubmit() {
-    // TODO: validate required fields
-    this.savePage.emit(this.page as PageContentDoc);
+  onPageUrlChange() {
+    this.onEditorChange.emit(this.page);
+  }
+
+  onHtmlEditorChange(content) {
+    this.page.Content = content;
+    this.onEditorChange.emit(this.page);
   }
 }

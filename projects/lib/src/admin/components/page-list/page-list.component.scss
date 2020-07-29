@@ -6,6 +6,16 @@
     margin-left: 2rem;
 }
 
+$gray: #d9d9da;
+
+.new-page-row {
+    background-color: $gray;
+}
+
+.filters-row {
+    margin-bottom: 1rem;
+}
+
 .filter-group {
     display: flex;
     max-width: 450px;
@@ -16,7 +26,6 @@
 }
 
 .page-list-table {
-    margin-top: 1rem;
     tr {
         th:first-child, td:first-child {
             padding-left: 2rem;
@@ -31,5 +40,40 @@
         td {
             font-size: 12px;
         }
+    }
+}
+
+.page-list-col {
+    border-right: 1px solid $gray;
+    padding-right: 0;
+}
+
+.page-detail-col {
+    background-color: #f7f9fa;
+    padding: 0 3rem;
+}
+
+.page-title-container {
+    display: flex;
+    .page-title {
+        margin-bottom: 0;
+    }
+    span {
+        :hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.page-list-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-list-buttons {
+    button {
+        margin: 20px 10px;
+        width: 150px;
     }
 }

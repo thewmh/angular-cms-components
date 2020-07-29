@@ -6,12 +6,13 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./status-icon.component.scss']
 })
 export class StatusIconComponent implements OnInit {
-
-  @Input() color;
+  color: string;
+  @Input() status: 'active' | 'disabled'
 
   constructor() { }
 
   ngOnInit(): void {
+    this.color = this.status === 'active' ? '#70D97A': '#dc3545'
   }
 
 }
