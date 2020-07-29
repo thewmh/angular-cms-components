@@ -1,30 +1,61 @@
-
 <h1>Assets</h1>
-<ngb-tabset (tabChange)="onChangeTab($event.nextId)">
-  <ngb-tab ngbTabContent
-            *ngFor="let type of assetTypes"
-            title="{{type}}s"
-            id="{{type}}">
-    <ng-template ngbTabContent>
+<ul
+  ngbNav
+  #nav="ngbNav"
+  (activeIdChange)="onChangeTab($event.nextId)"
+  [(activeId)]="selectedTab"
+  class="nav-tabs mb-3"
+>
+  <li *ngFor="let type of assetTypes" [ngbNavItem]="type">
+    <a ngbNavLink>{{ type }}s</a>
+    <ng-template ngbNavContent>
       <div *ngIf="assets && assets.Items.length">
-        <button class="btn btn-primary" (click)="handleUploadAssetModal(uploadAssetModal)">Upload {{type}}</button>
-        <cms-asset-search [assetType]="type" placeholderText="{{'Search ' + type + 's'}}" [searchTerm]="" (searched)="handleSearch($event)"></cms-asset-search>
-        <div class="row" *ngFor="let asset of assets.Items">
-          <cms-asset-update [assetType]="type"
-                            [isNew]="false"
-                            [asset]="asset"
-                            (onDelete)="listAssets(type, null)"></cms-asset-update>
+        <div class="row mb-3">
+          <div class="col-12 co-sm-4 col-md-3 col-xl-2">
+            <button
+              class="btn btn-block btn-primary"
+              (click)="handleUploadAssetModal(uploadAssetModal)"
+            >
+              Upload {{ type }}
+            </button>
+          </div>
+          <div class="col">
+            <cms-asset-search
+              [assetType]="type"
+              placeholderText="{{ 'Search ' + type + 's' }}"
+              [searchTerm]=""
+              (searched)="handleSearch($event)"
+            ></cms-asset-search>
+          </div>
+        </div>
+        <div *ngFor="let asset of assets.Items">
+          <cms-asset-update
+            [assetType]="type"
+            [isNew]="false"
+            [asset]="asset"
+            (onDelete)="listAssets(type, null)"
+          ></cms-asset-update>
         </div>
       </div>
       <div class="no-results" *ngIf="assets && !assets.Items.length">
-        <p>No {{type}}s uploaded</p>
-        <button class="btn btn-primary" (click)="handleUploadAssetModal(uploadAssetModal)">Upload {{type}}</button>
+        <p>No {{ type }}s uploaded</p>
+        <button
+          class="btn btn-primary"
+          (click)="handleUploadAssetModal(uploadAssetModal)"
+        >
+          Upload {{ type }}
+        </button>
       </div>
     </ng-template>
-  </ngb-tab>
-</ngb-tabset>
+  </li>
+</ul>
+<div class="container-fluid">
+  <div [ngbNavOutlet]="nav"></div>
+</div>
 <ng-template #uploadAssetModal>
-  <cms-asset-upload [assetType]="selectedTab" 
-                    (cancel)="modalReference.dismiss()"
-                    (submit)="handleSubmit()"></cms-asset-upload>
+  <cms-asset-upload
+    [assetType]="selectedTab"
+    (cancel)="modalReference.dismiss()"
+    (submit)="handleSubmit()"
+  ></cms-asset-upload>
 </ng-template>
