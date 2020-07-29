@@ -87,9 +87,7 @@ export class AssetListComponent implements OnInit {
   }
 
   onChangeTab(event: NgbNavChangeEvent): void {
-    const selected = event.nextId;
-    console.log(JSON.stringify(event, null, 2));
-    this.selectedTab = selected;
+    this.selectedTab = event.nextId;
     this.listAssets(this.selectedTab, null);
   }
 }
