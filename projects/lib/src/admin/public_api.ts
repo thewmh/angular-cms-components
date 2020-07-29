@@ -5,3 +5,4 @@ export { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
 export { HtmlEditorComponent } from './components/html-editor/html-editor.component';
 export { PageEditorComponent } from './components/page-editor/page-editor.component';
 export { PageListComponent } from './components/page-list/page-list.component';
+export { SectionTemplateRendererComponent } from './components/section-template-renderer/section-template-renderer.component';

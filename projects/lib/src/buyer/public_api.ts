@@ -1,2 +1,2 @@
 export { CmsBuyerModule } from './buyer.module';
-export { SectionTemplateRendererComponent } from './components/section-template-renderer/section-template-renderer.component';
+export { PageRendererComponent } from './components/page-renderer/page-renderer.component';

@@ -1,15 +1,15 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CmsSharedModule } from '../shared/shared.module';
+import { PageRendererComponent } from './components/page-renderer/page-renderer.component';
 
-const declarations = [];
+const declarations = [PageRendererComponent];
 
 @NgModule({
-  declarations: [
-  ],
+  declarations,
   imports: [
     CmsSharedModule.forRoot()
   ],
-  exports: declarations
+  exports: declarations,
 })
 export class CmsBuyerModule {
   /**
