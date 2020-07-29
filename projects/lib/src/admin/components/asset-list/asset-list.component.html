@@ -2,32 +2,32 @@
 <ul
   ngbNav
   #nav="ngbNav"
-  (activeIdChange)="onChangeTab($event.nextId)"
+  (navChange)="onChangeTab($event)"
   [(activeId)]="selectedTab"
   class="nav-tabs mb-3"
 >
   <li *ngFor="let type of assetTypes" [ngbNavItem]="type">
     <a ngbNavLink>{{ type }}s</a>
     <ng-template ngbNavContent>
-      <div *ngIf="assets && assets.Items.length">
-        <div class="row mb-3">
-          <div class="col-12 co-sm-4 col-md-3 col-xl-2">
-            <button
-              class="btn btn-block btn-primary"
-              (click)="handleUploadAssetModal(uploadAssetModal)"
-            >
-              Upload {{ type }}
-            </button>
-          </div>
-          <div class="col">
-            <cms-asset-search
-              [assetType]="type"
-              placeholderText="{{ 'Search ' + type + 's' }}"
-              [searchTerm]=""
-              (searched)="handleSearch($event)"
-            ></cms-asset-search>
-          </div>
+      <div class="row mb-3">
+        <div class="col-12 co-sm-4 col-md-3 col-xl-2">
+          <button
+            class="btn btn-block btn-primary"
+            (click)="handleUploadAssetModal(uploadAssetModal)"
+          >
+            Upload {{ type }}
+          </button>
         </div>
+        <div class="col">
+          <cms-asset-search
+            [assetType]="type"
+            placeholderText="{{ 'Search ' + type + 's' }}"
+            [searchTerm]=""
+            (searched)="handleSearch($event)"
+          ></cms-asset-search>
+        </div>
+      </div>
+      <div *ngIf="!loading">
         <div *ngFor="let asset of assets.Items">
           <cms-asset-update
             [assetType]="type"
@@ -36,22 +36,18 @@
             (onDelete)="listAssets(type, null)"
           ></cms-asset-update>
         </div>
-      </div>
-      <div class="no-results" *ngIf="assets && !assets.Items.length">
-        <p>No {{ type }}s uploaded</p>
-        <button
-          class="btn btn-primary"
-          (click)="handleUploadAssetModal(uploadAssetModal)"
-        >
-          Upload {{ type }}
-        </button>
+        <div class="no-results" *ngIf="assets && !assets.Items.length">
+          <cms-no-results message="No {{ type }}s found"></cms-no-results>
+        </div>
       </div>
     </ng-template>
   </li>
 </ul>
+
 <div class="container-fluid">
   <div [ngbNavOutlet]="nav"></div>
 </div>
+
 <ng-template #uploadAssetModal>
   <cms-asset-upload
     [assetType]="selectedTab"
@@ -59,3 +55,12 @@
     (submit)="handleSubmit()"
   ></cms-asset-upload>
 </ng-template>
+
+<!-- LOADING INDICATOR -->
+<ngx-spinner
+  class="assetlist-spinner"
+  type="ball-beat"
+  bdColor="rgba(255, 255, 255, 0.38)"
+  color="#969696"
+  [fullScreen]="false"
+></ngx-spinner>

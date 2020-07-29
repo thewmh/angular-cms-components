@@ -5,7 +5,12 @@ import {
   Asset,
   Filters,
 } from '@ordercloud/headstart-sdk';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  NgbModalRef,
+  NgbNavChangeEvent,
+} from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const ASSET_TYPE_IMAGE = 'Image';
 type ASSET_TYPE_IMAGE = typeof ASSET_TYPE_IMAGE;
@@ -30,6 +35,7 @@ type AssetType =
 export class AssetListComponent implements OnInit {
   assets: any;
   modalReference: NgbModalRef;
+  loading = true;
   assetTypes: AssetType[] = [
     ASSET_TYPE_IMAGE,
     ASSET_TYPE_THEME,
@@ -38,22 +44,33 @@ export class AssetListComponent implements OnInit {
   ];
   selectedTab: AssetType = ASSET_TYPE_IMAGE;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private spinner: NgxSpinnerService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.listAssets(this.assetTypes[0], null);
   }
 
   listAssets(assetType: AssetType, searchTerm: string) {
+    this.spinner.show();
     let options: ListArgs<Asset> = {
       filters: { Type: assetType },
     };
     if (searchTerm) {
       options = { ...options, search: searchTerm, searchOn: ['Title'] };
     }
-    return HeadStartSDK.Assets.List(options).then((assets) => {
-      this.assets = assets;
-    });
+    this.loading = true;
+    this.spinner.show();
+    return HeadStartSDK.Assets.List(options)
+      .then((assets) => {
+        this.assets = assets;
+      })
+      .finally(() => {
+        this.loading = false;
+        this.spinner.hide();
+      });
   }
 
   handleUploadAssetModal(modalRef) {
@@ -69,8 +86,10 @@ export class AssetListComponent implements OnInit {
     this.listAssets(this.selectedTab, $event);
   }
 
-  onChangeTab(eventId): void {
-    this.selectedTab = eventId;
+  onChangeTab(event: NgbNavChangeEvent): void {
+    const selected = event.nextId;
+    console.log(JSON.stringify(event, null, 2));
+    this.selectedTab = selected;
     this.listAssets(this.selectedTab, null);
   }
 }
