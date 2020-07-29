@@ -15,6 +15,7 @@ import { DragAndDropDirective } from './components/directives/drag-and-drop/drag
 import { AssetSearchComponent } from './components/asset-search/asset-search.component';
 import { PageListComponent } from './components/page-list/page-list.component';
 import { StatusIconComponent } from './components/status-icon/status-icon.component';
+import { SectionTemplateRendererComponent } from './components/section-template-renderer/section-template-renderer.component';
 
 const declarations = [
   AssetSearchComponent,
@@ -30,7 +31,8 @@ const declarations = [
   AssetUploadComponent,
   DragAndDropDirective,
   PageListComponent,
-  StatusIconComponent
+  StatusIconComponent,
+  SectionTemplateRendererComponent
 ];
 @NgModule({
   declarations,
@@ -56,6 +58,6 @@ export class CmsAdminModule {
     return {
       ngModule: CmsAdminModule,
       providers: []
-    }
+    };
   }
 }
