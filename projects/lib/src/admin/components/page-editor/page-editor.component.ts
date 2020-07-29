@@ -10,13 +10,13 @@ const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Content: ``,
   FooterEmbeds: '',
   Active: false,
-  NavigationTitle: ''
+  NavigationTitle: '',
 };
 
 @Component({
   selector: 'cms-page-editor',
   templateUrl: './page-editor.component.html',
-  styleUrls: ['./page-editor.component.scss']
+  styleUrls: ['./page-editor.component.scss'],
 })
 export class PageEditorComponent implements OnInit {
   @Input() renderSiteUrl: string;
@@ -42,6 +42,11 @@ export class PageEditorComponent implements OnInit {
       this.automaticUrl = true;
       this.pageNavigation = false;
     }
+  }
+
+  onPageContentChange(html: string) {
+    this.page = { ...this.page, Content: html };
+    this.onEditorChange.emit(this.page);
   }
 
   onPageTitleKeyUp(value: string) {
@@ -75,11 +80,6 @@ export class PageEditorComponent implements OnInit {
   }
 
   onPageUrlChange() {
-    this.onEditorChange.emit(this.page);
-  }
-
-  onHtmlEditorChange(content) {
-    this.page.Content = content;
     this.onEditorChange.emit(this.page);
   }
 }

@@ -1,7 +1,7 @@
-<editor ng-if="resolvedEditorOptions"
-  [initialValue]="initialValue"
-  [init]="resolvedEditorOptions"
+<editor
+  ng-if="resolvedEditorOptions"
   [id]="tinymceId"
-  [(ngModel)]="initialValue"
-  (ngModelChange)="onChange($event)"
+  [init]="resolvedEditorOptions"
+  [(ngModel)]="html"
+  (onChange)="onEditorChange($event)"
 ></editor>

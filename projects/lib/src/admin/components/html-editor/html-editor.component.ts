@@ -5,7 +5,9 @@ import {
   NgZone,
   ViewEncapsulation,
   Output,
-  EventEmitter
+  EventEmitter,
+  SimpleChanges,
+  OnChanges,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssetPickerComponent } from '../asset-picker/asset-picker.component';
@@ -20,12 +22,13 @@ import * as HeadStartSdkInstance from '@ordercloud/headstart-sdk';
   selector: 'cms-html-editor',
   templateUrl: './html-editor.component.html',
   styleUrls: ['./html-editor.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class HtmlEditorComponent implements OnInit {
+export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() initialValue: string;
   @Input() editorOptions: any;
-  @Output() onHtmlEditorChange = new EventEmitter<string>();
+  @Output() htmlChange = new EventEmitter<string>();
+  html: string;
   resolvedEditorOptions: any = {};
 
   tinymceId = `tiny-angular_${guid()}`;
@@ -69,12 +72,12 @@ export class HtmlEditorComponent implements OnInit {
       'ordercloud print preview paste importcss searchreplace autolink autosave save directionality',
       'code visualblocks visualchars fullscreen image link media template codesample table charmap',
       'hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools',
-      'textpattern noneditable help charmap emoticons'
+      'textpattern noneditable help charmap emoticons',
     ],
     menubar: 'file edit view insert format tools table help',
     toolbar: [
       'oc-carousel oc-product oc-section',
-      'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat'
+      'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat',
     ],
     quickbars_selection_toolbar:
       'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
@@ -101,12 +104,12 @@ export class HtmlEditorComponent implements OnInit {
      * Adds an upload tab (uploads to ordercloud cms)
      */
     image_uploadtab: true,
-    images_upload_handler: function(blobInfo, successCallback, errorCallback) {
+    images_upload_handler: function (blobInfo, successCallback, errorCallback) {
       // importing tinymce breaks things so we have to use instance from window
       window['tinymce'].execCommand('ocAssetUploader', true, {
         blobInfo,
         successCallback,
-        errorCallback
+        errorCallback,
       });
     },
 
@@ -114,12 +117,13 @@ export class HtmlEditorComponent implements OnInit {
      * Adds ability to transform images
      */
 
-    imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net']
+    imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net'],
   };
 
   constructor(private modalService: NgbModal, public zone: NgZone) {}
 
   ngOnInit(): void {
+    this.html = this.initialValue;
     Object.assign(
       this.resolvedEditorOptions,
       this.defaultEditorOptions,
@@ -129,7 +133,7 @@ export class HtmlEditorComponent implements OnInit {
     // I think we need to set this here *and* in the plugin because it sets
     // it on different instances of the sdk
     HeadStartSdkInstance.Configuration.Set({
-      baseApiUrl: this.resolvedEditorOptions.ordercloud.marketplaceUrl
+      baseApiUrl: this.resolvedEditorOptions.ordercloud.marketplaceUrl,
     });
 
     this.resolvedEditorOptions.file_picker_callback = (
@@ -141,27 +145,41 @@ export class HtmlEditorComponent implements OnInit {
         this.openAssetPicker.bind(this)(callback, value, meta);
       });
     };
-    this.resolvedEditorOptions.ordercloud.open_carousel_editor = editor => {
+    this.resolvedEditorOptions.ordercloud.open_carousel_editor = (editor) => {
       return this.zone.run(() => {
         // we need to manually trigger change detection
         // because this is running outside of the scope of angular
         return this.openCarouselEditor.bind(this)(editor);
       });
     };
-    this.resolvedEditorOptions.ordercloud.open_section_picker = data => {
+    this.resolvedEditorOptions.ordercloud.open_section_picker = (data) => {
       return this.zone.run(() => {
         return this.openSectionPicker.bind(this)(data);
       });
     };
-    this.resolvedEditorOptions.ordercloud.open_section_date_settings = data => {
+    this.resolvedEditorOptions.ordercloud.open_section_date_settings = (
+      data
+    ) => {
       return this.zone.run(() => {
         return this.openSectionDateSettings.bind(this)(data);
       });
     };
   }
 
-  onChange(content: string) {
-    this.onHtmlEditorChange.emit(content);
+  ngOnChanges(changes: SimpleChanges): void {
+    // If the initial value changes and it is no longer the same as this.html, reinitialize this.html with the new initial value
+    if (
+      changes.initialValue &&
+      !changes.initialValue.firstChange &&
+      changes.initialValue.currentValue !== this.html
+    ) {
+      this.html = changes.initialValue.currentValue;
+    }
+  }
+
+  onEditorChange(e: any) {
+    console.log(e);
+    this.htmlChange.emit(this.html);
   }
 
   openAssetPicker(callback, value, meta) {
@@ -169,11 +187,11 @@ export class HtmlEditorComponent implements OnInit {
       size: 'xl',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop',
-      windowClass: 'oc-tinymce-modal_window'
+      windowClass: 'oc-tinymce-modal_window',
     });
     modalRef.result.then((asset: Asset) => {
       if (meta.filetype === 'image') {
-        callback(asset.Url, {alt: asset.Title});
+        callback(asset.Url, { alt: asset.Title });
       } else if (meta.filetype === 'file') {
         // TODO: do
         console.error('Filetype is not yet implemented');
@@ -189,9 +207,9 @@ export class HtmlEditorComponent implements OnInit {
       size: 'xl',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop',
-      windowClass: 'oc-tinymce-modal_window'
+      windowClass: 'oc-tinymce-modal_window',
     });
-    return modalRef.result
+    return modalRef.result;
   }
 
   openSectionPicker(data) {
@@ -199,7 +217,7 @@ export class HtmlEditorComponent implements OnInit {
       size: 'xl',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop', //TODO: might wanna abstract these classes / centered as default settings for any modal that's opened from the editor
-      windowClass: 'oc-tinymce-modal_window'
+      windowClass: 'oc-tinymce-modal_window',
     });
     modalRef.componentInstance.data = data;
     return modalRef.result;
@@ -210,7 +228,7 @@ export class HtmlEditorComponent implements OnInit {
       size: 'md',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop',
-      windowClass: 'oc-tinymce-modal_window'
+      windowClass: 'oc-tinymce-modal_window',
     });
     modalRef.componentInstance.data = data;
     return modalRef.result;
