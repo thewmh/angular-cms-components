@@ -20,9 +20,11 @@ import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NoResultsComponent } from './components/no-results/no-results.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
+import { WidgetService } from './services/widget.service';
 
 @NgModule({
-  declarations: [NoResultsComponent],
+  declarations: [NoResultsComponent, SafeHtmlPipe],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -45,6 +47,7 @@ import { NoResultsComponent } from './components/no-results/no-results.component
     NgbNavModule,
     NgxSpinnerModule,
     NoResultsComponent,
+    SafeHtmlPipe
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
@@ -59,7 +62,7 @@ export class CmsSharedModule {
   static forRoot(): ModuleWithProviders<CmsSharedModule> {
     return {
       ngModule: CmsSharedModule,
-      providers: [],
+      providers: [WidgetService]
     };
   }
 }

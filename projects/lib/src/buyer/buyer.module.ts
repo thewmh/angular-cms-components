@@ -1,17 +1,15 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CmsSharedModule } from '../shared/shared.module';
-import { SectionTemplateRendererComponent } from './components/section-template-renderer/section-template-renderer.component';
+import { PageRendererComponent } from './components/page-renderer/page-renderer.component';
 
-const declarations = [SectionTemplateRendererComponent]
+const declarations = [PageRendererComponent];
 
 @NgModule({
-  declarations: [
-    SectionTemplateRendererComponent
-  ],
+  declarations,
   imports: [
     CmsSharedModule.forRoot()
   ],
-  exports: declarations
+  exports: declarations,
 })
 export class CmsBuyerModule {
   /**
@@ -22,6 +20,6 @@ export class CmsBuyerModule {
     return {
       ngModule: CmsBuyerModule,
       providers: []
-    }
+    };
   }
 }
