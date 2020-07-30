@@ -21,7 +21,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NoResultsComponent } from './components/no-results/no-results.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
-import { WidgetService } from './services/widget.service';
 
 @NgModule({
   declarations: [NoResultsComponent, SafeHtmlPipe],
@@ -54,15 +53,4 @@ import { WidgetService } from './services/widget.service';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class CmsSharedModule {
-  /**
-   * forRoot lets us define providers as singletons so that there is exactly one instance
-   * without this, there could be multiple instances of one service on lazy loaded modules :(
-   */
-  static forRoot(): ModuleWithProviders<CmsSharedModule> {
-    return {
-      ngModule: CmsSharedModule,
-      providers: [WidgetService]
-    };
-  }
-}
+export class CmsSharedModule {}

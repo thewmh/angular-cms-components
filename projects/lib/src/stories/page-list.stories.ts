@@ -24,7 +24,7 @@ export default {
       imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        CmsAdminModule.forRoot(),
+        CmsAdminModule,
       ],
     }),
   ],

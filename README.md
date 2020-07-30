@@ -22,7 +22,7 @@ A component library that can be used to quickly integrate with the OrderCloud CM
     @NgModule({
     declarations: [...],
     imports: [
-        CmsAdminModule.forRoot(),
+        CmsAdminModule,
         ...
     ],
     providers: [...],
@@ -37,7 +37,7 @@ A component library that can be used to quickly integrate with the OrderCloud CM
     @NgModule({
     declarations: [...],
     imports: [
-        CmsAdminModule.forRoot(),
+        CmsAdminModule,
         ...
     ],
     exports: [

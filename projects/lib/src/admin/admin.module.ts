@@ -44,20 +44,9 @@ const declarations = [
     SectionDateSettingsComponent
   ],
   imports: [
-    CmsSharedModule.forRoot(),
-    CmsBuyerModule.forRoot(),
+    CmsSharedModule,
+    CmsBuyerModule,
   ],
   exports: declarations
 })
-export class CmsAdminModule {
-  /**
-   * forRoot lets us define providers as singletons so that there is exactly one instance
-   * without this, there could be multiple instances of one service on lazy loaded modules :(
-   */
-  static forRoot(): ModuleWithProviders<CmsAdminModule> {
-    return {
-      ngModule: CmsAdminModule,
-      providers: []
-    };
-  }
-}
+export class CmsAdminModule {}
