@@ -1,3 +1,4 @@
+import './storybook-base-configuration';
 import { moduleMetadata } from '@storybook/angular';
 import { CmsAdminModule } from '../public-api';
 import { BrowserModule } from '@angular/platform-browser';

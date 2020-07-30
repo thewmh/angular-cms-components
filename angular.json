@@ -23,10 +23,6 @@
             ],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss"
-            ],
-            "scripts": [
-              "node_modules/tinymce/tinymce.min.js",
-              "./plugin/dist/plugin.min.js"
             ]
           },
           "configurations": {
