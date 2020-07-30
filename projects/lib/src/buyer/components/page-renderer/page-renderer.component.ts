@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WidgetService } from 'projects/lib/src/shared/services/widget.service';
+import { WidgetService } from '../../../shared/services/widget.service';
 
 @Component({
   selector: 'cms-page-renderer',
