@@ -53,7 +53,7 @@ A component library that can be used to quickly integrate with the OrderCloud CM
     - `{"glob": "**/*","input": "node_modules/tinymce","output": "/tinymce/"}`
 5. In the root of your app import tinymce and the ordercloud plugin for tinymce
     - ```typescript
-        import 'tinymce/tinymce/';
+        import 'tinymce/tinymce';
         import '@ordercloud/angular-cms-components/plugin.min.js';
     ```
 
