@@ -16,7 +16,6 @@ import { v4 as guid } from 'uuid';
 import { SectionPickerComponent } from '../section-picker/section-picker.component';
 import { SectionDateSettingsComponent } from '../section-date-settings/section-date-settings.component';
 import { Asset } from '@ordercloud/headstart-sdk';
-import * as HeadStartSdkInstance from '@ordercloud/headstart-sdk';
 
 @Component({
   selector: 'cms-html-editor',
@@ -42,7 +41,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     body {
       padding:15px !important;
     }
-    #tinymce[contenteditable="true"] .c-slide-container img { 
+    #tinymce[contenteditable="true"] .c-slide-container img {
       display: none;
     }
 
@@ -101,11 +100,17 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     image_advtab: true,
 
     /**
+     * object holding all OrderCloud enhanced functions
+     */
+    ordercloud: {},
+
+    /**
      * Adds an upload tab (uploads to ordercloud cms)
      */
     image_uploadtab: true,
-    images_upload_handler: function (blobInfo, successCallback, errorCallback) {
+    images_upload_handler(blobInfo, successCallback, errorCallback) {
       // importing tinymce breaks things so we have to use instance from window
+      /* tslint:disable: no-string-literal */
       window['tinymce'].execCommand('ocAssetUploader', true, {
         blobInfo,
         successCallback,
@@ -129,12 +134,6 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       this.defaultEditorOptions,
       this.editorOptions
     );
-
-    // I think we need to set this here *and* in the plugin because it sets
-    // it on different instances of the sdk
-    HeadStartSdkInstance.Configuration.Set({
-      baseApiUrl: this.resolvedEditorOptions.ordercloud.marketplaceUrl,
-    });
 
     this.resolvedEditorOptions.file_picker_callback = (
       callback,
@@ -216,7 +215,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     const modalRef = this.modalService.open(SectionPickerComponent, {
       size: 'xl',
       centered: true,
-      backdropClass: 'oc-tinymce-modal_backdrop', //TODO: might wanna abstract these classes / centered as default settings for any modal that's opened from the editor
+      backdropClass: 'oc-tinymce-modal_backdrop', // TODO: might wanna abstract these classes / centered as default settings for any modal that's opened from the editor
       windowClass: 'oc-tinymce-modal_window',
     });
     modalRef.componentInstance.data = data;

@@ -15,6 +15,13 @@ module.exports = {
     // cleans dist folder before each new webpack build
     new CleanWebpackPlugin(),
   ],
+  // tell webpack to exclude these dependencies from being bundled
+  // they should already be bunlded by the implementing app
+  externals: {
+    tinymce: 'tinymce',
+    jquery: 'jquery',
+    'slick-carousel': 'slick-carousel'
+  },
   module: {
     rules: [
       {
