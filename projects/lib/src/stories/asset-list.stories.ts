@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AssetListComponent } from '../admin/components/asset-list/asset-list.component';
 
 export default {
-  title: 'Asset List',
+  title: 'Admin/Asset List',
   component: AssetListComponent,
   parameters: {
     component: AssetListComponent,

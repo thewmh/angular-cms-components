@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 export default {
-  title: 'Page Editor',
+  title: 'Admin/Page Editor',
   component: PageEditorComponent,
   parameters: {
     component: PageEditorComponent
