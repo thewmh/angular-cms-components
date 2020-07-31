@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export default {
-  title: 'Page List',
+  title: 'Admin/Page List',
   component: PageListComponent,
   parameters: {
     component: PageListComponent,
