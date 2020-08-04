@@ -5,6 +5,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { PageContentDoc } from 'projects/lib/src/admin/models/page-content-doc.interface';
 
+/** @dynamic */
 @Component({
   selector: 'cms-page-renderer',
   templateUrl: './page-renderer.component.html',
