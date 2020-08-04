@@ -108,7 +108,7 @@ export class PageListComponent implements OnInit {
     this.selected = undefined;
   }
 
-  selectPage(page): void {
+  async selectPage(page): Promise<void> {
     if (!page) {
       // create new page
       page = {
@@ -132,5 +132,28 @@ export class PageListComponent implements OnInit {
       };
     }
     this.selected = page;
+
+    /**
+     * When selected page is previously existing, check the current value of
+     * selected.Doc.DateLastUpdated to determine if the selected item in the
+     * list needs to be refreshed. This will also update the selected page so
+     * that CmsPageEditor receives the most recent version of the page.
+     */
+
+    if (this.selected.ID) {
+      const selectedIndex = this.list.Items.findIndex(
+        (d) => d.ID === this.selected.ID
+      );
+      const selectedPage = await HeadStartSDK.Documents.Get(
+        PAGE_SCHEMA.ID,
+        this.selected.ID
+      );
+      if (
+        this.selected.Doc.DateLastUpdated !== selectedPage.Doc.DateLastUpdated
+      ) {
+        this.list.Items[selectedIndex] = selectedPage;
+        this.selected = selectedPage;
+      }
+    }
   }
 }
