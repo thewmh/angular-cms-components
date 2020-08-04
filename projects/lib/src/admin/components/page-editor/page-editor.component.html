@@ -27,7 +27,12 @@
         </div>
       </div>
       <div class="flex-grow-0 flex-shrink-1">
+        <button *ngIf="isLoadingSave" class="btn btn-primary" type="button" disabled>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Saving...
+        </button>
         <button
+          *ngIf="!isLoadingSave"
           class="btn btn-primary"
           [disabled]="!hasChanges || !isValid"
           (click)="onSubmit()"

@@ -12,9 +12,9 @@ import * as OrderCloudSDK from 'ordercloud-javascript-sdk';
 import { PageContentDoc } from '../../models/page-content-doc.interface';
 import { JDocument, HeadStartSDK } from '@ordercloud/headstart-sdk';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { v4 as guid } from 'uuid';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
+import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -44,9 +44,9 @@ export class PageEditorComponent implements OnInit, OnChanges {
   automaticUrl: boolean;
   pageNavigation: boolean;
   confirmModal: NgbModalRef;
+  isLoadingSave: boolean;
 
   constructor(
-    private spinner: NgxSpinnerService,
     private modalService: NgbModal
   ) {}
 
@@ -97,8 +97,9 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.page.Active = !this.page.Active;
   }
 
-  async onSubmit() {
-    const updated = await this.saveChanges();
+  async onSubmit(): Promise<void> {
+    this.isLoadingSave = true;
+    const updated = await this.saveChanges().finally(() => this.isLoadingSave = false);
     this.pageSaved.emit(updated);
   }
 
