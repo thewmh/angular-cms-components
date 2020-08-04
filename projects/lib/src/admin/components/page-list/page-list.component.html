@@ -1,11 +1,11 @@
 <!-- FILTERS -->
 
-<h2 class="border-bottom pb-3 mb-0">
+<h2 class="border-bottom p-3 mb-0">
   Pages
 </h2>
 <!-- LIST VIEW -->
-<div *ngIf="!selected">
-  <div class="d-flex align-items-center justify-content-start py-3">
+<div *ngIf="!selected" class="main-content">
+  <div class="d-flex align-items-center justify-content-start p-3">
     <div class="flex-grow-0 flex-shrink-1 pr-2">
       <button
         type="button"
@@ -77,9 +77,9 @@
 </div>
 
 <!-- DETAIL VIEW -->
-<div class="row" *ngIf="selected">
-  <div class="col-sm-3 pr-0 border-right">
-    <div class="d-flex align-items-center justify-content-start py-3">
+<div class="d-flex main-content" *ngIf="selected">
+  <div class="flex-shrink-0 flex-grow-0 border-right">
+    <div class="d-flex align-items-center justify-content-start p-3">
       <div class="flex-grow-0 flex-shrink-1 pr-2">
         <button
           type="button"
@@ -110,30 +110,32 @@
         </svg>
       </div>
     </div>
-    <table class="table table-hover page-list-table">
-      <thead>
-        <tr>
-          <th>Title</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let page of list.Items" (click)="selectPage(page)">
-          <td>
-            <cms-status-icon
-              [status]="page.Doc.Active ? 'active' : 'disabled'"
-              class="mr-1"
-            ></cms-status-icon>
-            {{ page.Doc.Title }}<br />
-            <small class="text-muted"
-              >Updated by {{ page.Doc.LastUpdatedBy }} on
-              {{ page.Doc.DateLastUpdated | date: "short" }}</small
-            >
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Title</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let page of list.Items" (click)="selectPage(page)">
+            <td>
+              <cms-status-icon
+                [status]="page.Doc.Active ? 'active' : 'disabled'"
+                class="mr-1"
+              ></cms-status-icon>
+              {{ page.Doc.Title }}<br />
+              <small class="text-muted"
+                >Updated by {{ page.Doc.LastUpdatedBy }} on
+                {{ page.Doc.DateLastUpdated | date: "short" }}</small
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <div class="col-sm-9 pl-0">
+  <div class="flex-grow-1 flex-shrink-0">
     <cms-page-editor
       (backClicked)="goToList($event)"
       (pageSaved)="onPageSaved($event)"

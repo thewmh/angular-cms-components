@@ -1,14 +1,14 @@
 <div class="bg-light">
-  <div class="container-fluid pt-3">
-    <div class="d-flex justify-content-between align-items-start">
+  <div class="container-fluid border-bottom pt-3">
+    <div class="d-flex justify-content-between align-items-start mb-3">
       <div class="flex-grow-0 flex-shrink-1">
         <div class="d-flex justify-content-start align-items-center">
           <div class="flex-grow-0 flex-shrink-1">
             <button class="btn btn-link" (click)="backClicked.emit($event)">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="36"
-                height="36"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
               >
@@ -226,7 +226,7 @@
     </ul>
   </div>
 </div>
-<div class="container-fluid pt-3" [ngbNavOutlet]="nav"></div>
+<div class="tab-container container-fluid pt-3" [ngbNavOutlet]="nav"></div>
 
 <!-- CONFIRM DELETE MODAL -->
 <ng-template #confirmDeleteModalTemplate>

@@ -7,3 +7,12 @@
   opacity: .5;
   font-size: 15px;
 }
+
+.nav-tabs {
+  margin-bottom: -1px;
+}
+
+.tab-container {
+  height: calc(100% - 114px);
+  overflow-y: auto;
+}

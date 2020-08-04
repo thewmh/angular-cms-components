@@ -20,7 +20,7 @@ export default {
 
 export const FullExample = () => ({
   component: PageListComponent,
-  template: `<div class="container-fluid"><cms-page-list [renderSiteUrl]="renderSiteUrl" [editorOptions]="editorOptions"></cms-page-list></div>`,
+  template: `<div style="height:100vh"><cms-page-list [renderSiteUrl]="renderSiteUrl" [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
     editorOptions: {
