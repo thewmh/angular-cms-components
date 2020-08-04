@@ -104,8 +104,9 @@ export class PageListComponent implements OnInit {
     };
   }
 
-  goToList(e: MouseEvent): void {
+  async goToList(e: MouseEvent): Promise<void> {
     this.selected = undefined;
+    await this.ngOnInit();
   }
 
   async selectPage(page): Promise<void> {
