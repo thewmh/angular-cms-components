@@ -67,11 +67,11 @@ export class PageListComponent implements OnInit {
       });
   }
 
-  onSearchFieldChange(searchTerm) {
+  onSearchFieldChange(searchTerm): void {
     this.searchTermChanged.next(searchTerm);
   }
 
-  onPageSaved(updated: JDocument) {
+  onPageSaved(updated: JDocument): void {
     const documentIndex = this.list.Items.findIndex((d) => d.ID === updated.ID);
     this.selected = updated;
     if (documentIndex >= 0) {
@@ -91,7 +91,7 @@ export class PageListComponent implements OnInit {
     }
   }
 
-  onPageDeleted(deletedId: string) {
+  onPageDeleted(deletedId: string): void {
     const filteredList = this.list.Items.filter((d) => d.ID !== deletedId);
     this.selected = undefined;
     this.list = {
@@ -104,11 +104,11 @@ export class PageListComponent implements OnInit {
     };
   }
 
-  goToList(e: MouseEvent) {
+  goToList(e: MouseEvent): void {
     this.selected = undefined;
   }
 
-  selectPage(page) {
+  selectPage(page): void {
     if (!page) {
       // create new page
       page = {

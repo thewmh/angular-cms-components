@@ -69,23 +69,23 @@ export class PageEditorComponent implements OnInit, OnChanges {
     }
   }
 
-  onPageContentChange(html: string) {
+  onPageContentChange(html: string): void {
     this.page = { ...this.page, Content: html };
   }
 
-  onPageTitleKeyUp(value: string) {
+  onPageTitleKeyUp(value: string): void {
     if (this.automaticUrl) {
       this.page.Url = kebab(value);
     }
   }
 
-  onAutomaticUrlChange() {
+  onAutomaticUrlChange(): void {
     if (this.automaticUrl && this.page.Title) {
       this.page.Url = kebab(this.page.Title);
     }
   }
 
-  onPageNavigationChange() {
+  onPageNavigationChange(): void {
     if (this.pageNavigation && !this.page.NavigationTitle) {
       this.page.NavigationTitle = this.page.Title;
     } else {
@@ -93,7 +93,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     }
   }
 
-  onPageStatusChange() {
+  onPageStatusChange(): void {
     this.page.Active = !this.page.Active;
   }
 
@@ -103,7 +103,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.pageSaved.emit(updated);
   }
 
-  async saveChanges() {
+  async saveChanges(): Promise<RequiredDeep<JDocument>> {
     const me = await OrderCloudSDK.Me.Get();
     const nowDate = new Date().toISOString();
     const fullName = `${me.FirstName} ${me.LastName}`;
@@ -130,8 +130,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     });
   }
 
-  async onDelete() {
-    // this.spinner.show();
+  async onDelete(): Promise<void> {
     await HeadStartSDK.Documents.Delete(
       PAGE_SCHEMA.ID,
       this.document.ID
@@ -139,7 +138,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.confirmModal.close();
   }
 
-  confirmDeletePage(confirmModalTemplate) {
+  confirmDeletePage(confirmModalTemplate): void {
     this.confirmModal = this.modalService.open(confirmModalTemplate);
   }
 
