@@ -4,7 +4,7 @@ import {
   Input,
   ViewChild,
   ElementRef,
-  AfterViewChecked
+  AfterViewChecked,
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import sectionPickerMock from './section-picker.mock';
@@ -12,7 +12,7 @@ import sectionPickerMock from './section-picker.mock';
 @Component({
   selector: 'cms-section-picker',
   templateUrl: './section-picker.component.html',
-  styleUrls: ['./section-picker.component.scss']
+  styleUrls: ['./section-picker.component.scss'],
 })
 export class SectionPickerComponent implements AfterViewChecked {
   @ViewChild('list', { read: ElementRef })
@@ -20,8 +20,8 @@ export class SectionPickerComponent implements AfterViewChecked {
   @Input() data: any;
   sectionTemplates = sectionPickerMock;
   selectedTemplateIndex: number;
-  previewWidth: number = 1024;
-  previewTransformRatio: number = 1;
+  previewWidth = 1024;
+  previewTransformRatio = 1;
   debounceTimeout: any;
   constructor(public modal: NgbActiveModal, public zone: NgZone) {}
 
@@ -30,8 +30,7 @@ export class SectionPickerComponent implements AfterViewChecked {
       clearTimeout(this.debounceTimeout);
     }
 
-    //TODO: this seems like it's getting hit way more than it should.
-    console.log('hit');
+    // TODO: this seems like it's getting hit way more than it should.
 
     this.debounceTimeout = setTimeout(() => {
       const transformRatio = this.determineTransformRatio();

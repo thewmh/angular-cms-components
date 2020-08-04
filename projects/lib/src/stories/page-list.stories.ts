@@ -13,17 +13,14 @@ export default {
   decorators: [
     moduleMetadata({
       declarations: [],
-      imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        CmsAdminModule,
-      ],
+      imports: [BrowserModule, BrowserAnimationsModule, CmsAdminModule],
     }),
   ],
 };
 
 export const FullExample = () => ({
   component: PageListComponent,
+  template: `<div style="height:100vh"><cms-page-list [renderSiteUrl]="renderSiteUrl" [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
     editorOptions: {

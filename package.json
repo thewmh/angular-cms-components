@@ -48,7 +48,7 @@
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
-    "@ordercloud/headstart-sdk": "^1.6.2",
+    "@ordercloud/headstart-sdk": "^1.6.3",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addon-notes": "^5.3.19",

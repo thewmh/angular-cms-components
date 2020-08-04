@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Renderer2, Inject } from '@angular/core';
 import { WidgetService } from 'projects/lib/src/shared/services/widget.service';
-import { Document } from '@ordercloud/headstart-sdk';
+import { JDocument } from '@ordercloud/headstart-sdk';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { PageContentDoc } from 'projects/lib/src/admin/models/page-content-doc.interface';
@@ -8,10 +8,10 @@ import { PageContentDoc } from 'projects/lib/src/admin/models/page-content-doc.i
 @Component({
   selector: 'cms-page-renderer',
   templateUrl: './page-renderer.component.html',
-  styleUrls: ['./page-renderer.component.scss']
+  styleUrls: ['./page-renderer.component.scss'],
 })
 export class PageRendererComponent implements OnInit {
-  @Input() pageDoc: Document;
+  @Input() pageDoc: JDocument;
   content: string;
 
   constructor(
@@ -20,7 +20,7 @@ export class PageRendererComponent implements OnInit {
     private titleService: Title,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: HTMLDocument
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const page: PageContentDoc = this.pageDoc.Doc;
@@ -34,21 +34,48 @@ export class PageRendererComponent implements OnInit {
 
     // normal metadata
     this.titleService.setTitle(page.Title);
-    this.metaService.updateTag({ property: 'application-name', content: page.SiteUrl });
-    this.metaService.updateTag({ property: 'description', content: page.Description });
+    this.metaService.updateTag({
+      property: 'application-name',
+      content: page.SiteUrl,
+    });
+    this.metaService.updateTag({
+      property: 'description',
+      content: page.Description,
+    });
 
     // open graph meta data
-    this.metaService.updateTag({property: 'og:type', content: 'website'});
-    this.metaService.updateTag({property: 'og:title', content: page.Title});
-    this.metaService.updateTag({property: 'og:description', content: page.Description});
-    this.metaService.updateTag({property: 'og:image', content: page.MetaImageUrl});
+    this.metaService.updateTag({ property: 'og:type', content: 'website' });
+    this.metaService.updateTag({ property: 'og:title', content: page.Title });
+    this.metaService.updateTag({
+      property: 'og:description',
+      content: page.Description,
+    });
+    this.metaService.updateTag({
+      property: 'og:image',
+      content: page.MetaImageUrl,
+    });
 
     // twitter metadata
-    this.metaService.updateTag({ property: 'twitter:card', content: 'summary' });
-    this.metaService.updateTag({ property: 'twitter:site', content: page.SiteUrl });
-    this.metaService.updateTag({ property: 'twitter:title', content: page.Title });
-    this.metaService.updateTag({ property: 'twitter:description', content: page.Description });
-    this.metaService.updateTag({property: 'twitter:image', content: page.MetaImageUrl});
+    this.metaService.updateTag({
+      property: 'twitter:card',
+      content: 'summary',
+    });
+    this.metaService.updateTag({
+      property: 'twitter:site',
+      content: page.SiteUrl,
+    });
+    this.metaService.updateTag({
+      property: 'twitter:title',
+      content: page.Title,
+    });
+    this.metaService.updateTag({
+      property: 'twitter:description',
+      content: page.Description,
+    });
+    this.metaService.updateTag({
+      property: 'twitter:image',
+      content: page.MetaImageUrl,
+    });
   }
 
   private loadScripts(headerEmbeds: string, footerEmbeds: string): void {

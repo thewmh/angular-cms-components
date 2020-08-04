@@ -1,20 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CmsPageListComponent } from './page-list.component';
+import { PageListComponent } from './page-list.component';
 
 describe('PageListComponent', () => {
-  let component: CmsPageListComponent;
-  let fixture: ComponentFixture<CmsPageListComponent>;
+  let component: PageListComponent;
+  let fixture: ComponentFixture<PageListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CmsPageListComponent ]
-    })
-    .compileComponents();
+      declarations: [PageListComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CmsPageListComponent);
+    fixture = TestBed.createComponent(PageListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
