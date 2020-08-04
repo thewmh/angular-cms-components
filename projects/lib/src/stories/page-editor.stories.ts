@@ -20,15 +20,8 @@ export default {
 
 export const NewPageExample = () => ({
   component: PageEditorComponent,
-  template: `
-  <cms-page-editor
-    [renderSiteUrl]="buyerSiteUrl"
-    [editorOptions]="editorOptions"
-    [document]="pageContentDoc"
-  ></cms-page-editor>
-`,
   props: {
-    pageContentDoc: {
+    document: {
       ID: '',
       Doc: {
         Title: '',
@@ -54,15 +47,8 @@ export const NewPageExample = () => ({
 
 export const EditPageExample = () => ({
   component: PageEditorComponent,
-  template: `
-  <cms-page-editor
-    [renderSiteUrl]="buyerSiteUrl"
-    [editorOptions]="editorOptions"
-    [document]="pageContentDoc"
-  ></cms-page-editor>
-`,
   props: {
-    pageContentDoc: {
+    document: {
       ID: '4ad8bd98-3fe8-4caa-9402-0c8f2769d156',
       $schema:
         'https://marketplace-middleware-test.azurewebsites.net/schema-specs/5539d88d-2787-476c-9b61-cdadd181f12d',
