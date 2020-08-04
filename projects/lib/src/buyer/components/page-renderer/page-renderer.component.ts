@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Renderer2, Inject } from '@angular/core';
-import { WidgetService } from 'projects/lib/src/shared/services/widget.service';
+import { WidgetService } from '../../../shared/services/widget.service';
 import { JDocument } from '@ordercloud/headstart-sdk';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
-import { PageContentDoc } from 'projects/lib/src/admin/models/page-content-doc.interface';
+import { PageContentDoc } from '../../../admin/models/page-content-doc.interface';
 
 /** @dynamic */
 @Component({
