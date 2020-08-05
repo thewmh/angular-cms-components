@@ -12,7 +12,6 @@ import * as OrderCloudSDK from 'ordercloud-javascript-sdk';
 import { PageContentDoc } from '../../models/page-content-doc.interface';
 import { JDocument, HeadStartSDK } from '@ordercloud/headstart-sdk';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { v4 as guid } from 'uuid';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 
@@ -46,9 +45,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   confirmModal: NgbModalRef;
   isLoadingSave: boolean;
 
-  constructor(
-    private modalService: NgbModal
-  ) {}
+  constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.page = Object.assign(
@@ -99,7 +96,9 @@ export class PageEditorComponent implements OnInit, OnChanges {
 
   async onSubmit(): Promise<void> {
     this.isLoadingSave = true;
-    const updated = await this.saveChanges().finally(() => this.isLoadingSave = false);
+    const updated = await this.saveChanges().finally(
+      () => (this.isLoadingSave = false)
+    );
     this.pageSaved.emit(updated);
   }
 
@@ -119,7 +118,6 @@ export class PageEditorComponent implements OnInit, OnChanges {
       });
     }
     return HeadStartSDK.Documents.Create(PAGE_SCHEMA.ID, {
-      ID: guid(),
       Doc: {
         ...this.page,
         Author: fullName,
