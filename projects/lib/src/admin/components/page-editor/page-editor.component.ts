@@ -34,6 +34,10 @@ export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
 export class PageEditorComponent implements OnInit, OnChanges {
   @Input() renderSiteUrl: string;
   @Input() editorOptions: any;
+  @Input() resourceType?: // optional
+  'Products' | 'Categories' | 'Catalogs' | 'Promotions' | 'Suppliers' | 'Buyers' | 'ProductFacets' = null;
+  @Input() resourceID?: string = null; // optional
+  @Input() parentResourceID?: string = null;
   @Input() document?: JDocument;
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
@@ -106,9 +110,10 @@ export class PageEditorComponent implements OnInit, OnChanges {
     const me = await OrderCloudSDK.Me.Get();
     const nowDate = new Date().toISOString();
     const fullName = `${me.FirstName} ${me.LastName}`;
+    let updated: RequiredDeep<JDocument>;
 
     if (this.document && this.document.ID) {
-      return HeadStartSDK.Documents.Update(PAGE_SCHEMA.ID, this.document.ID, {
+      updated = await HeadStartSDK.Documents.Update(PAGE_SCHEMA.ID, this.document.ID, {
         ID: this.document.ID,
         Doc: {
           ...this.page,
@@ -116,23 +121,41 @@ export class PageEditorComponent implements OnInit, OnChanges {
           LastUpdatedBy: fullName,
         },
       });
+    } else {
+      updated = await HeadStartSDK.Documents.Create(PAGE_SCHEMA.ID, {
+        Doc: {
+          ...this.page,
+          Author: fullName,
+          DateCreated: nowDate,
+          DateLastUpdated: nowDate,
+          LastUpdatedBy: fullName,
+        },
+      });
     }
-    return HeadStartSDK.Documents.Create(PAGE_SCHEMA.ID, {
-      Doc: {
-        ...this.page,
-        Author: fullName,
-        DateCreated: nowDate,
-        DateLastUpdated: nowDate,
-        LastUpdatedBy: fullName,
-      },
-    });
+
+    if (this.resourceType && this.resourceID) {
+      await HeadStartSDK.Documents.SaveAssignment(PAGE_SCHEMA.ID,  {
+        ResourceID: this.resourceID,
+        ResourceType: this.resourceType,
+        ParentResourceID: this.parentResourceID,
+        DocumentID: updated.ID });
+    }
+
+    return updated;
   }
 
   async onDelete(): Promise<void> {
-    await HeadStartSDK.Documents.Delete(
-      PAGE_SCHEMA.ID,
-      this.document.ID
-    ).finally(() => this.pageDeleted.emit(this.document.ID));
+    if (this.resourceType && this.resourceID) {
+      await HeadStartSDK.Documents.DeleteAssignment(
+        PAGE_SCHEMA.ID,
+        this.resourceID,
+        this.resourceType,
+        this.parentResourceID,
+        this.document.ID
+        );
+    }
+    await HeadStartSDK.Documents.Delete(PAGE_SCHEMA.ID, this.document.ID);
+    this.pageDeleted.emit(this.document.ID);
     this.confirmModal.close();
   }
 
@@ -147,7 +170,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   get isValid(): boolean {
     return Boolean(
       this.page.Title &&
-        (this.page.Url || (!this.page.Url && this.page.Title === 'Home'))
+      (this.page.Url || (!this.page.Url && this.page.Title === 'Home'))
     );
   }
 }
