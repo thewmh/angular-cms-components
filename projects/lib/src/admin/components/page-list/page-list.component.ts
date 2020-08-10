@@ -1,14 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  HeadStartSDK,
-  JDocument,
-  ListArgs,
-  ListPage,
-} from '@ordercloud/headstart-sdk';
+import { HeadStartSDK, JDocument, ListPage } from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
+import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 
 @Component({
   selector: 'cms-page-list',
@@ -16,23 +12,34 @@ import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
   styleUrls: ['./page-list.component.scss'],
 })
 export class PageListComponent implements OnInit {
-  @Input() listOptions: ListArgs<JDocument> = {};
+  @Input() resourceType:
+    | 'Products'
+    | 'Categories'
+    | 'Catalogs'
+    | 'Promotions'
+    | 'Suppliers'
+    | 'Buyers'
+    | 'ProductFacets';
+  @Input() resourceID: string;
+  @Input() parentResourceID?: string = null;
   @Input() editorOptions: any;
   @Input() renderSiteUrl: string;
   searchTerm = '';
   searchTermChanged = new Subject<string>();
   loading = true;
-  list: ListPage<JDocument>;
+  list: JDocument[];
   selected?: JDocument;
 
   constructor(private spinner: NgxSpinnerService) {}
 
   async ngOnInit(): Promise<void> {
+    if (!this.resourceType || !this.resourceID) {
+      throw new Error(
+        'cms-page-list is missing required props resourceType or resourceID'
+      );
+    }
     this.spinner.show();
-    this.list = await HeadStartSDK.Documents.List(
-      PAGE_SCHEMA.ID,
-      this.listOptions
-    )
+    this.list = await this.listDocs()
       .catch((ex) => {
         if (
           ex &&
@@ -42,7 +49,7 @@ export class PageListComponent implements OnInit {
           ex.response.data.Data.ObjectID === PAGE_SCHEMA.ID
         ) {
           return HeadStartSDK.Schemas.Create(PAGE_SCHEMA as any).then(() =>
-            HeadStartSDK.Documents.List(PAGE_SCHEMA.ID, this.listOptions)
+            this.listDocs()
           );
         }
         return ex;
@@ -67,41 +74,38 @@ export class PageListComponent implements OnInit {
       });
   }
 
+  async listDocs(): Promise<RequiredDeep<ListPage<JDocument>>> {
+    if (!this.resourceType || !this.resourceID) {
+      throw new Error(
+        'cms-page-list missing required props resourceType and resourceID for '
+      );
+    }
+    // TODO: remove 'as any' when ListDocuments returns correct type, currently it returns 'void' which is wrong
+    return (await HeadStartSDK.Documents.ListDocuments(
+      PAGE_SCHEMA.ID,
+      this.resourceID,
+      this.parentResourceID,
+      this.resourceType
+    )) as any;
+  }
+
   onSearchFieldChange(searchTerm): void {
     this.searchTermChanged.next(searchTerm);
   }
 
   onPageSaved(updated: JDocument): void {
-    const documentIndex = this.list.Items.findIndex((d) => d.ID === updated.ID);
+    const documentIndex = this.list.findIndex((d) => d.ID === updated.ID);
     this.selected = updated;
     if (documentIndex >= 0) {
-      this.list.Items[documentIndex] = updated;
+      this.list[documentIndex] = updated;
     } else {
-      this.list = {
-        Items: [...this.list.Items, updated],
-        Meta: {
-          ...this.list.Meta,
-          TotalCount: this.list.Meta.TotalCount++,
-          ItemRange: [
-            this.list.Meta.ItemRange[0],
-            this.list.Meta.ItemRange[1]++,
-          ],
-        },
-      };
+      this.list = [...this.list, updated];
     }
   }
 
   onPageDeleted(deletedId: string): void {
-    const filteredList = this.list.Items.filter((d) => d.ID !== deletedId);
     this.selected = undefined;
-    this.list = {
-      Items: filteredList,
-      Meta: {
-        ...this.list.Meta,
-        TotalCount: filteredList.length,
-        ItemRange: [this.list.Meta.ItemRange[0], filteredList.length],
-      },
-    };
+    this.list = this.list.filter((d) => d.ID !== deletedId);
   }
 
   goToList(e: MouseEvent): void {
@@ -142,7 +146,7 @@ export class PageListComponent implements OnInit {
      */
 
     if (this.selected.ID) {
-      const selectedIndex = this.list.Items.findIndex(
+      const selectedIndex = this.list.findIndex(
         (d) => d.ID === this.selected.ID
       );
       const selectedPage = await HeadStartSDK.Documents.Get(
@@ -152,7 +156,7 @@ export class PageListComponent implements OnInit {
       if (
         this.selected.Doc.DateLastUpdated !== selectedPage.Doc.DateLastUpdated
       ) {
-        this.list.Items[selectedIndex] = selectedPage;
+        this.list[selectedIndex] = selectedPage;
         this.selected = selectedPage;
       }
     }
