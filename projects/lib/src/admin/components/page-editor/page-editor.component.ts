@@ -34,16 +34,14 @@ export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
 export class PageEditorComponent implements OnInit, OnChanges {
   @Input() renderSiteUrl: string;
   @Input() editorOptions: any;
-  @Input() resourceType?: // optional
-  | 'Products'
+  @Input() resourceType?:
+    | 'Products'
     | 'Categories'
     | 'Catalogs'
     | 'Promotions'
     | 'Suppliers'
     | 'Buyers'
-    | 'ProductFacets'
-    | 'SupplierUsers'
-    | 'AdminUsers' = null;
+    | 'ProductFacets' = null; // optional
   @Input() resourceID?: string = null; // optional
   @Input() parentResourceID?: string = null;
   @Input() document?: JDocument;
@@ -148,7 +146,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     if (this.resourceType && this.resourceID) {
       await HeadStartSDK.Documents.SaveAssignment(PAGE_SCHEMA.ID, {
         ResourceID: this.resourceID,
-        ResourceType: this.resourceType as any,
+        ResourceType: this.resourceType,
         ParentResourceID: this.parentResourceID,
         DocumentID: updated.ID,
       });

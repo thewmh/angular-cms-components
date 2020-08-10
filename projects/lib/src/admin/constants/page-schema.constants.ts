@@ -1,6 +1,6 @@
 export const PAGE_SCHEMA = {
   ID: 'cms-page-schema',
-  RestrictedAssignmentTypes: ['Suppliers'],
+  RestrictedAssignmentTypes: [],
   Schema: {
     $schema: 'http://json-schema.org/draft-07/schema#',
     title: 'OrderCloud CMS Page Schema',

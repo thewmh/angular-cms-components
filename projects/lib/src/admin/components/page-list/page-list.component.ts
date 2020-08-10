@@ -1,9 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  HeadStartSDK,
-  JDocument,
-  ListPage,
-} from '@ordercloud/headstart-sdk';
+import { HeadStartSDK, JDocument, ListPage } from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
@@ -16,7 +12,14 @@ import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep
   styleUrls: ['./page-list.component.scss'],
 })
 export class PageListComponent implements OnInit {
-  @Input() resourceType: 'Products' | 'Categories' | 'Catalogs' | 'Promotions' | 'Suppliers' | 'Buyers' | 'ProductFacets';
+  @Input() resourceType:
+    | 'Products'
+    | 'Categories'
+    | 'Catalogs'
+    | 'Promotions'
+    | 'Suppliers'
+    | 'Buyers'
+    | 'ProductFacets';
   @Input() resourceID: string;
   @Input() parentResourceID?: string = null;
   @Input() editorOptions: any;
@@ -31,7 +34,9 @@ export class PageListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     if (!this.resourceType || !this.resourceID) {
-      throw new Error('cms-page-list is missing required props resourceType or resourceID');
+      throw new Error(
+        'cms-page-list is missing required props resourceType or resourceID'
+      );
     }
     this.spinner.show();
     this.list = await this.listDocs()
@@ -71,10 +76,17 @@ export class PageListComponent implements OnInit {
 
   async listDocs(): Promise<RequiredDeep<ListPage<JDocument>>> {
     if (!this.resourceType || !this.resourceID) {
-      throw new Error('cms-page-list missing required props resourceType and resourceID for ');
+      throw new Error(
+        'cms-page-list missing required props resourceType and resourceID for '
+      );
     }
     // TODO: remove 'as any' when ListDocuments returns correct type, currently it returns 'void' which is wrong
-    return await HeadStartSDK.Documents.ListDocuments(PAGE_SCHEMA.ID, this.resourceID, this.parentResourceID, this.resourceType) as any;
+    return (await HeadStartSDK.Documents.ListDocuments(
+      PAGE_SCHEMA.ID,
+      this.resourceID,
+      this.parentResourceID,
+      this.resourceType
+    )) as any;
   }
 
   onSearchFieldChange(searchTerm): void {
