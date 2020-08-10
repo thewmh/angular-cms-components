@@ -35,7 +35,15 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() renderSiteUrl: string;
   @Input() editorOptions: any;
   @Input() resourceType?: // optional
-  'Products' | 'Categories' | 'Catalogs' | 'Promotions' | 'Suppliers' | 'Buyers' | 'ProductFacets' = null;
+  | 'Products'
+    | 'Categories'
+    | 'Catalogs'
+    | 'Promotions'
+    | 'Suppliers'
+    | 'Buyers'
+    | 'ProductFacets'
+    | 'SupplierUsers'
+    | 'AdminUsers' = null;
   @Input() resourceID?: string = null; // optional
   @Input() parentResourceID?: string = null;
   @Input() document?: JDocument;
@@ -113,14 +121,18 @@ export class PageEditorComponent implements OnInit, OnChanges {
     let updated: RequiredDeep<JDocument>;
 
     if (this.document && this.document.ID) {
-      updated = await HeadStartSDK.Documents.Update(PAGE_SCHEMA.ID, this.document.ID, {
-        ID: this.document.ID,
-        Doc: {
-          ...this.page,
-          DateLastUpdated: nowDate,
-          LastUpdatedBy: fullName,
-        },
-      });
+      updated = await HeadStartSDK.Documents.Update(
+        PAGE_SCHEMA.ID,
+        this.document.ID,
+        {
+          ID: this.document.ID,
+          Doc: {
+            ...this.page,
+            DateLastUpdated: nowDate,
+            LastUpdatedBy: fullName,
+          },
+        }
+      );
     } else {
       updated = await HeadStartSDK.Documents.Create(PAGE_SCHEMA.ID, {
         Doc: {
@@ -134,11 +146,12 @@ export class PageEditorComponent implements OnInit, OnChanges {
     }
 
     if (this.resourceType && this.resourceID) {
-      await HeadStartSDK.Documents.SaveAssignment(PAGE_SCHEMA.ID,  {
+      await HeadStartSDK.Documents.SaveAssignment(PAGE_SCHEMA.ID, {
         ResourceID: this.resourceID,
-        ResourceType: this.resourceType,
+        ResourceType: this.resourceType as any,
         ParentResourceID: this.parentResourceID,
-        DocumentID: updated.ID });
+        DocumentID: updated.ID,
+      });
     }
 
     return updated;
@@ -152,7 +165,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
         this.resourceType,
         this.parentResourceID,
         this.document.ID
-        );
+      );
     }
     await HeadStartSDK.Documents.Delete(PAGE_SCHEMA.ID, this.document.ID);
     this.pageDeleted.emit(this.document.ID);
@@ -170,7 +183,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   get isValid(): boolean {
     return Boolean(
       this.page.Title &&
-      (this.page.Url || (!this.page.Url && this.page.Title === 'Home'))
+        (this.page.Url || (!this.page.Url && this.page.Title === 'Home'))
     );
   }
 }
