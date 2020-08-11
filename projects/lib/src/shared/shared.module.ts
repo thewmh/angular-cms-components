@@ -15,6 +15,8 @@ import {
   NgbPaginationModule,
   NgbTabsetModule,
   NgbNavModule,
+  NgbTooltipModule,
+  NgbTooltip,
 } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -33,6 +35,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     NgbModalModule,
     NgbNavModule,
     NgxSpinnerModule,
+    NgbTooltipModule,
     CommonModule,
   ],
   exports: [
@@ -45,8 +48,9 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     NgbModalModule,
     NgbNavModule,
     NgxSpinnerModule,
+    NgbTooltipModule,
     NoResultsComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },

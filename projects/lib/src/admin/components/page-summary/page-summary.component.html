@@ -1,0 +1,48 @@
+<label for="pageSummary">Summary</label>
+
+<div class="bg-light p-3 rounded border" id="pageSummary">
+  <p class="lead text-center m-0" *ngIf="!document.ID">
+    Save changes to see page summary
+  </p>
+  <table class="table table-sm table-borderless mb-0" *ngIf="document.ID">
+    <tbody>
+      <tr>
+        <th scope="row" class="text-muted">Status</th>
+        <td>
+          <cms-status-icon
+            [status]="document.Doc.Active"
+            [inline]="true"
+          ></cms-status-icon>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-muted">Created By</th>
+        <td>{{ document.Doc.Author }}</td>
+      </tr>
+      <tr>
+        <th scope="row" class="text-muted">Date Created</th>
+        <td>
+          {{ document.Doc.DateCreated | date: "MMMM d, yyyy 'at' h:MM a" }}
+        </td>
+      </tr>
+      <tr *ngIf="document.Doc.DateLastUpdated !== document.Doc.DateCreated">
+        <th scope="row" class="text-muted">Updated By</th>
+        <td>{{ document.Doc.LastUpdatedBy }}</td>
+      </tr>
+      <tr *ngIf="document.Doc.DateLastUpdated !== document.Doc.DateCreated">
+        <th scope="row" class="text-muted">Date Updated</th>
+        <td>
+          {{ document.Doc.DateLastUpdated | date: "MMMM d, yyyy 'at' h:MM a" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <a
+    *ngIf="renderSiteUrl && document.Doc.Active"
+    [href]="renderSiteUrl + '/' + document.Doc.Url"
+    target="_blank"
+    class="btn btn-outline-secondary btn-block mt-3"
+  >
+    View Live Page
+  </a>
+</div>

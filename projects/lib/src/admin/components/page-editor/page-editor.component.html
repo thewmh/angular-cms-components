@@ -27,8 +27,17 @@
         </div>
       </div>
       <div class="flex-grow-0 flex-shrink-1">
-        <button *ngIf="isLoadingSave" class="btn btn-primary" type="button" disabled>
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <button
+          *ngIf="isLoadingSave"
+          class="btn btn-primary"
+          type="button"
+          disabled
+        >
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
           Saving...
         </button>
         <button
@@ -53,7 +62,7 @@
         <a ngbNavLink>Settings</a>
         <ng-template ngbNavContent>
           <div class="row">
-            <div class="col-sm-8">
+            <div class="col-md-8">
               <div class="form-group">
                 <label for="pageTitle">Page Title</label>
                 <input
@@ -73,83 +82,64 @@
                 </small>
               </div>
             </div>
-            <div class="col-sm-4">
-              <label for="pageStatus">Page Status</label>
-              <div id="pageStatus">
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input
-                    type="radio"
-                    id="pageActive1"
-                    name="pageActiveStatus"
-                    class="custom-control-input"
-                    [checked]="page.Active"
-                    (change)="onPageStatusChange()"
-                  />
-                  <label class="custom-control-label" for="pageActive1"
-                    >Active</label
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="pageStatus">Page Status</label>
+                <div id="pageStatus">
+                  <div
+                    class="custom-control custom-radio custom-control-inline"
                   >
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input
-                    type="radio"
-                    id="pageActive2"
-                    name="pageActiveStatus"
-                    class="custom-control-input"
-                    [checked]="!page.Active"
-                    (change)="onPageStatusChange()"
-                  />
-                  <label class="custom-control-label" for="pageActive2"
-                    >Disabled</label
+                    <input
+                      type="radio"
+                      id="pageActive1"
+                      name="pageActiveStatus"
+                      class="custom-control-input"
+                      [checked]="page.Active"
+                      (change)="onPageStatusChange()"
+                    />
+                    <label class="custom-control-label" for="pageActive1"
+                      >Active</label
+                    >
+                  </div>
+                  <div
+                    class="custom-control custom-radio custom-control-inline"
                   >
+                    <input
+                      type="radio"
+                      id="pageActive2"
+                      name="pageActiveStatus"
+                      class="custom-control-input"
+                      [checked]="!page.Active"
+                      (change)="onPageStatusChange()"
+                    />
+                    <label class="custom-control-label" for="pageActive2"
+                      >Disabled</label
+                    >
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <div class="custom-control custom-checkbox">
-              <input
-                class="custom-control-input"
-                id="pageNavigation"
-                type="checkbox"
-                (change)="onPageNavigationChange()"
-                [(ngModel)]="pageNavigation"
-              />
-              <label class="custom-control-label" for="pageNavigation"
-                >Show in navigation</label
-              >
-            </div>
-          </div>
-          <div class="form-group" [ngbCollapse]="!pageNavigation">
-            <label for="pageNavigationTitle">Navigation Title</label>
-            <input
-              id="pageNavigationTitle"
-              type="text"
-              class="form-control"
-              placeholder="Choose a short, one to three word title for navigation elements"
-              [(ngModel)]="page.NavigationTitle"
-              (ngModelChange)="onPageNavigationTitleChange($event)"
-            />
-          </div>
-          <div class="form-group">
-            <div class="custom-control custom-checkbox">
-              <input
-                class="custom-control-input"
-                id="automaticUrl"
-                type="checkbox"
-                (change)="onAutomaticUrlChange()"
-                [(ngModel)]="automaticUrl"
-              />
-              <label class="custom-control-label" for="automaticUrl"
-                >Generate Page Location based on Page Title</label
-              >
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="pageUrl">Page Location</label>
-
+            <label for="pageUrl">Location</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text">{{ renderSiteUrl }}/pages/</span>
+                <span class="input-group-text bg-light">
+                  <div
+                    class="custom-control custom-checkbox custom-control-inline"
+                  >
+                    <input
+                      class="custom-control-input"
+                      id="automaticUrl"
+                      type="checkbox"
+                      (change)="onAutomaticUrlChange()"
+                      [(ngModel)]="automaticUrl"
+                    />
+                    <label class="custom-control-label" for="automaticUrl"
+                      >Auto</label
+                    >
+                  </div>
+                </span>
               </div>
               <input
                 id="pageUrl"
@@ -160,23 +150,93 @@
                 [readOnly]="automaticUrl"
                 required
                 aria-describedby="pageUrlHelp"
-                placeholder="Choose a location for this page"
+                [placeholder]="
+                  automaticUrl
+                    ? 'This will be auto-generated based on the Page Title'
+                    : 'Choose a URL slug for this page'
+                "
               />
             </div>
             <small id="pageUrlHelp" class="form-text text-muted"
-              >Kebab case recommended, use text relevant to this page for best
-              SEO results. When "Generate" is checked, we will come up with a
-              SEO friendly URL for you.
+              >This must be unique across all of your pages. Kebab case
+              recommended, use text relevant to this page for best SEO results.
             </small>
           </div>
           <div class="form-group">
-            <label for="pageTitle">Description</label>
+            <label for="pageNavigation">Navigation</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-light">
+                  <div
+                    class="custom-control custom-checkbox custom-control-inline"
+                  >
+                    <input
+                      class="custom-control-input"
+                      id="pageNavigation"
+                      type="checkbox"
+                      (change)="onPageNavigationChange()"
+                      [(ngModel)]="pageNavigation"
+                    />
+                    <label class="custom-control-label" for="pageNavigation"
+                      >Show</label
+                    >
+                  </div>
+                </span>
+              </div>
+              <input
+                id="pageNavigationTitle"
+                type="text"
+                class="form-control"
+                [disabled]="!pageNavigation"
+                [placeholder]="
+                  pageNavigation
+                    ? 'Choose a short, one to three word title for navigation elements'
+                    : 'This page will not show in normal page navigation'
+                "
+                [(ngModel)]="page.NavigationTitle"
+                aria-describedby="pageNavigationTitleHelp"
+                (ngModelChange)="onPageNavigationTitleChange($event)"
+              />
+            </div>
+            <small id="pageNavigationTitleHelp" class="form-text text-muted"
+              >Hidden pages can still be linked to using the URL Slug.
+            </small>
+          </div>
+        </ng-template>
+      </li>
+      <li ngbNavItem="1" [destroyOnHide]="false">
+        <a ngbNavLink>SEO</a>
+        <ng-template ngbNavContent>
+          <div class="form-group">
+            <label for="metaTitle">Meta Title</label>
+            <input
+              type="text"
+              readonly="true"
+              [(ngModel)]="page.Title"
+              class="form-control"
+              aria-describedby="metaTitleHelp"
+            />
+            <small id="metaTitleHelp" class="form-text text-muted">
+              The SEO Meta Title is based off of the Page Title (available in
+              the Settings tab).
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="pageImage">Meta Image</label>
+            <p class="lead" id="pageImage">
+              TODO: Create AssetInputComponent
+            </p>
+            <!-- <cms-asset-input></cms-asset-input> -->
+          </div>
+          <div class="form-group">
+            <label for="pageTitle">Meta Description</label>
             <textarea
               id="pageDescription"
               type="text"
               class="form-control"
               [(ngModel)]="page.Description"
               maxlength="300"
+              rows="4"
               required
               aria-describedby="pageDescriptionHelp"
               placeholder="Describe this page in 300 characters or less"
@@ -188,7 +248,7 @@
           </div>
         </ng-template>
       </li>
-      <li ngbNavItem="1" [destroyOnHide]="false">
+      <li ngbNavItem="2" [destroyOnHide]="false">
         <a ngbNavLink>Content</a>
         <ng-template ngbNavContent>
           <div class="form-group">
@@ -201,7 +261,7 @@
           </div>
         </ng-template>
       </li>
-      <li ngbNavItem="2" [destroyOnHide]="false">
+      <li ngbNavItem="3" [destroyOnHide]="false">
         <a ngbNavLink>Embeds</a>
         <ng-template ngbNavContent>
           <div class="form-group">
@@ -231,7 +291,24 @@
     </ul>
   </div>
 </div>
-<div class="tab-container container-fluid pt-3" [ngbNavOutlet]="nav"></div>
+
+<div class="tab-container container-fluid pt-3">
+  <div class="row">
+    <div
+      [ngClass]="{
+        'col-md-8 col-sm-7': selectedTab !== '2',
+        'col-12': selectedTab === '2'
+      }"
+      [ngbNavOutlet]="nav"
+    ></div>
+    <div class="col-md-4 col-sm-5" *ngIf="selectedTab !== '2'">
+      <cms-page-summary
+        [document]="document"
+        [renderSiteUrl]="renderSiteUrl"
+      ></cms-page-summary>
+    </div>
+  </div>
+</div>
 
 <!-- CONFIRM DELETE MODAL -->
 <ng-template #confirmDeleteModalTemplate>

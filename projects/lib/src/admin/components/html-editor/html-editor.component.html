@@ -4,4 +4,9 @@
   [init]="resolvedEditorOptions"
   [(ngModel)]="html"
   (onChange)="onEditorChange($event)"
+  (onUndo)="onEditorChange($event)"
+  (onRedo)="onEditorChange($event)"
+  (onKeyUp)="onEditorChange($event)"
+  (onNodeChange)="onEditorChange($event)"
+  (onSetContent)="onEditorChange($event)"
 ></editor>

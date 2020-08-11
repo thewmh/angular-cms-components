@@ -176,6 +176,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     }
   }
 
+  // TODO: Throttle this callback so that the emitter isn't fired multiple times for the same change.
   onEditorChange(e: any) {
     console.log(e);
     this.htmlChange.emit(this.html);
