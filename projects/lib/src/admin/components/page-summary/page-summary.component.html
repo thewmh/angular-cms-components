@@ -22,7 +22,7 @@
       <tr>
         <th scope="row" class="text-muted">Date Created</th>
         <td>
-          {{ document.Doc.DateCreated | date: "MMMM d, yyyy 'at' h:MM a" }}
+          {{ document.Doc.DateCreated | date: "MMMM d, yyyy 'at' h:mm a" }}
         </td>
       </tr>
       <tr *ngIf="document.Doc.DateLastUpdated !== document.Doc.DateCreated">
@@ -32,7 +32,7 @@
       <tr *ngIf="document.Doc.DateLastUpdated !== document.Doc.DateCreated">
         <th scope="row" class="text-muted">Date Updated</th>
         <td>
-          {{ document.Doc.DateLastUpdated | date: "MMMM d, yyyy 'at' h:MM a" }}
+          {{ document.Doc.DateLastUpdated | date: "MMMM d, yyyy 'at' h:mm a" }}
         </td>
       </tr>
     </tbody>
