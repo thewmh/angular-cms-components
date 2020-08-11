@@ -46,13 +46,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let contentDoc of list"
-          (click)="selectPage(contentDoc)"
-        >
+        <tr *ngFor="let contentDoc of list" (click)="selectPage(contentDoc)">
           <td>
             <cms-status-icon
-              [status]="contentDoc.Doc.Active ? 'active' : 'disabled'"
+              [status]="contentDoc.Doc.Active"
               class="mr-1"
             ></cms-status-icon>
             {{ contentDoc.Doc.Title }}
@@ -60,8 +57,10 @@
           <td>{{ contentDoc.Doc.Author }}</td>
           <td>{{ contentDoc.Doc.DateCreated | date: "short" }}</td>
           <td>
-            {{ contentDoc.Doc.DateLastUpdated | date: "short" }} by
-            {{ contentDoc.Doc.LastUpdatedBy }}
+            {{ contentDoc.Doc.DateLastUpdated | date: "short" }}
+            <span class="text-muted small"
+              >by {{ contentDoc.Doc.LastUpdatedBy }}</span
+            >
           </td>
         </tr>
       </tbody>
@@ -117,15 +116,12 @@
         <tbody>
           <tr *ngFor="let page of list" (click)="selectPage(page)">
             <td>
-              <cms-status-icon
-                [status]="page.Doc.Active ? 'active' : 'disabled'"
-                class="mr-1"
-              ></cms-status-icon>
+              <cms-status-icon [status]="page.Doc.Active"></cms-status-icon>
               {{ page.Doc.Title }}<br />
-              <small class="text-muted"
-                >Updated by {{ page.Doc.LastUpdatedBy }} on
-                {{ page.Doc.DateLastUpdated | date: "short" }}</small
-              >
+              <small class="text-muted">
+                Updated by {{ page.Doc.LastUpdatedBy }} on
+                {{ page.Doc.DateLastUpdated | date: "short" }}
+              </small>
             </td>
           </tr>
         </tbody>
