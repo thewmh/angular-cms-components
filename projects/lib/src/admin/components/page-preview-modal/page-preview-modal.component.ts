@@ -11,9 +11,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class PagePreviewModalComponent implements OnInit {
   @Input() html: string;
   @Input() modalTitle?: string; // optional
-  @Input() remoteCss: string; // optional
-  @Input() deviceDimensions: DeviceDimensions; // optional
-  @Input() initialPreview: DeviceSize; // optional
+  @Input() remoteCss?: string; // optional
+  @Input() deviceDimensions?: DeviceDimensions; // optional
+  @Input() initialPreview?: DeviceSize; // optional
 
   constructor(
     public modal: NgbActiveModal

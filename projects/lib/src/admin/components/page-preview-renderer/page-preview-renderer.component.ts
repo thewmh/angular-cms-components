@@ -10,7 +10,7 @@ export class PagePreviewRendererComponent implements OnInit {
   @Input() html: string;
   @Input() height: number;
   @Input() width: number;
-  @Input() remoteCss: string; // optional
+  @Input() remoteCss?: string; // optional
 
   @ViewChild('iframe', { read: ElementRef }) iframeElement: ElementRef<
     HTMLIFrameElement

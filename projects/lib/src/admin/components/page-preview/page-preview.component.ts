@@ -10,9 +10,9 @@ import { Area } from '../../models/area.interface';
 })
 export class PagePreviewComponent implements OnInit {
   @Input() html: string;
-  @Input() remoteCss: string; // optional
-  @Input() deviceDimensions: DeviceDimensions; // optional
-  @Input() initialPreview: DeviceSize; // optional
+  @Input() remoteCss?: string; // optional
+  @Input() deviceDimensions?: DeviceDimensions; // optional
+  @Input() initialPreview?: DeviceSize; // optional
 
   defaultDeviceDimensions: DeviceDimensions = {
     phone: {
