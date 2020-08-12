@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
+import { ResourceType } from '../../../shared/models/resource-type.interface';
 
 @Component({
   selector: 'cms-page-list',
@@ -12,14 +13,7 @@ import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep
   styleUrls: ['./page-list.component.scss'],
 })
 export class PageListComponent implements OnInit {
-  @Input() resourceType:
-    | 'Products'
-    | 'Categories'
-    | 'Catalogs'
-    | 'Promotions'
-    | 'Suppliers'
-    | 'Buyers'
-    | 'ProductFacets';
+  @Input() resourceType: ResourceType;
   @Input() resourceID: string;
   @Input() parentResourceID?: string = null;
   @Input() editorOptions: any;

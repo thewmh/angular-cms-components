@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   HeadStartSDK,
   ListArgs,
   Asset,
-  Filters,
 } from '@ordercloud/headstart-sdk';
 import {
   NgbModal,
@@ -11,6 +10,8 @@ import {
   NgbNavChangeEvent,
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ResourceType } from '../../../shared/models/resource-type.interface';
+import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 
 const ASSET_TYPE_IMAGE = 'Image';
 type ASSET_TYPE_IMAGE = typeof ASSET_TYPE_IMAGE;
@@ -33,6 +34,9 @@ type AssetType =
   styleUrls: ['./asset-list.component.scss'],
 })
 export class AssetListComponent implements OnInit {
+  @Input() resourceType?: ResourceType;
+  @Input() resourceID?: string;
+  @Input() parentResourceID?: string = null;
   assets: any;
   modalReference: NgbModalRef;
   loading = true;
@@ -49,8 +53,17 @@ export class AssetListComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
-  ngOnInit(): void {
-    this.listAssets(this.assetTypes[0], null);
+  async ngOnInit(): Promise<void> {
+    if (this.resourceID && this.resourceType) {
+      this.assets = await this.listAssetsPerResource()
+      .catch((ex) => ex)
+      .finally(() => {
+        this.loading = false;
+        this.spinner.hide();
+      })
+    } else {
+      this.listAssets(this.assetTypes[0], null);
+    }
   }
 
   listAssets(assetType: AssetType, searchTerm: string) {
@@ -65,12 +78,20 @@ export class AssetListComponent implements OnInit {
     this.spinner.show();
     return HeadStartSDK.Assets.List(options)
       .then((assets) => {
-        this.assets = assets;
+        this.assets = assets.Items;
       })
       .finally(() => {
         this.loading = false;
         this.spinner.hide();
       });
+  }
+
+  async listAssetsPerResource(): Promise<RequiredDeep<Asset[]>> {
+    return (await HeadStartSDK.Assets.ListAssets(
+      this.resourceID,
+      this.parentResourceID,
+      this.resourceType
+    )) as any;
   }
 
   handleUploadAssetModal(modalRef) {
