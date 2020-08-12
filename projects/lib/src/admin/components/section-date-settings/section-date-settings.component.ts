@@ -10,14 +10,14 @@ export class SectionDateSettingsComponent implements OnInit {
   @Input() data: any;
   startDate: string;
   endDate: string;
-  constructor(public modal: NgbActiveModal, public zone: NgZone) {}
+  constructor(public modal: NgbActiveModal) {}
 
   ngOnInit(): void {
     this.startDate = this.data.startDate;
     this.endDate = this.data.endDate;
   }
 
-  submit() {
+  submit(): void {
     this.modal.close({ startDate: this.startDate, endDate: this.endDate });
   }
 }

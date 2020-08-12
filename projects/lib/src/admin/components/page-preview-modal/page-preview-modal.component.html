@@ -1,0 +1,12 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{modalTitle || 'Page Preview'}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-content" ngbAutoFocus>
+  <div class="modal-body">
+    <cms-page-preview [html]="html" [remoteCss]="remoteCss" [deviceDimensions]="deviceDimensions"
+      [initialPreview]="initialPreview"></cms-page-preview>
+  </div>
+</div>

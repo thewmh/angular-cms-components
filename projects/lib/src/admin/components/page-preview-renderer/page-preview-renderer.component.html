@@ -1,0 +1,18 @@
+<div
+  class="root"
+  [ngClass]="{ loading: !contentHeight }"
+  [ngStyle]="{ 'height.px': height }"
+>
+  <iframe
+    *ngIf="iframeSource"
+    #iframe
+    [src]="iframeSource"
+    frameBorder="0"
+    scrolling="no"
+    [ngStyle]="{
+      'height.px': contentHeight,
+      'width.px': width
+    }"
+    (load)="onIframeLoaded()"
+  ></iframe>
+</div>
