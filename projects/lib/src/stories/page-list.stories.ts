@@ -20,9 +20,11 @@ export default {
 
 export const FullExample = () => ({
   component: PageListComponent,
-  template: `<div style="height:100vh"><cms-page-list [renderSiteUrl]="renderSiteUrl" [editorOptions]="editorOptions"></cms-page-list></div>`,
+  template: `<div style="height:100vh"><cms-page-list [renderSiteUrl]="renderSiteUrl" [resourceType]="resourceType" [resourceID]="resourceID" [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
+    resourceType: 'Suppliers',
+    resourceID: '41106',
     editorOptions: {
       content_css: [
         // 'https://piasstorageprod.azureedge.net/buyerweb/styles.07d24b25eb6a60350a70.css',

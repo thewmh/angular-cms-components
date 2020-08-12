@@ -16,6 +16,7 @@ import { AssetSearchComponent } from './components/asset-search/asset-search.com
 import { PageListComponent } from './components/page-list/page-list.component';
 import { StatusIconComponent } from './components/status-icon/status-icon.component';
 import { SectionTemplateRendererComponent } from './components/section-template-renderer/section-template-renderer.component';
+import { PageSummaryComponent } from './components/page-summary/page-summary.component';
 
 const declarations = [
   AssetSearchComponent,
@@ -32,7 +33,8 @@ const declarations = [
   DragAndDropDirective,
   PageListComponent,
   StatusIconComponent,
-  SectionTemplateRendererComponent
+  SectionTemplateRendererComponent,
+  PageSummaryComponent,
 ];
 @NgModule({
   declarations,
@@ -41,12 +43,9 @@ const declarations = [
     AssetPickerComponent,
     CarouselEditorComponent,
     SectionPickerComponent,
-    SectionDateSettingsComponent
+    SectionDateSettingsComponent,
   ],
-  imports: [
-    CmsSharedModule,
-    CmsBuyerModule,
-  ],
-  exports: declarations
+  imports: [CmsSharedModule, CmsBuyerModule],
+  exports: declarations,
 })
 export class CmsAdminModule {}

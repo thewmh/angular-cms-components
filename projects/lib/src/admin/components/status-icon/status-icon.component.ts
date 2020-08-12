@@ -1,18 +1,36 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  SimpleChanges,
+  OnChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'cms-status-icon',
   templateUrl: './status-icon.component.html',
-  styleUrls: ['./status-icon.component.scss']
+  styleUrls: ['./status-icon.component.scss'],
 })
-export class StatusIconComponent implements OnInit {
+export class StatusIconComponent implements OnInit, OnChanges {
   color: string;
-  @Input() status: 'active' | 'disabled'
+  @Input() status = false;
+  @Input() inline = false;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-    this.color = this.status === 'active' ? '#70D97A': '#dc3545'
+    this.color = this.status ? '#70D97A' : '#dc3545';
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    // Add '${implements OnChanges}' to the class.
+    if (
+      changes.status &&
+      !changes.status.firstChange &&
+      changes.status.previousValue !== changes.status.currentValue
+    ) {
+      this.ngOnInit();
+    }
+  }
 }
