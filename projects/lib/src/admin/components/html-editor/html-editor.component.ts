@@ -15,6 +15,7 @@ import { CarouselEditorComponent } from '../carousel-editor/carousel-editor.comp
 import { v4 as guid } from 'uuid';
 import { SectionPickerComponent } from '../section-picker/section-picker.component';
 import { SectionDateSettingsComponent } from '../section-date-settings/section-date-settings.component';
+import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 import { Asset } from '@ordercloud/headstart-sdk';
 
 @Component({
@@ -68,12 +69,22 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     height: 500,
 
     plugins: [
-      'ordercloud print preview paste importcss searchreplace autolink autosave save directionality',
+      'ordercloud print paste importcss searchreplace autolink autosave save directionality',
       'code visualblocks visualchars fullscreen image link media template codesample table charmap',
       'hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools',
       'textpattern noneditable help charmap emoticons',
     ],
     menubar: 'file edit view insert format tools table help',
+    menu: {
+      file: { title: 'File', items: 'newdocument restoredraft | oc-preview | print ' },
+      edit: { title: 'Edit', items: 'undo redo | cut copy paste | selectall | searchreplace' },
+      view: { title: 'View', items: 'code | visualaid visualchars visualblocks | spellchecker | oc-preview fullscreen' },
+      insert: { title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime' },
+      format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat' },
+      tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | code wordcount' },
+      table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
+      help: { title: 'Help', items: 'help' }
+    },
     toolbar: [
       'oc-carousel oc-product oc-section',
       'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat',
@@ -125,7 +136,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net'],
   };
 
-  constructor(private modalService: NgbModal, public zone: NgZone) {}
+  constructor(private modalService: NgbModal, public zone: NgZone) { }
 
   ngOnInit(): void {
     this.html = this.initialValue;
@@ -163,6 +174,12 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
         return this.openSectionDateSettings.bind(this)(data);
       });
     };
+
+    this.resolvedEditorOptions.ordercloud.open_preview_modal = (data) => {
+      return this.zone.run(() => {
+        return this.openPreviewModal.bind(this)(data);
+      });
+    };
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -177,12 +194,11 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   }
 
   // TODO: Throttle this callback so that the emitter isn't fired multiple times for the same change.
-  onEditorChange(e: any) {
-    console.log(e);
+  onEditorChange(e: any): void {
     this.htmlChange.emit(this.html);
   }
 
-  openAssetPicker(callback, value, meta) {
+  openAssetPicker(callback, value, meta): void {
     const modalRef = this.modalService.open(AssetPickerComponent, {
       size: 'xl',
       centered: true,
@@ -202,7 +218,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     });
   }
 
-  openCarouselEditor() {
+  openCarouselEditor(): Promise<any> {
     const modalRef = this.modalService.open(CarouselEditorComponent, {
       size: 'xl',
       centered: true,
@@ -212,18 +228,19 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     return modalRef.result;
   }
 
-  openSectionPicker(data) {
+  openSectionPicker(data): Promise<any> {
     const modalRef = this.modalService.open(SectionPickerComponent, {
       size: 'xl',
       centered: true,
-      backdropClass: 'oc-tinymce-modal_backdrop', // TODO: might wanna abstract these classes / centered as default settings for any modal that's opened from the editor
+      // TODO: might wanna abstract these classes / centered as default settings for any modal that's opened from the editor
+      backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });
     modalRef.componentInstance.data = data;
     return modalRef.result;
   }
 
-  openSectionDateSettings(data) {
+  openSectionDateSettings(data): Promise<any> {
     const modalRef = this.modalService.open(SectionDateSettingsComponent, {
       size: 'md',
       centered: true,
@@ -231,6 +248,16 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       windowClass: 'oc-tinymce-modal_window',
     });
     modalRef.componentInstance.data = data;
+    return modalRef.result;
+  }
+
+  openPreviewModal(data: {html: string, remoteCss: string}): Promise<any> {
+    const modalRef = this.modalService.open(PagePreviewModalComponent, {
+      size: 'xl', centered: true, backdropClass: 'oc-tinymce-modal_backdrop',
+      windowClass: 'oc-tinymce-modal_window',
+    });
+    modalRef.componentInstance.html = data.html;
+    modalRef.componentInstance.remoteCss = data.remoteCss;
     return modalRef.result;
   }
 }
