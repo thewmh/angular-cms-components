@@ -28,7 +28,7 @@
         </div>
       </div>
       <div *ngIf="!loading">
-        <div *ngFor="let asset of assets.Items">
+        <div *ngFor="let asset of assets">
           <cms-asset-update
             [assetType]="type"
             [isNew]="false"
@@ -36,7 +36,7 @@
             (onDelete)="listAssets(type, null)"
           ></cms-asset-update>
         </div>
-        <div class="no-results" *ngIf="assets && !assets.Items.length">
+        <div class="no-results" *ngIf="assets && !assets.length">
           <cms-no-results message="No {{ type }}s found"></cms-no-results>
         </div>
       </div>
