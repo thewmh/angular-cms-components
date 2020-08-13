@@ -1,4 +1,4 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { HtmlEditorComponent } from './components/html-editor/html-editor.component';
 import { PageEditorComponent } from './components/page-editor/page-editor.component';
 import { AssetPickerComponent } from './components/asset-picker/asset-picker.component';
@@ -17,6 +17,9 @@ import { PageListComponent } from './components/page-list/page-list.component';
 import { StatusIconComponent } from './components/status-icon/status-icon.component';
 import { SectionTemplateRendererComponent } from './components/section-template-renderer/section-template-renderer.component';
 import { PageSummaryComponent } from './components/page-summary/page-summary.component';
+import { PagePreviewComponent } from './components/page-preview/page-preview.component';
+import { PagePreviewRendererComponent } from './components/page-preview-renderer/page-preview-renderer.component';
+import { PagePreviewModalComponent } from './components/page-preview-modal/page-preview-modal.component';
 
 const declarations = [
   AssetSearchComponent,
@@ -35,6 +38,9 @@ const declarations = [
   StatusIconComponent,
   SectionTemplateRendererComponent,
   PageSummaryComponent,
+  PagePreviewComponent,
+  PagePreviewRendererComponent,
+  PagePreviewModalComponent
 ];
 @NgModule({
   declarations,
@@ -44,6 +50,7 @@ const declarations = [
     CarouselEditorComponent,
     SectionPickerComponent,
     SectionDateSettingsComponent,
+    PagePreviewModalComponent
   ],
   imports: [CmsSharedModule, CmsBuyerModule],
   exports: declarations,

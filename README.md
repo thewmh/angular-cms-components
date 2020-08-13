@@ -9,7 +9,7 @@ A component library that can be used to quickly integrate with the OrderCloud CM
 ## Installation
 1. Install the component library
      ```
-     npm i --save @ordercloud/angular-cms-components
+     npm i --save @ordercloud/angular-cms-components@beta
      ```
 2. Install the required peer dependencies
     ```
