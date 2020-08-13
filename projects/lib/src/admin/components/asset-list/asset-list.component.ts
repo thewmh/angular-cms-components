@@ -56,6 +56,7 @@ export class AssetListComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     if (this.resourceID && this.resourceType) {
       this.assets = await this.listAssetsPerResource()
+      .then((assets) => assets.filter(a => a.Type === this.selectedTab))
       .catch((ex) => ex)
       .finally(() => {
         this.loading = false;
@@ -66,24 +67,34 @@ export class AssetListComponent implements OnInit {
     }
   }
 
-  listAssets(assetType: AssetType, searchTerm: string) {
-    this.spinner.show();
-    let options: ListArgs<Asset> = {
-      filters: { Type: assetType },
-    };
-    if (searchTerm) {
-      options = { ...options, search: searchTerm, searchOn: ['Title'] };
-    }
-    this.loading = true;
-    this.spinner.show();
-    return HeadStartSDK.Assets.List(options)
-      .then((assets) => {
-        this.assets = assets.Items;
-      })
+  async listAssets(assetType: AssetType, searchTerm: string) {
+    if (this.resourceID && this.resourceType) {
+      this.assets = await this.listAssetsPerResource()
+      .then((assets) => assets.filter(a => a.Type === this.selectedTab))
+      .catch((ex) => ex)
       .finally(() => {
         this.loading = false;
         this.spinner.hide();
       });
+    } else {
+      this.spinner.show();
+      let options: ListArgs<Asset> = {
+        filters: { Type: assetType },
+      };
+      if (searchTerm) {
+        options = { ...options, search: searchTerm, searchOn: ['Title'] };
+      }
+      this.loading = true;
+      this.spinner.show();
+      return HeadStartSDK.Assets.List(options)
+        .then((assets) => {
+          this.assets = assets.Items;
+        })
+        .finally(() => {
+          this.loading = false;
+          this.spinner.hide();
+        });
+    }
   }
 
   async listAssetsPerResource(): Promise<RequiredDeep<Asset[]>> {
