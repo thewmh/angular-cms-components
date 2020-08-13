@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { HeadStartSDK, JDocument, ListPage } from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
@@ -18,6 +18,10 @@ export class PageListComponent implements OnInit {
   @Input() parentResourceID?: string = null;
   @Input() editorOptions: any;
   @Input() renderSiteUrl: string;
+  @Output() backClicked = new EventEmitter<MouseEvent>();
+  @Output() pageSaved = new EventEmitter<JDocument>();
+  @Output() pageCreated = new EventEmitter<JDocument>();
+  @Output() pageDeleted = new EventEmitter<string>();
   searchTerm = '';
   searchTermChanged = new Subject<string>();
   loading = true;
@@ -92,19 +96,23 @@ export class PageListComponent implements OnInit {
     this.selected = updated;
     if (documentIndex >= 0) {
       this.list[documentIndex] = updated;
+      this.pageSaved.emit(updated);
     } else {
       this.list = [...this.list, updated];
+      this.pageCreated.emit(updated);
     }
   }
 
   onPageDeleted(deletedId: string): void {
     this.selected = undefined;
     this.list = this.list.filter((d) => d.ID !== deletedId);
+    this.pageDeleted.emit(deletedId);
   }
 
   goToList(e: MouseEvent): void {
     this.selected = undefined;
     this.ngOnInit();
+    this.backClicked.emit(e);
   }
 
   async selectPage(page): Promise<void> {
