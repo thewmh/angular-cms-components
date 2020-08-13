@@ -77,3 +77,11 @@ Assuming you are a maintainer you can follow these instructions to release a new
 7. Have a beer!
 
 If you need to override `publish-please` and just use `npm publish` you can do so by first removing `"prepublishOnly": "publish-please guard"` from package.json and then running `npm publish`
+
+## 👨‍💻👩‍💻 Developer Setup (as of 8/13/2020)
+1. To start, [clone the repo](https://github.com/ordercloud-api/angular-cms-components).
+2. Next, you need to set the token, manually. Login to [OC Portal](https://portal.ordercloud.io/console) and impersonate the user whose context you are using for development.
+3. With the `Network` tab open, send a `/me` request and view the `Authorization` field within the Headers section.
+4. Copy the token after "Bearer".
+5. Now navigate to line 10 in [storybook-base-configuration.ts](projects/lib/src/stories/storybook-base-configuration.ts) and replace the existing token.
+**Keep in mind:** this token will expire, so you will need to repeat this process.
