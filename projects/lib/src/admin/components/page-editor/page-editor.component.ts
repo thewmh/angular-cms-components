@@ -14,6 +14,7 @@ import { JDocument, HeadStartSDK } from '@ordercloud/headstart-sdk';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
+import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -34,14 +35,7 @@ export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
 export class PageEditorComponent implements OnInit, OnChanges {
   @Input() renderSiteUrl: string;
   @Input() editorOptions: any;
-  @Input() resourceType?:
-    | 'Products'
-    | 'Categories'
-    | 'Catalogs'
-    | 'Promotions'
-    | 'Suppliers'
-    | 'Buyers'
-    | 'ProductFacets' = null; // optional
+  @Input() resourceType?: ResourceType = null; // optional
   @Input() resourceID?: string = null; // optional
   @Input() parentResourceID?: string = null;
   @Input() document?: JDocument;
@@ -119,7 +113,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     let updated: RequiredDeep<JDocument>;
 
     if (this.document && this.document.ID) {
-      updated = await HeadStartSDK.Documents.Update(
+      updated = await HeadStartSDK.Documents.SAve(
         PAGE_SCHEMA.ID,
         this.document.ID,
         {

@@ -8,7 +8,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./asset-update.component.scss']
 })
 export class AssetUpdateComponent implements OnInit {
-  @ViewChild("fileDropRef", { static: false }) fileDropEl: ElementRef;
+  @ViewChild('fileDropRef', { static: false }) fileDropEl: ElementRef;
   assetForm: FormGroup;
 
   @Input() asset?: any;
@@ -42,10 +42,10 @@ export class AssetUpdateComponent implements OnInit {
   uploadFile(file): void {
     const reader = new FileReader();
     reader.onload = (e) => {
-      this.assetForm.controls['Url'].setValue(e.target['result']);
+      this.assetForm.controls.Url.setValue(e.target.result);
     };
     reader.readAsDataURL(file);
-    this.assetForm.controls['FileName'].setValue(file.name);
+    this.assetForm.controls.FileName.setValue(file.name);
   }
 
   formValid(): boolean {
@@ -59,7 +59,7 @@ export class AssetUpdateComponent implements OnInit {
   }
 
   saveChanges(asset) {
-    let updatedAsset = asset.value;
+    const updatedAsset = asset.value;
     if (this.isNew) {
       return HeadStartSDK.Upload.UploadAsset(updatedAsset).then(() => {
         this.isNew = false;
@@ -67,19 +67,19 @@ export class AssetUpdateComponent implements OnInit {
           action: 'UploadAsset',
           asset: updatedAsset
         });
-      })
+      });
     } else {
-      return HeadStartSDK.Assets.Update(updatedAsset.ID, updatedAsset).then(() => {
+      return HeadStartSDK.Assets.Save(updatedAsset.ID, updatedAsset).then(() => {
         this.onSubmit.emit({
           action: 'Update',
           asset: updatedAsset
         });
-      })
+      });
     }
   }
 
   deleteFile() {
-    this.assetForm.controls['Url'].setValue(null);
-    this.assetForm.controls['FileName'].setValue(null);
+    this.assetForm.controls.Url.setValue(null);
+    this.assetForm.controls.FileName.setValue(null);
   }
 }
