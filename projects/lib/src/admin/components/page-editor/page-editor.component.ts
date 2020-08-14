@@ -33,12 +33,12 @@ export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   styleUrls: ['./page-editor.component.scss'],
 })
 export class PageEditorComponent implements OnInit, OnChanges {
-  @Input() renderSiteUrl: string;
-  @Input() editorOptions: any;
+  @Input() renderSiteUrl?: string; // optional
+  @Input() editorOptions?: any; // optional
   @Input() resourceType?: ResourceType = null; // optional
   @Input() resourceID?: string = null; // optional
-  @Input() parentResourceID?: string = null;
-  @Input() document?: JDocument;
+  @Input() parentResourceID?: string = null; // optional
+  @Input() document?: JDocument; // optional
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
@@ -52,6 +52,9 @@ export class PageEditorComponent implements OnInit, OnChanges {
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {
+    if (!this.editorOptions) {
+      this.editorOptions = {};
+    }
     this.page = Object.assign(
       {},
       this.document ? this.document.Doc : EMPTY_PAGE_CONTENT_DOC

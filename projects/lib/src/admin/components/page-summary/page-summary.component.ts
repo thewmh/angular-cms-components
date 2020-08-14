@@ -8,6 +8,6 @@ import { JDocument } from '@ordercloud/headstart-sdk';
 })
 export class PageSummaryComponent {
   @Input() document: JDocument;
-  @Input() renderSiteUrl: string;
+  @Input() renderSiteUrl?: string; // optional
   constructor() {}
 }
