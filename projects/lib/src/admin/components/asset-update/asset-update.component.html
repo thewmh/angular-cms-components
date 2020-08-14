@@ -1,118 +1,70 @@
-<div class="tab-container">
+<div class="tab-container mt-4">
   <form *ngIf="assetForm" [formGroup]="assetForm">
     <div class="row">
-      <div class="form-group col-12 co-sm-4 col-md-3 col-xl-2">
-        <img
-          *ngIf="(assetForm?.controls)['Url']?.value && assetType == 'Image'"
-          class="card-img-top img-fluid flex-shrink-0"
-          [src]="assetForm.controls['Url'].value"
-        />
-        <div *ngIf="isNew">
-          <small>{{ (assetForm?.controls)["FileName"]?.value }}</small>
-          <button
-            *ngIf="(assetForm?.controls)['Url']?.value"
-            type="button"
-            class="btn btn-sm btn-danger"
-            (click)="deleteFile()"
-          >
-            Remove {{ assetType }}
-          </button>
-          <div
-            *ngIf="!(assetForm?.controls)['Url']?.value"
-            class="dropzone"
-            cmsDragAndDrop
-            (fileDropped)="uploadFile($event)"
-          >
-            <input
-              type="file"
-              #fileDropRef
-              id="fileDropRef"
-              (change)="uploadFile($event.target.files[0])"
-            />
-            <p>Drage and drop {{ assetType }} here</p>
-            <p>or</p>
-            <label for="fileDropRef">Browse for file</label>
-          </div>
-        </div>
-        <input
-          [hidden]="true"
-          class="form-control"
-          id="{{ asset ? asset.ID : 'new' }}"
-          type="file"
-          accept="image/*,.pdf"
-          (change)="uploadFile($event.target.files[0])"
-          placeholder="Upload file"
-        />
-        <button *ngIf="!isNew" type="button" class="btn btn-default">
-          <label class="mb-0" for="{{ asset ? asset.ID : 'new' }}">
-            <small>
-              {{
+      <div class="co-sm-4 col-md-3">
+        <div class="form-group d-flex flex-column h-100">
+          <img *ngIf="(assetForm?.controls)['Url']?.value && assetType == 'Image'" alt="Image Preview"
+            class="card-img-top img-fluid flex-shrink-0" [src]="assetForm.controls['Url'].value" />
+          <ng-container *ngIf="isNew">
+            <small>{{ (assetForm?.controls)["FileName"]?.value }}</small>
+            <button *ngIf="(assetForm?.controls)['Url']?.value" type="button" class="btn btn-sm btn-danger"
+              (click)="deleteFile()">
+              Remove {{ assetType }}
+            </button>
+            <div *ngIf="!(assetForm?.controls)['Url']?.value" class="dropzone" cmsDragAndDrop
+              (fileDropped)="uploadFile($event)">
+              <input type="file" #fileDropRef id="fileDropRef" (change)="uploadFile($event.target.files[0])" />
+              <p class="mb-0">Drage and drop {{ assetType }} here
+                <br /><span class="text-muted">or</span><br />
+              </p>
+            </div>
+            <label class="btn btn-sm btn-secondary mt-2" role="button" for="fileDropRef">Browse for file</label>
+          </ng-container>
+          <input [hidden]="true" class="form-control" id="{{ asset ? asset.ID : 'new' }}" type="file"
+            accept="image/*,.pdf" (change)="uploadFile($event.target.files[0])" placeholder="Upload file" />
+          <button *ngIf="!isNew" type="button" class="btn btn-default">
+            <label class="mb-0" for="{{ asset ? asset.ID : 'new' }}">
+              <small>
+                {{
                 assetForm.controls["Url"] && assetForm.controls["Url"].value
                   ? "Replace"
                   : "Add"
               }}
-              <span class="d-none d-sm-block">{{ assetType }}</span>
-            </small>
-          </label>
-        </button>
-      </div>
-      <div class="form-group col">
-        <label for="Title">Title</label>
-        <input
-          type="text"
-          formControlName="Title"
-          class="form-control"
-          id="Title"
-          placeholder="Title"
-          autofocus="true"
-          pattern="([A-Za-z0-9\-\_]+)"
-          autocomplete="off"
-        />
-        <label for="ID">ID</label>
-        <input
-          type="text"
-          formControlName="ID"
-          class="form-control"
-          id="ID"
-          placeholder="ID"
-          autofocus="true"
-          pattern="([A-Za-z0-9\-\_]+)"
-          autocomplete="off"
-        />
-        <label for="Url">Url</label>
-        <input
-          type="text"
-          formControlName="Url"
-          class="form-control"
-          id="Url"
-          placeholder="Url"
-          autofocus="true"
-          autocomplete="off"
-        />
-        <div class="checkbox">
-          <label for="{{ asset ? 'Active_' + asset.ID : 'newActive' }}">
-            <input
-              formControlName="Active"
-              type="checkbox"
-              id="{{ asset ? 'Active_' + asset.ID : 'newActive' }}"
-            />
-            Active
-          </label>
+                <span class="d-none d-sm-block">{{ assetType }}</span>
+              </small>
+            </label>
+          </button>
         </div>
-        <button
-          class="btn btn-sm btn-primary"
-          [disabled]="!formValid()"
-          (click)="saveChanges(assetForm)"
-        >
-          {{ isNew ? "Create " + assetType : "Save Changes" }}
-        </button>
-        <button
-          *ngIf="!isNew"
-          class="btn btn-sm btn-danger"
-          (click)="deleteAsset(asset.ID)"
-        >
-          Delete {{ assetType }}
-        </button>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="Title">Title</label>
+          <input type="text" formControlName="Title" class="form-control" id="Title" placeholder="Title"
+            autofocus="true" pattern="([A-Za-z0-9\-\_]+)" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label for="ID">ID</label>
+          <input type="text" formControlName="ID" class="form-control" id="ID" placeholder="ID" autofocus="true"
+            pattern="([A-Za-z0-9\-\_]+)" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label for="Url">Url</label>
+          <input type="text" formControlName="Url" class="form-control" id="Url" placeholder="Url" autofocus="true"
+            autocomplete="off" />
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" formControlName="Active" type="checkbox"
+            id="{{ asset ? 'Active_' + asset.ID : 'newActive' }}" />
+          <label class="custom-control-label" for="{{ asset ? 'Active_' + asset.ID : 'newActive' }}">Active</label>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button *ngIf="!isNew" class="btn btn-sm btn-outline-danger" (click)="deleteAsset(asset.ID)">
+            Delete {{ assetType }}
+          </button>
+          <button class="btn btn-sm btn-primary" [disabled]="!formValid()" (click)="saveChanges(assetForm)">
+            {{ isNew ? "Create " + assetType : "Save Changes" }}
+          </button>
+        </div>
       </div>
     </div>
   </form>
