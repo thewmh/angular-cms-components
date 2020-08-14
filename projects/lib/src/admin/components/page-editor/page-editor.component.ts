@@ -33,12 +33,12 @@ export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   styleUrls: ['./page-editor.component.scss'],
 })
 export class PageEditorComponent implements OnInit, OnChanges {
+  @Input() document?: JDocument;
   @Input() renderSiteUrl?: string; // optional
   @Input() editorOptions?: any; // optional
   @Input() resourceType?: ResourceType = null; // optional
   @Input() resourceID?: string = null; // optional
   @Input() parentResourceID?: string = null; // optional
-  @Input() document?: JDocument; // optional
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
@@ -52,6 +52,9 @@ export class PageEditorComponent implements OnInit, OnChanges {
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {
+    if (!this.document) {
+      throw new Error('cms-page-editor requires the content document (JDocument) to be edited');
+    }
     if (!this.editorOptions) {
       this.editorOptions = {};
     }
