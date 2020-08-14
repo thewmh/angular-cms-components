@@ -1,17 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {
-  HeadStartSDK,
-  ListArgs,
-  Asset,
-} from '@ordercloud/headstart-sdk';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   NgbModal,
   NgbModalRef,
-  NgbNavChangeEvent,
+  NgbNavChangeEvent
 } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ResourceType } from '../../../shared/models/resource-type.interface';
+import {
+  Asset, HeadStartSDK,
+  ListArgs
+} from '@ordercloud/headstart-sdk';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const ASSET_TYPE_IMAGE = 'Image';
 type ASSET_TYPE_IMAGE = typeof ASSET_TYPE_IMAGE;
@@ -34,7 +32,7 @@ type AssetType =
   styleUrls: ['./asset-list.component.scss'],
 })
 export class AssetListComponent implements OnInit {
-  @Input() resourceType?: ResourceType;
+  @Input() resourceType?: 'Products' | 'Categories' | 'Catalogs' | 'Promotions' | 'Suppliers' | 'Buyers' | 'ProductFacets';
   @Input() resourceID?: string;
   @Input() parentResourceID?: string = null;
   assets: any;

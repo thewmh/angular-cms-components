@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { HeadStartSDK } from '@ordercloud/headstart-sdk';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AssetAssignment, HeadStartSDK } from '@ordercloud/headstart-sdk';
 
 @Component({
   selector: 'cms-asset-update',
@@ -13,6 +13,8 @@ export class AssetUpdateComponent implements OnInit {
 
   @Input() asset?: any;
   @Input() assetType: any;
+  @Input() resourceType: 'Products' | 'Categories' | 'Catalogs' | 'Promotions' | 'Suppliers' | 'Buyers' | 'ProductFacets';
+  @Input() resourceID: string;
   @Input() isNew: boolean;
   @Output() onSubmit = new EventEmitter();
   @Output() onDelete = new EventEmitter();
@@ -23,6 +25,11 @@ export class AssetUpdateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (!this.resourceType || !this.resourceID) {
+      throw new Error(
+        'cms-asset-update is missing required props resourceType or resourceID'
+      );
+    }
     this.setForm();
   }
 
@@ -61,12 +68,19 @@ export class AssetUpdateComponent implements OnInit {
   saveChanges(asset) {
     let updatedAsset = asset.value;
     if (this.isNew) {
-      return HeadStartSDK.Upload.UploadAsset(updatedAsset).then(() => {
-        this.isNew = false;
-        this.onSubmit.emit({
-          action: 'UploadAsset',
-          asset: updatedAsset
-        });
+      return HeadStartSDK.Upload.UploadAsset(updatedAsset).then((response) => {
+        const assignment: AssetAssignment = {
+          ResourceType: this.resourceType,
+          ResourceID: this.resourceID,
+          AssetID: response.ID
+        }
+        return HeadStartSDK.Assets.SaveAssetAssignment(assignment).then(() => {
+          this.isNew = false;
+          this.onSubmit.emit({
+            action: 'UploadAsset',
+            asset: response
+          });
+        })
       })
     } else {
       return HeadStartSDK.Assets.Update(updatedAsset.ID, updatedAsset).then(() => {
