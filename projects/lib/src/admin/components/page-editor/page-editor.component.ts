@@ -14,6 +14,7 @@ import { JDocument, HeadStartSDK } from '@ordercloud/headstart-sdk';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
+import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -32,19 +33,12 @@ export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   styleUrls: ['./page-editor.component.scss'],
 })
 export class PageEditorComponent implements OnInit, OnChanges {
-  @Input() renderSiteUrl: string;
-  @Input() editorOptions: any;
-  @Input() resourceType?:
-    | 'Products'
-    | 'Categories'
-    | 'Catalogs'
-    | 'Promotions'
-    | 'Suppliers'
-    | 'Buyers'
-    | 'ProductFacets' = null; // optional
-  @Input() resourceID?: string = null; // optional
-  @Input() parentResourceID?: string = null;
   @Input() document?: JDocument;
+  @Input() renderSiteUrl?: string; // optional
+  @Input() editorOptions?: any; // optional
+  @Input() resourceType?: ResourceType = null; // optional
+  @Input() resourceID?: string = null; // optional
+  @Input() parentResourceID?: string = null; // optional
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
@@ -58,6 +52,12 @@ export class PageEditorComponent implements OnInit, OnChanges {
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {
+    if (!this.document) {
+      throw new Error('cms-page-editor requires the content document (JDocument) to be edited');
+    }
+    if (!this.editorOptions) {
+      this.editorOptions = {};
+    }
     this.page = Object.assign(
       {},
       this.document ? this.document.Doc : EMPTY_PAGE_CONTENT_DOC
@@ -119,7 +119,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     let updated: RequiredDeep<JDocument>;
 
     if (this.document && this.document.ID) {
-      updated = await HeadStartSDK.Documents.Update(
+      updated = await HeadStartSDK.Documents.SAve(
         PAGE_SCHEMA.ID,
         this.document.ID,
         {

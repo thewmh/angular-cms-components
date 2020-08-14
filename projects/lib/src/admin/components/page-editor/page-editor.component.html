@@ -253,7 +253,7 @@
         <ng-template ngbNavContent>
           <div class="form-group">
             <label for="pageContent" class="sr-only">Page Content</label>
-            <cms-html-editor
+            <cms-html-editor *ngIf="editorOptions"
               [initialValue]="page.Content"
               [editorOptions]="editorOptions"
               (htmlChange)="onPageContentChange($event)"

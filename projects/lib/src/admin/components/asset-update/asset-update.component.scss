@@ -1,13 +1,18 @@
-:host {
-  width: 100%;
-}
-
 .dropzone {
-  padding: 2rem;
+  padding: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  flex: 1 1 auto;
   text-align: center;
-  border: dashed 1px #979797;
+  border: dashed 1px var(--gray);
+  background-color: var(--light);
+  transition: background-color .25s ease-in;
   position: relative;
-  margin: 0 auto;
+
+  &:hover, &:active, &:focus {
+    background-color: darken(#f8f9fa, 5%);
+  }
 
   input {
     opacity: 0;
@@ -16,18 +21,6 @@
     height: 100%;
     top: 0;
     left: 0;
+    cursor: pointer;
   }
-
-  label {
-    color: white;
-    width: 183px;
-    height: 44px;
-    border-radius: 21.5px;
-    background-color: #979797;
-    padding: 8px 16px;
-  }
-}
-
-.fileover {
-  background-color: rgb(187, 255, 148);
 }
