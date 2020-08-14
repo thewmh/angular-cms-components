@@ -54,47 +54,31 @@ export class AssetListComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    if (this.resourceID && this.resourceType) {
-      this.assets = await this.listAssetsPerResource()
-      .then((assets) => assets.filter(a => a.Type === this.selectedTab))
-      .catch((ex) => ex)
-      .finally(() => {
-        this.loading = false;
-        this.spinner.hide();
-      })
-    } else {
-      this.listAssets(this.assetTypes[0], null);
+    if (!this.resourceType || !this.resourceID) {
+      throw new Error(
+        'cms-asset-list is missing required props resourceType or resourceID'
+      );
     }
+    await this.listAssets(this.selectedTab, null);
   }
 
   async listAssets(assetType: AssetType, searchTerm: string) {
-    if (this.resourceID && this.resourceType) {
-      this.assets = await this.listAssetsPerResource()
-      .then((assets) => assets.filter(a => a.Type === this.selectedTab))
+    console.log('this is hit');
+    this.spinner.show();
+    // TODO: options are not used yet - either handle searchTerm client side or wait for Oliver's updated endpoints
+    let options: ListArgs<Asset> = {
+      filters: { Type: assetType }
+    }
+    if (searchTerm) {
+      options = { ...options, search: searchTerm, searchOn: ['Title'] };
+    }
+    this.assets = await this.listAssetsPerResource()
+      .then((assets) => assets.filter(a => a.Type === assetType))
       .catch((ex) => ex)
       .finally(() => {
         this.loading = false;
         this.spinner.hide();
       });
-    } else {
-      this.spinner.show();
-      let options: ListArgs<Asset> = {
-        filters: { Type: assetType },
-      };
-      if (searchTerm) {
-        options = { ...options, search: searchTerm, searchOn: ['Title'] };
-      }
-      this.loading = true;
-      this.spinner.show();
-      return HeadStartSDK.Assets.List(options)
-        .then((assets) => {
-          this.assets = assets.Items;
-        })
-        .finally(() => {
-          this.loading = false;
-          this.spinner.hide();
-        });
-    }
   }
 
   async listAssetsPerResource(): Promise<RequiredDeep<Asset[]>> {
