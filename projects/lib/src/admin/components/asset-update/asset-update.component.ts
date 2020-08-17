@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AssetAssignment, HeadStartSDK } from '@ordercloud/headstart-sdk';
-import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
+import { ResourceType } from '../../../shared/models/resource-type.interface';
 
 @Component({
   selector: 'cms-asset-update',
@@ -74,15 +74,15 @@ export class AssetUpdateComponent implements OnInit {
           ResourceType: this.resourceType,
           ResourceID: this.resourceID,
           AssetID: response.ID
-        }
+        };
         return HeadStartSDK.Assets.SaveAssetAssignment(assignment).then(() => {
           this.isNew = false;
           this.onSubmit.emit({
             action: 'UploadAsset',
             asset: response
           });
-        })
-      })
+        });
+      });
     } else {
       return HeadStartSDK.Assets.Save(updatedAsset.ID, updatedAsset).then(() => {
         this.onSubmit.emit({
