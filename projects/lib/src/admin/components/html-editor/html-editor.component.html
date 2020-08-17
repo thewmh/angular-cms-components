@@ -1,5 +1,5 @@
 <editor
-  ng-if="resolvedEditorOptions"
+  ng-if="resolvedEditorOptions && componentMountedToDom"
   [id]="tinymceId"
   [init]="resolvedEditorOptions"
   [(ngModel)]="html"
