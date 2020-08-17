@@ -1,7 +1,9 @@
 <div class="modal-content">
     <div class="modal-body">
         <h2>New {{assetType}}</h2>
-        <cms-asset-update [assetType]="assetType" 
+        <cms-asset-update [assetType]="assetType"
+        [resourceType]="resourceType"
+        [resourceID]="resourceID"
         [isNew]="true"
         (onSubmit)="submit.emit($event)"></cms-asset-update>
     </div>

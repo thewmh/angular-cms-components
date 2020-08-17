@@ -30,6 +30,8 @@
       <div *ngIf="!loading">
         <div *ngFor="let asset of assets">
           <cms-asset-update
+            [resourceType]="resourceType"
+            [resourceID]="resourceID"
             [assetType]="type"
             [isNew]="false"
             [asset]="asset"
@@ -50,6 +52,8 @@
 
 <ng-template #uploadAssetModal>
   <cms-asset-upload
+    [resourceType]="resourceType"
+    [resourceID]="resourceID"
     [assetType]="selectedTab"
     (cancel)="modalReference.dismiss()"
     (submit)="handleSubmit()"

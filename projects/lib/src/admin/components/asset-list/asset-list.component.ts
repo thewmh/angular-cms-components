@@ -1,17 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {
-  HeadStartSDK,
-  ListArgs,
-  Asset,
-} from '@ordercloud/headstart-sdk';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   NgbModal,
   NgbModalRef,
-  NgbNavChangeEvent,
+  NgbNavChangeEvent
 } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ResourceType } from '../../../shared/models/resource-type.interface';
+import {
+  Asset, HeadStartSDK,
+  ListArgs
+} from '@ordercloud/headstart-sdk';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
 
 const ASSET_TYPE_IMAGE = 'Image';
 type ASSET_TYPE_IMAGE = typeof ASSET_TYPE_IMAGE;
@@ -34,8 +33,8 @@ type AssetType =
   styleUrls: ['./asset-list.component.scss'],
 })
 export class AssetListComponent implements OnInit {
-  @Input() resourceType?: ResourceType;
-  @Input() resourceID?: string;
+  @Input() resourceType?: ResourceType = null;
+  @Input() resourceID?: string = null;
   @Input() parentResourceID?: string = null;
   assets: any;
   modalReference: NgbModalRef;
@@ -54,32 +53,27 @@ export class AssetListComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    if (this.resourceID && this.resourceType) {
-      this.assets = await this.listAssetsPerResource()
-      .catch((ex) => ex)
-      .finally(() => {
-        this.loading = false;
-        this.spinner.hide();
-      })
-    } else {
-      this.listAssets(this.assetTypes[0], null);
+    if (!this.resourceType || !this.resourceID) {
+      throw new Error(
+        'cms-asset-list is missing required props resourceType or resourceID'
+      );
     }
+    await this.listAssets(this.selectedTab, null);
   }
 
-  listAssets(assetType: AssetType, searchTerm: string) {
+  async listAssets(assetType: AssetType, searchTerm: string) {
+    console.log('this is hit');
     this.spinner.show();
+    // TODO: options are not used yet - either handle searchTerm client side or wait for Oliver's updated endpoints
     let options: ListArgs<Asset> = {
-      filters: { Type: assetType },
-    };
+      filters: { Type: assetType }
+    }
     if (searchTerm) {
       options = { ...options, search: searchTerm, searchOn: ['Title'] };
     }
-    this.loading = true;
-    this.spinner.show();
-    return HeadStartSDK.Assets.List(options)
-      .then((assets) => {
-        this.assets = assets.Items;
-      })
+    this.assets = await this.listAssetsPerResource()
+      .then((assets) => assets.filter(a => a.Type === assetType))
+      .catch((ex) => ex)
       .finally(() => {
         this.loading = false;
         this.spinner.hide();
