@@ -10,6 +10,7 @@ import {
 } from '@ordercloud/headstart-sdk';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
 
 const ASSET_TYPE_IMAGE = 'Image';
 type ASSET_TYPE_IMAGE = typeof ASSET_TYPE_IMAGE;
@@ -32,8 +33,8 @@ type AssetType =
   styleUrls: ['./asset-list.component.scss'],
 })
 export class AssetListComponent implements OnInit {
-  @Input() resourceType?: 'Products' | 'Categories' | 'Catalogs' | 'Promotions' | 'Suppliers' | 'Buyers' | 'ProductFacets';
-  @Input() resourceID?: string;
+  @Input() resourceType?: ResourceType = null;
+  @Input() resourceID?: string = null;
   @Input() parentResourceID?: string = null;
   assets: any;
   modalReference: NgbModalRef;

@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AssetAssignment, HeadStartSDK } from '@ordercloud/headstart-sdk';
+import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
 
 @Component({
   selector: 'cms-asset-update',
@@ -13,7 +14,7 @@ export class AssetUpdateComponent implements OnInit {
 
   @Input() asset?: any;
   @Input() assetType: any;
-  @Input() resourceType: 'Products' | 'Categories' | 'Catalogs' | 'Promotions' | 'Suppliers' | 'Buyers' | 'ProductFacets';
+  @Input() resourceType: ResourceType;
   @Input() resourceID: string;
   @Input() isNew: boolean;
   @Output() onSubmit = new EventEmitter();
@@ -83,7 +84,7 @@ export class AssetUpdateComponent implements OnInit {
         })
       })
     } else {
-      return HeadStartSDK.Assets.Update(updatedAsset.ID, updatedAsset).then(() => {
+      return HeadStartSDK.Assets.Save(updatedAsset.ID, updatedAsset).then(() => {
         this.onSubmit.emit({
           action: 'Update',
           asset: updatedAsset
