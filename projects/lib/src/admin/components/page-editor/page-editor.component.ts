@@ -14,7 +14,7 @@ import { JDocument, HeadStartSDK } from '@ordercloud/headstart-sdk';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
-import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
+import { ResourceType } from '../../../shared/models/resource-type.interface';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',

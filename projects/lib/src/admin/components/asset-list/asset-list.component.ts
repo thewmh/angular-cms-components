@@ -10,7 +10,7 @@ import {
 } from '@ordercloud/headstart-sdk';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
+import { ResourceType } from '../../../shared/models/resource-type.interface';
 
 const ASSET_TYPE_IMAGE = 'Image';
 type ASSET_TYPE_IMAGE = typeof ASSET_TYPE_IMAGE;
@@ -67,7 +67,7 @@ export class AssetListComponent implements OnInit {
     // TODO: options are not used yet - either handle searchTerm client side or wait for Oliver's updated endpoints
     let options: ListArgs<Asset> = {
       filters: { Type: assetType }
-    }
+    };
     if (searchTerm) {
       options = { ...options, search: searchTerm, searchOn: ['Title'] };
     }
