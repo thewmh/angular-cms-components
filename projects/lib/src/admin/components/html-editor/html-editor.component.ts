@@ -30,6 +30,8 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Output() htmlChange = new EventEmitter<string>();
   html: string;
   resolvedEditorOptions: any = {};
+  componentMountedToDom: boolean;
+  private timer;
 
   tinymceId = `tiny-angular_${guid()}`;
 
@@ -139,6 +141,16 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   constructor(private modalService: NgbModal, public zone: NgZone) { }
 
   ngOnInit(): void {
+    this.componentMountedToDom = false;
+    setTimeout(() => {
+      // fixes bug where editor doesn't load in a component that uses transclusion (ng-content)
+      // angular components can be created in a detached state where they're not contained in a document
+      // however tinymce requires there to be a DOM in order to operate correctly so we're deferring
+      // execution of the editor until (most likely) the dom is loaded. Yes, this is kind of an ugly hack
+      // but there isn't a great built-in solution from tinymce.
+      // https://github.com/tinymce/tinymce-angular/issues/9
+      this.componentMountedToDom = true;
+    });
     this.html = this.initialValue;
     Object.assign(
       this.resolvedEditorOptions,
