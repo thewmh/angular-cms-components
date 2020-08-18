@@ -79,11 +79,11 @@ export class PageListComponent implements OnInit {
       );
     }
     // TODO: remove 'as any' when ListDocuments returns correct type, currently it returns 'void' which is wrong
-    return (await HeadStartSDK.Documents.ListDocuments(
+    return await HeadStartSDK.Documents.ListDocuments(
       PAGE_SCHEMA.ID,
       this.resourceType,
-      this.resourceID,
-    )) as any;
+      this.resourceID
+    );
   }
 
   onSearchFieldChange(searchTerm): void {

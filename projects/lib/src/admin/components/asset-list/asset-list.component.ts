@@ -2,11 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import {
   NgbModal,
   NgbModalRef,
-  NgbNavChangeEvent
+  NgbNavChangeEvent,
 } from '@ng-bootstrap/ng-bootstrap';
 import {
-  Asset, HeadStartSDK,
-  ListArgs
+  Asset,
+  HeadStartSDK,
+  ListArgs,
+  ListPage,
 } from '@ordercloud/headstart-sdk';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -66,13 +68,13 @@ export class AssetListComponent implements OnInit {
     this.spinner.show();
     // TODO: options are not used yet - either handle searchTerm client side or wait for Oliver's updated endpoints
     let options: ListArgs<Asset> = {
-      filters: { Type: assetType }
+      filters: { Type: assetType },
     };
     if (searchTerm) {
       options = { ...options, search: searchTerm, searchOn: ['Title'] };
     }
     this.assets = await this.listAssetsPerResource()
-      .then((assets) => assets.filter(a => a.Type === assetType))
+      .then((assets) => assets.Items.filter((a) => a.Type === assetType))
       .catch((ex) => ex)
       .finally(() => {
         this.loading = false;
@@ -80,12 +82,12 @@ export class AssetListComponent implements OnInit {
       });
   }
 
-  async listAssetsPerResource(): Promise<RequiredDeep<Asset[]>> {
+  async listAssetsPerResource(): Promise<RequiredDeep<ListPage<Asset>>> {
     // TODO: remove 'as any' when ListDocuments returns correct type, currently it returns 'void' which is wrong
-    return (await HeadStartSDK.Assets.ListAssets(
+    return await HeadStartSDK.Assets.ListAssets(
       this.resourceType,
-      this.resourceID,
-    )) as any;
+      this.resourceID
+    );
   }
 
   handleUploadAssetModal(modalRef) {

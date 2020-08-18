@@ -15,6 +15,7 @@ import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
+import { ParentResourceType } from '../../../shared/models/parent-resource-type.interface';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -38,6 +39,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() editorOptions?: any; // optional
   @Input() resourceType?: ResourceType = null; // optional
   @Input() resourceID?: string = null; // optional
+  @Input() parentResourceType?: ParentResourceType = null; // optional
   @Input() parentResourceID?: string = null; // optional
   @Input() parentResourceType?: string = null; // optional
   @Output() backClicked = new EventEmitter<MouseEvent>();
@@ -54,7 +56,9 @@ export class PageEditorComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (!this.document) {
-      throw new Error('cms-page-editor requires the content document (JDocument) to be edited');
+      throw new Error(
+        'cms-page-editor requires the content document (JDocument) to be edited'
+      );
     }
     if (!this.editorOptions) {
       this.editorOptions = {};
@@ -149,6 +153,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
         ResourceID: this.resourceID,
         ResourceType: this.resourceType,
         ParentResourceID: this.parentResourceID,
+        ParentResourceType: this.parentResourceType,
         DocumentID: updated.ID,
       });
     }
