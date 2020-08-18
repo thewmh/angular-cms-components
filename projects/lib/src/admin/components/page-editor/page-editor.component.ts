@@ -39,6 +39,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() resourceType?: ResourceType = null; // optional
   @Input() resourceID?: string = null; // optional
   @Input() parentResourceID?: string = null; // optional
+  @Input() parentResourceType?: string = null; // optional
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
@@ -119,7 +120,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     let updated: RequiredDeep<JDocument>;
 
     if (this.document && this.document.ID) {
-      updated = await HeadStartSDK.Documents.SAve(
+      updated = await HeadStartSDK.Documents.Save(
         PAGE_SCHEMA.ID,
         this.document.ID,
         {
@@ -159,10 +160,11 @@ export class PageEditorComponent implements OnInit, OnChanges {
     if (this.resourceType && this.resourceID) {
       await HeadStartSDK.Documents.DeleteAssignment(
         PAGE_SCHEMA.ID,
+        this.document.ID,
         this.resourceID,
         this.resourceType,
         this.parentResourceID,
-        this.document.ID
+        this.parentResourceType
       );
     }
     await HeadStartSDK.Documents.Delete(PAGE_SCHEMA.ID, this.document.ID);

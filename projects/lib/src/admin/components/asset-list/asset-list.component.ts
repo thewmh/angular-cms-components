@@ -83,9 +83,8 @@ export class AssetListComponent implements OnInit {
   async listAssetsPerResource(): Promise<RequiredDeep<Asset[]>> {
     // TODO: remove 'as any' when ListDocuments returns correct type, currently it returns 'void' which is wrong
     return (await HeadStartSDK.Assets.ListAssets(
+      this.resourceType,
       this.resourceID,
-      this.parentResourceID,
-      this.resourceType
     )) as any;
   }
 
