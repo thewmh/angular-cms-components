@@ -2,11 +2,7 @@
 <div *ngIf="!selected" class="main-content">
   <div class="d-flex align-items-center justify-content-start p-3">
     <div class="flex-grow-0 flex-shrink-1 pr-2">
-      <button
-        type="button"
-        (click)="selectPage()"
-        class="btn btn-outline-primary w-100"
-      >
+      <button type="button" (click)="selectPage()" class="btn btn-outline-primary w-100">
         New Page
       </button>
     </div>
@@ -32,10 +28,7 @@
       </svg>
     </div> -->
   </div>
-  <div
-    class="table-responsive"
-    *ngIf="!loading && list?.length && !page?.length"
-  >
+  <div class="table-responsive" *ngIf="!loading && list?.length && !page?.length">
     <table class="table table-hover page-list-table">
       <thead>
         <tr>
@@ -48,19 +41,14 @@
       <tbody>
         <tr *ngFor="let contentDoc of list" (click)="selectPage(contentDoc)">
           <td>
-            <cms-status-icon
-              [status]="contentDoc.Doc.Active"
-              class="mr-1"
-            ></cms-status-icon>
+            <cms-status-icon [status]="contentDoc.Doc.Active" class="mr-1"></cms-status-icon>
             {{ contentDoc.Doc.Title }}
           </td>
           <td>{{ contentDoc.Doc.Author }}</td>
           <td>{{ contentDoc.Doc.DateCreated | date: "short" }}</td>
           <td>
             {{ contentDoc.Doc.DateLastUpdated | date: "short" }}
-            <span class="text-muted small"
-              >by {{ contentDoc.Doc.LastUpdatedBy }}</span
-            >
+            <span class="text-muted small">by {{ contentDoc.Doc.LastUpdatedBy }}</span>
           </td>
         </tr>
       </tbody>
@@ -76,11 +64,7 @@
   <div class="flex-shrink-0 flex-grow-0 border-right">
     <div class="d-flex align-items-center justify-content-start p-3">
       <div class="flex-grow-0 flex-shrink-1 pr-2">
-        <button
-          type="button"
-          (click)="selectPage()"
-          class="btn btn-outline-primary w-100"
-        >
+        <button type="button" (click)="selectPage()" class="btn btn-outline-primary w-100">
           New Page
         </button>
       </div>
@@ -129,25 +113,13 @@
     </div>
   </div>
   <div class="flex-grow-1 flex-shrink-1">
-    <cms-page-editor
-      (backClicked)="goToList($event)"
-      (pageSaved)="onPageSaved($event)"
-      (pageDeleted)="onPageDeleted($event)"
-      [renderSiteUrl]="renderSiteUrl"
-      [editorOptions]="editorOptions"
-      [resourceType]="resourceType"
-      [resourceID]="resourceID"
-      [parentResourceID]="parentResourceID"
-      [document]="selected"
-    >
+    <cms-page-editor (backClicked)="goToList($event)" (pageSaved)="onPageSaved($event)"
+      (pageDeleted)="onPageDeleted($event)" [renderSiteUrl]="renderSiteUrl" [editorOptions]="editorOptions"
+      [resourceType]="resourceType" [resourceID]="resourceID" [parentResourceType]="parentResourceType"
+      [parentResourceID]="parentResourceID" [document]="selected">
     </cms-page-editor>
   </div>
 </div>
 
 <!-- LOADING INDICATOR -->
-<ngx-spinner
-  type="ball-beat"
-  bdColor="rgba(255, 255, 255, 0.38)"
-  color="#969696"
-  [fullScreen]="false"
-></ngx-spinner>
+<ngx-spinner type="ball-beat" bdColor="rgba(255, 255, 255, 0.38)" color="#969696" [fullScreen]="false"></ngx-spinner>
