@@ -66,11 +66,11 @@ export class AssetListComponent implements OnInit {
     let options: ListArgs<Asset> = {
       filters: { Type: assetType },
     };
+    // TODO: ListAssets will not accept search as a parameter, refactor for client side searching
     if (searchTerm) {
       options = { ...options, search: searchTerm, searchOn: ['Title'] };
     }
     return HeadStartSDK.Assets.ListAssets(this.resourceType, this.resourceID, options)
-      // TODO: remove filter below once Oliver fixes options parameter
       .then((response) => this.assets = response.Items ? response.Items.filter(asset => asset.Type === assetType) : [])
       .catch((ex) => ex)
       .finally(() => {
