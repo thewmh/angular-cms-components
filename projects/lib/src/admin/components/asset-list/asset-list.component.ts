@@ -2,15 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import {
   NgbModal,
   NgbModalRef,
-  NgbNavChangeEvent,
+  NgbNavChangeEvent
 } from '@ng-bootstrap/ng-bootstrap';
 import {
   Asset,
   HeadStartSDK,
-  ListArgs,
-  ListPage,
+  ListArgs
 } from '@ordercloud/headstart-sdk';
-import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 
@@ -54,40 +52,31 @@ export class AssetListComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
     if (!this.resourceType || !this.resourceID) {
       throw new Error(
         'cms-asset-list is missing required props resourceType or resourceID'
       );
     }
-    await this.listAssets(this.selectedTab, null);
+    this.listAssets(this.selectedTab, null);
   }
 
-  async listAssets(assetType: AssetType, searchTerm: string) {
-    console.log('this is hit');
+  listAssets(assetType: AssetType, searchTerm: string) {
     this.spinner.show();
-    // TODO: options are not used yet - either handle searchTerm client side or wait for Oliver's updated endpoints
     let options: ListArgs<Asset> = {
       filters: { Type: assetType },
     };
+    // TODO: ListAssets will not accept search as a parameter, refactor for client side searching
     if (searchTerm) {
       options = { ...options, search: searchTerm, searchOn: ['Title'] };
     }
-    this.assets = await this.listAssetsPerResource()
-      .then((assets) => assets.Items.filter((a) => a.Type === assetType))
+    return HeadStartSDK.Assets.ListAssets(this.resourceType, this.resourceID, options)
+      .then((response) => this.assets = response.Items ? response.Items.filter(asset => asset.Type === assetType) : [])
       .catch((ex) => ex)
       .finally(() => {
         this.loading = false;
         this.spinner.hide();
       });
-  }
-
-  async listAssetsPerResource(): Promise<RequiredDeep<ListPage<Asset>>> {
-    // TODO: remove 'as any' when ListDocuments returns correct type, currently it returns 'void' which is wrong
-    return await HeadStartSDK.Assets.ListAssets(
-      this.resourceType,
-      this.resourceID
-    );
   }
 
   handleUploadAssetModal(modalRef) {

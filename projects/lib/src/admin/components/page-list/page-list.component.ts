@@ -1,11 +1,10 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { HeadStartSDK, JDocument, ListPage } from '@ordercloud/headstart-sdk';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { HeadStartSDK, JDocument } from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
-import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
-import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
+import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 
 @Component({
   selector: 'cms-page-list',
@@ -30,14 +29,37 @@ export class PageListComponent implements OnInit {
 
   constructor(private spinner: NgxSpinnerService) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
     if (!this.resourceType || !this.resourceID) {
       throw new Error(
         'cms-page-list is missing required props resourceType or resourceID'
       );
     }
     this.spinner.show();
-    this.list = await this.listDocs()
+    this.listDocs();
+
+    // debounce search for 300ms
+    this.searchTermChanged
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((searchTerm) => {
+        this.searchTerm = searchTerm;
+        // uncomment below once Oliver has fixed bug: https://four51.atlassian.net/browse/SEB-872
+        // if(!this.listOptions.filters) {
+        //   this.listOptions.filters = {};
+        // }
+        // this.listOptions.filters['Doc.Title'] = searchTerm;
+        // this.ngOnInit();
+      });
+  }
+
+  listDocs() {
+    if (!this.resourceType || !this.resourceID) {
+      throw new Error(
+        'cms-page-list missing required props resourceType and resourceID for '
+      );
+    }
+    return HeadStartSDK.Documents.ListDocuments(PAGE_SCHEMA.ID, this.resourceType, this.resourceID)
+      .then((response) => this.list = response.Items)
       .catch((ex) => {
         if (
           ex &&
@@ -56,34 +78,6 @@ export class PageListComponent implements OnInit {
         this.loading = false;
         this.spinner.hide();
       });
-
-    // debounce search for 300ms
-    this.searchTermChanged
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe((searchTerm) => {
-        this.searchTerm = searchTerm;
-        console.log(`Searched for ${searchTerm}`);
-        // uncomment below once Oliver has fixed bug: https://four51.atlassian.net/browse/SEB-872
-        // if(!this.listOptions.filters) {
-        //   this.listOptions.filters = {};
-        // }
-        // this.listOptions.filters['Doc.Title'] = searchTerm;
-        // this.ngOnInit();
-      });
-  }
-
-  async listDocs(): Promise<RequiredDeep<ListPage<JDocument>>> {
-    if (!this.resourceType || !this.resourceID) {
-      throw new Error(
-        'cms-page-list missing required props resourceType and resourceID for '
-      );
-    }
-    // TODO: remove 'as any' when ListDocuments returns correct type, currently it returns 'void' which is wrong
-    return await HeadStartSDK.Documents.ListDocuments(
-      PAGE_SCHEMA.ID,
-      this.resourceType,
-      this.resourceID
-    );
   }
 
   onSearchFieldChange(searchTerm): void {

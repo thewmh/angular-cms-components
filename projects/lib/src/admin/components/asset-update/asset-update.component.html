@@ -58,10 +58,10 @@
           <label class="custom-control-label" for="{{ asset ? 'Active_' + asset.ID : 'newActive' }}">Active</label>
         </div>
         <div class="d-flex justify-content-end">
-          <button *ngIf="!isNew" class="btn btn-sm btn-outline-danger" (click)="deleteAsset(asset.ID)">
+          <button type="button" *ngIf="!isNew" class="btn btn-sm btn-outline-danger" (click)="deleteAsset(asset.ID)">
             Delete {{ assetType }}
           </button>
-          <button class="btn btn-sm btn-primary" [disabled]="!formValid()" (click)="saveChanges(assetForm)">
+          <button type="button" class="btn btn-sm btn-primary" [disabled]="!formValid()" (click)="saveChanges(assetForm)">
             {{ isNew ? "Create " + assetType : "Save Changes" }}
           </button>
         </div>
