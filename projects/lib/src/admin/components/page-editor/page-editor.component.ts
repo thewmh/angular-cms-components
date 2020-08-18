@@ -41,7 +41,6 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() resourceID?: string = null; // optional
   @Input() parentResourceType?: ParentResourceType = null; // optional
   @Input() parentResourceID?: string = null; // optional
-  @Input() parentResourceType?: string = null; // optional
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
