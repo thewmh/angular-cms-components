@@ -28,7 +28,7 @@
       </svg>
     </div> -->
   </div>
-  <div class="table-responsive" *ngIf="!loading && list?.Items.length && !page?.length">
+  <div class="table-responsive" *ngIf="!loading && list?.length && !page?.length">
     <table class="table table-hover page-list-table">
       <thead>
         <tr>
@@ -39,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let contentDoc of list?.Items" (click)="selectPage(contentDoc)">
+        <tr *ngFor="let contentDoc of list" (click)="selectPage(contentDoc)">
           <td>
             <cms-status-icon [status]="contentDoc.Doc.Active" class="mr-1"></cms-status-icon>
             {{ contentDoc.Doc.Title }}
@@ -54,7 +54,7 @@
       </tbody>
     </table>
   </div>
-  <div *ngIf="!loading && !list?.Items.length">
+  <div *ngIf="!loading && !list?.length">
     <cms-no-results message="No pages found"></cms-no-results>
   </div>
 </div>
