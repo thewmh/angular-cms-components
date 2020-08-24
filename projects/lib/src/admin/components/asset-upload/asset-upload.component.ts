@@ -1,20 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
 
 @Component({
   selector: 'cms-asset-upload',
   templateUrl: './asset-upload.component.html',
   styleUrls: ['./asset-upload.component.scss']
 })
-export class AssetUploadComponent implements OnInit {
+export class AssetUploadComponent {
   @Input() assetType;
-  @Input() resourceType: 'Products' | 'Categories' | 'Catalogs' | 'Promotions' | 'Suppliers' | 'Buyers' | 'ProductFacets';
-  @Input() resourceID: string;
+  @Input() resourceType?: ResourceType = null;
+  @Input() resourceID?: string = null;
   @Output() cancel = new EventEmitter();
   @Output() submit = new EventEmitter();
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

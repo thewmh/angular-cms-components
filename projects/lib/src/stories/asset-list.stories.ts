@@ -23,8 +23,12 @@ export default {
   ],
 };
 
+const isDefaultFilterOptionsExample = false;
+
 export const FullExample = () => ({
   component: AssetListComponent,
-  template: `<cms-asset-list [resourceType]="'Suppliers'" [resourceID]="'40009'"></cms-asset-list>`,
+  template: isDefaultFilterOptionsExample ? 
+      `<cms-asset-list [defaultFilterOptions]="{ filters: {ID: '40009-*'} }"></cms-asset-list>` :
+      `<cms-asset-list></cms-asset-list>`,
   props: {},
 });
