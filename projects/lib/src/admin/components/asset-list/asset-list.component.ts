@@ -10,7 +10,7 @@ import {
   ListArgs
 } from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { merge as _merge} from 'lodash';
+import { merge as _merge, isEmpty as _isEmpty } from 'lodash';
 import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
 import { ParentResourceType } from 'projects/lib/src/shared/models/parent-resource-type.interface';
 
@@ -56,6 +56,9 @@ export class AssetListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.resourceID && this.resourceType && !_isEmpty(this.defaultFilterOptions)) {
+      console.warn('Because you\'ve provided a resourceType and resourceID, defaultFilterOptions will be ignored as they are not currently supported while listing assets per resource'); 
+    }
     this.listAssets(this.selectedTab, null);
   }
 
