@@ -17,6 +17,7 @@ export class PageListComponent implements OnInit {
   @Input() parentResourceID?: string = null;
   @Input() editorOptions: any;
   @Input() renderSiteUrl: string;
+  @Input() lockedSlugs?: string[];
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageCreated = new EventEmitter<JDocument>();
@@ -58,8 +59,12 @@ export class PageListComponent implements OnInit {
         'cms-page-list missing required props resourceType and resourceID for '
       );
     }
-    return HeadStartSDK.Documents.ListDocuments(PAGE_SCHEMA.ID, this.resourceType, this.resourceID)
-      .then((response) => this.list = response.Items)
+    return HeadStartSDK.Documents.ListDocuments(
+      PAGE_SCHEMA.ID,
+      this.resourceType,
+      this.resourceID
+    )
+      .then((response) => (this.list = response.Items))
       .catch((ex) => {
         if (
           ex &&
