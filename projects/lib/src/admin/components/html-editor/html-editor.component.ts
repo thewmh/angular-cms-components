@@ -210,10 +210,14 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
         return this.openSectionPicker.bind(this)(data);
       });
     };
+    // const getSectionTemplates = this.resolvedEditorOptions.ordercloud
+    //   .get_section_templates_callback;
+    console.log(this.resolvedEditorOptions.ordercloud);
     this.resolvedEditorOptions.ordercloud.open_section_date_settings = (
       data
     ) => {
       return this.zone.run(() => {
+        // data.getSectionTemplates = getSectionTemplates;
         return this.openSectionDateSettings.bind(this)(data);
       });
     };
