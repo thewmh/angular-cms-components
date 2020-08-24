@@ -10,7 +10,9 @@ import {
   ListArgs
 } from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ResourceType } from '../../../shared/models/resource-type.interface';
+import { merge as _merge, isEmpty as _isEmpty } from 'lodash';
+import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
+import { ParentResourceType } from 'projects/lib/src/shared/models/parent-resource-type.interface';
 
 const ASSET_TYPE_IMAGE = 'Image';
 type ASSET_TYPE_IMAGE = typeof ASSET_TYPE_IMAGE;
@@ -33,9 +35,10 @@ type AssetType =
   styleUrls: ['./asset-list.component.scss'],
 })
 export class AssetListComponent implements OnInit {
+  @Input() defaultFilterOptions?: Partial<ListArgs> = {};
   @Input() resourceType?: ResourceType = null;
   @Input() resourceID?: string = null;
-  @Input() parentResourceID?: string = null;
+  @Input() parentResourceID?: ParentResourceType = null;
   assets: any;
   modalReference: NgbModalRef;
   loading = true;
@@ -53,30 +56,35 @@ export class AssetListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (!this.resourceType || !this.resourceID) {
-      throw new Error(
-        'cms-asset-list is missing required props resourceType or resourceID'
-      );
+    if (this.resourceID && this.resourceType && !_isEmpty(this.defaultFilterOptions)) {
+      console.warn('Because you\'ve provided a resourceType and resourceID, defaultFilterOptions will be ignored as they are not currently supported while listing assets per resource'); 
     }
     this.listAssets(this.selectedTab, null);
   }
 
   listAssets(assetType: AssetType, searchTerm: string) {
     this.spinner.show();
-    let options: ListArgs<Asset> = {
-      filters: { Type: assetType },
-    };
-    // TODO: ListAssets will not accept search as a parameter, refactor for client side searching
+    let options: ListArgs<Asset> = _merge( {filters: { Type: assetType }}, this.defaultFilterOptions );
     if (searchTerm) {
       options = { ...options, search: searchTerm, searchOn: ['Title'] };
     }
-    return HeadStartSDK.Assets.ListAssets(this.resourceType, this.resourceID, options)
-      .then((response) => this.assets = response.Items ? response.Items.filter(asset => asset.Type === assetType) : [])
-      .catch((ex) => ex)
-      .finally(() => {
-        this.loading = false;
-        this.spinner.hide();
-      });
+    if (this.resourceID && this.resourceType) {
+      return HeadStartSDK.Assets.ListAssets(this.resourceType, this.resourceID)
+        .then((response) => this.assets = response.Items.filter(a => a.Type === assetType))
+        .catch((ex) => ex)
+        .finally(() => {
+          this.loading = false;
+          this.spinner.hide();
+        });
+    } else {
+      return HeadStartSDK.Assets.List(options)
+        .then((response) => this.assets = response.Items)
+        .catch((ex) => ex)
+        .finally(() => {
+          this.loading = false;
+          this.spinner.hide();
+        });
+    }
   }
 
   handleUploadAssetModal(modalRef) {
