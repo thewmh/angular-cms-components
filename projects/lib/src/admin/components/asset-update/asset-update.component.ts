@@ -17,8 +17,8 @@ export class AssetUpdateComponent implements OnInit {
   @Input() asset?: any;
   @Input() assetType: any;
   @Input() isNew: boolean;
-  @Input() resourceType: ResourceType = null;
-  @Input() resourceID: string = null;
+  @Input() resourceType?: ResourceType = null;
+  @Input() resourceID?: string = null;
   @Output() onSubmit = new EventEmitter();
   @Output() onDelete = new EventEmitter();
 
