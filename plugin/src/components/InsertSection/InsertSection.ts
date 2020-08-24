@@ -1,30 +1,34 @@
 import {
   OC_TINYMCE_SECTION_WIDGET_ID,
-  OC_TINYMCE_WIDGET_ATTRIBUTE
+  OC_TINYMCE_WIDGET_ATTRIBUTE,
 } from '../../constants/widget.constants';
 import { isWidgetType } from '../../services/widget.service';
 
 import tinymce from 'tinymce';
 
-export default editor => {
+export default (editor) => {
   editor.ui.registry.addButton('oc-section', {
     text: 'Insert Section',
     onAction: () => {
       editor.settings.ordercloud
-        .open_section_picker({ remoteCss: editor.settings.content_css[0] })
-        .then(html => {
+        .open_section_picker({
+          remoteCss: editor.settings.content_css[0],
+          getSectionTemplates:
+            editor.settings.ordercloud.get_section_templates_callback,
+        })
+        .then((html) => {
           editor.insertContent(
             `<div ${OC_TINYMCE_WIDGET_ATTRIBUTE}=${OC_TINYMCE_SECTION_WIDGET_ID}>
             ${html}
           </div>`
           );
         })
-        .catch(ex => {
+        .catch((ex) => {
           if (ex === 'Cross click') {
             return;
           }
         });
-    }
+    },
   });
 
   editor.ui.registry.addButton('oc-section-dates', {
@@ -44,33 +48,34 @@ export default editor => {
       editor.settings.ordercloud
         .open_section_date_settings({
           startDate,
-          endDate
+          endDate,
         })
         .then((updated: any) => {
           editor.dom.setAttribs(node, {
             [startDateAttribute]: updated.startDate,
-            [endDateAttribute]: updated.endDate
+            [endDateAttribute]: updated.endDate,
           });
           editor.execCommand('mceSelectNode', false, node);
         })
-        .catch(ex => {
+        .catch((ex) => {
           if (ex === 'Cross click') {
             return;
           }
         });
-    }
+    },
   });
 
   editor.ui.registry.addContextToolbar('oc-section', {
-    predicate: node => isWidgetType(editor, node, OC_TINYMCE_SECTION_WIDGET_ID),
+    predicate: (node) =>
+      isWidgetType(editor, node, OC_TINYMCE_SECTION_WIDGET_ID),
     items: 'oc-section-dates',
     position: 'node',
-    scope: 'node'
+    scope: 'node',
   });
 
-  editor.on('preInit', function() {
+  editor.on('preInit', function () {
     function toggleContentEditableState(state) {
-      return function(nodes) {
+      return function (nodes) {
         let i = nodes.length,
           node;
 

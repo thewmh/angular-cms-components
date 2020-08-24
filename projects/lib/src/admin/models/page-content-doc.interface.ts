@@ -12,6 +12,7 @@ export interface PageContentDoc {
   LastUpdatedBy: string;
   Active: boolean;
   Content: string;
+  NoRobotsIndexing?: boolean;
   HeaderEmbeds?: string;
   FooterEmbeds?: string;
   NavigationTitle?: string;

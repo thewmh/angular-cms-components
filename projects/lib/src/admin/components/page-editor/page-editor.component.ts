@@ -41,6 +41,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() resourceID?: string = null; // optional
   @Input() parentResourceType?: ParentResourceType = null; // optional
   @Input() parentResourceID?: string = null; // optional
+  @Input() lockedSlugs?: string[]; // optional
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
@@ -85,7 +86,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   }
 
   onPageTitleKeyUp(value: string): void {
-    if (this.automaticUrl) {
+    if (this.automaticUrl && !this.isLocked) {
       this.page.Url = kebab(value);
     }
   }
@@ -106,6 +107,10 @@ export class PageEditorComponent implements OnInit, OnChanges {
 
   onPageStatusChange(): void {
     this.page.Active = !this.page.Active;
+  }
+
+  onPageIndexingChange(): void {
+    this.page.NoRobotsIndexing = !this.page.NoRobotsIndexing;
   }
 
   async onSubmit(): Promise<void> {
@@ -180,14 +185,19 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.confirmModal = this.modalService.open(confirmModalTemplate);
   }
 
+  get isLocked(): boolean {
+    return (
+      this.lockedSlugs &&
+      this.document.ID &&
+      this.lockedSlugs.includes(this.document.Doc.Url)
+    );
+  }
+
   get hasChanges(): boolean {
     return JSON.stringify(this.document.Doc) !== JSON.stringify(this.page);
   }
 
   get isValid(): boolean {
-    return Boolean(
-      this.page.Title &&
-        (this.page.Url || (!this.page.Url && this.page.Title === 'Home'))
-    );
+    return Boolean(this.page.Title && (this.page.Url || this.isLocked));
   }
 }

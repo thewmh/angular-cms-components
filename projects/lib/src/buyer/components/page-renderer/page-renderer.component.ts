@@ -34,6 +34,11 @@ export class PageRendererComponent implements OnInit {
     // addTag results in dupes, so we use updateTag instead
 
     // normal metadata
+    if (page.NoRobotsIndexing) {
+      this.metaService.updateTag({ property: 'robots', content: 'noindex' });
+    } else {
+      this.metaService.removeTag('[property="robots"]');
+    }
     this.titleService.setTitle(page.Title);
     this.metaService.updateTag({
       property: 'application-name',
