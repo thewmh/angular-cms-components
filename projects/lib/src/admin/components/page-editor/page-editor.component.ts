@@ -51,6 +51,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   pageNavigation: boolean;
   confirmModal: NgbModalRef;
   isLoadingSave: boolean;
+  selectedTab: string;
 
   constructor(private modalService: NgbModal) {}
 
