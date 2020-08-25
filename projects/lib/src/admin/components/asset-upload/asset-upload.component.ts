@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
+import { ResourceType } from '../../../shared/models/resource-type.interface';
 
 @Component({
   selector: 'cms-asset-upload',
