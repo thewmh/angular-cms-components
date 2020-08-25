@@ -11,8 +11,8 @@ import {
 } from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { merge as _merge, isEmpty as _isEmpty } from 'lodash';
-import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
-import { ParentResourceType } from 'projects/lib/src/shared/models/parent-resource-type.interface';
+import { ResourceType } from '../../../shared/models/resource-type.interface';
+import { ParentResourceType } from '../../../shared/models/parent-resource-type.interface';
 
 const ASSET_TYPE_IMAGE = 'Image';
 type ASSET_TYPE_IMAGE = typeof ASSET_TYPE_IMAGE;

@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HeadStartSDK, AssetAssignment } from '@ordercloud/headstart-sdk';
-import { ResourceType } from 'projects/lib/src/shared/models/resource-type.interface';
+import { ResourceType } from '../../../shared/models/resource-type.interface';
 
 @Component({
   selector: 'cms-asset-update',
