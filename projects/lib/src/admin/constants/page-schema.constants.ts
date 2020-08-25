@@ -21,6 +21,9 @@ export const PAGE_SCHEMA = {
       MetaImageUrl: {
         type: 'string',
       },
+      NoRobotsIndexing: {
+        type: 'boolean',
+      },
       DateCreated: {
         type: 'string',
       },

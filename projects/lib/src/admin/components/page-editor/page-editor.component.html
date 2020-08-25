@@ -95,6 +95,7 @@
                       name="pageActiveStatus"
                       class="custom-control-input"
                       [checked]="page.Active"
+                      [disabled]="isLocked"
                       (change)="onPageStatusChange()"
                     />
                     <label class="custom-control-label" for="pageActive1"
@@ -110,6 +111,7 @@
                       name="pageActiveStatus"
                       class="custom-control-input"
                       [checked]="!page.Active"
+                      [disabled]="isLocked"
                       (change)="onPageStatusChange()"
                     />
                     <label class="custom-control-label" for="pageActive2"
@@ -123,7 +125,7 @@
           <div class="form-group">
             <label for="pageUrl">Location</label>
             <div class="input-group">
-              <div class="input-group-prepend">
+              <div class="input-group-prepend" *ngIf="!isLocked">
                 <span class="input-group-text bg-light">
                   <div
                     class="custom-control custom-checkbox custom-control-inline"
@@ -147,6 +149,7 @@
                 class="form-control"
                 [(ngModel)]="page.Url"
                 [readOnly]="automaticUrl"
+                [disabled]="isLocked"
                 required
                 aria-describedby="pageUrlHelp"
                 [placeholder]="
@@ -205,20 +208,64 @@
       <li ngbNavItem="1" [destroyOnHide]="false">
         <a ngbNavLink>SEO</a>
         <ng-template ngbNavContent>
-          <div class="form-group">
-            <label for="metaTitle">Meta Title</label>
-            <input
-              type="text"
-              readonly="true"
-              [(ngModel)]="page.Title"
-              class="form-control"
-              aria-describedby="metaTitleHelp"
-            />
-            <small id="metaTitleHelp" class="form-text text-muted">
-              The SEO Meta Title is based off of the Page Title (available in
-              the Settings tab).
-            </small>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="metaTitle">Meta Title</label>
+                <input
+                  type="text"
+                  readonly="true"
+                  [(ngModel)]="page.Title"
+                  class="form-control"
+                  aria-describedby="metaTitleHelp"
+                />
+                <small id="metaTitleHelp" class="form-text text-muted">
+                  The SEO Meta Title is based off of the Page Title (available
+                  in the Settings tab).
+                </small>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="pageIndexing">Robots / Indexing</label>
+                <div id="pageIndexing">
+                  <div
+                    class="custom-control custom-radio custom-control-inline"
+                  >
+                    <input
+                      type="radio"
+                      id="pageIndexing1"
+                      name="pageIndexingStatus"
+                      class="custom-control-input"
+                      [checked]="!page.NoRobotsIndexing"
+                      [disabled]="isLocked"
+                      (change)="onPageIndexingChange()"
+                    />
+                    <label class="custom-control-label" for="pageIndexing1"
+                      >Allowed</label
+                    >
+                  </div>
+                  <div
+                    class="custom-control custom-radio custom-control-inline"
+                  >
+                    <input
+                      type="radio"
+                      id="pageIndexing2"
+                      name="pageIndexingStatus"
+                      class="custom-control-input"
+                      [checked]="page.NoRobotsIndexing"
+                      [disabled]="isLocked"
+                      (change)="onPageIndexingChange()"
+                    />
+                    <label class="custom-control-label" for="pageIndexing2"
+                      >Not Allowed</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
           <div class="form-group">
             <label for="pageImage">Meta Image</label>
             <p class="lead" id="pageImage">
@@ -251,7 +298,8 @@
         <ng-template ngbNavContent>
           <div class="form-group">
             <label for="pageContent" class="sr-only">Page Content</label>
-            <cms-html-editor *ngIf="editorOptions"
+            <cms-html-editor
+              *ngIf="editorOptions"
               [initialValue]="page.Content"
               [editorOptions]="editorOptions"
               (htmlChange)="onPageContentChange($event)"

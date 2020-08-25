@@ -17,6 +17,7 @@ import { SectionPickerComponent } from '../section-picker/section-picker.compone
 import { SectionDateSettingsComponent } from '../section-date-settings/section-date-settings.component';
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 import { Asset } from '@ordercloud/headstart-sdk';
+import sectionPickerMock from '../section-picker/section-picker.mock';
 
 @Component({
   selector: 'cms-html-editor',
@@ -27,6 +28,7 @@ import { Asset } from '@ordercloud/headstart-sdk';
 export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() initialValue: string;
   @Input() editorOptions: any;
+  @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
   html: string;
   resolvedEditorOptions: any = {};
@@ -38,8 +40,11 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   defaultEditorOptions = {
     base_url: '/tinymce',
     suffix: '.min',
-    content_css:
-      'https://mgrstoragetest.azureedge.net/buyerweb/styles.e94215343d3493186ae1.css',
+    content_css: [
+      'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css',
+      'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css',
+      'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css',
+    ],
     content_style: `
     body {
       padding:15px !important;
@@ -78,14 +83,38 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     ],
     menubar: 'file edit view insert format tools table help',
     menu: {
-      file: { title: 'File', items: 'newdocument restoredraft | oc-preview | print ' },
-      edit: { title: 'Edit', items: 'undo redo | cut copy paste | selectall | searchreplace' },
-      view: { title: 'View', items: 'code | visualaid visualchars visualblocks | spellchecker | oc-preview fullscreen' },
-      insert: { title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime' },
-      format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat' },
-      tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | code wordcount' },
-      table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
-      help: { title: 'Help', items: 'help' }
+      file: {
+        title: 'File',
+        items: 'newdocument restoredraft | oc-preview | print ',
+      },
+      edit: {
+        title: 'Edit',
+        items: 'undo redo | cut copy paste | selectall | searchreplace',
+      },
+      view: {
+        title: 'View',
+        items:
+          'code | visualaid visualchars visualblocks | spellchecker | oc-preview fullscreen',
+      },
+      insert: {
+        title: 'Insert',
+        items:
+          'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime',
+      },
+      format: {
+        title: 'Format',
+        items:
+          'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat',
+      },
+      tools: {
+        title: 'Tools',
+        items: 'spellchecker spellcheckerlanguage | code wordcount',
+      },
+      table: {
+        title: 'Table',
+        items: 'inserttable | cell row column | tableprops deletetable',
+      },
+      help: { title: 'Help', items: 'help' },
     },
     toolbar: [
       'oc-carousel oc-product oc-section',
@@ -115,7 +144,9 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     /**
      * object holding all OrderCloud enhanced functions
      */
-    ordercloud: {},
+    ordercloud: {
+      get_section_templates_callback: () => Promise.resolve(sectionPickerMock),
+    },
 
     /**
      * Adds an upload tab (uploads to ordercloud cms)
@@ -138,7 +169,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net'],
   };
 
-  constructor(private modalService: NgbModal, public zone: NgZone) { }
+  constructor(private modalService: NgbModal, public zone: NgZone) {}
 
   ngOnInit(): void {
     this.componentMountedToDom = false;
@@ -263,9 +294,11 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     return modalRef.result;
   }
 
-  openPreviewModal(data: {html: string, remoteCss: string}): Promise<any> {
+  openPreviewModal(data: { html: string; remoteCss: string }): Promise<any> {
     const modalRef = this.modalService.open(PagePreviewModalComponent, {
-      size: 'xl', centered: true, backdropClass: 'oc-tinymce-modal_backdrop',
+      size: 'xl',
+      centered: true,
+      backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });
     modalRef.componentInstance.html = data.html;
