@@ -9,6 +9,6 @@ export class AssetDimensionsPipe implements PipeTransform {
     if (!meta || !(meta.ImageWidth && meta.ImageHeight)) {
       return '---';
     }
-    return `${meta.ImageWidth} x ${meta.ImageHeight}px`;
+    return `${meta.ImageWidth} x ${meta.ImageHeight} px`;
   }
 }

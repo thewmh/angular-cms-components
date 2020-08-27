@@ -62,7 +62,7 @@
           {{ asset.Metadata.ContentType || "---" }}
         </td>
         <td *ngIf="!shrink">
-          {{ asset.MetaData | assetDimensions }}
+          {{ asset.Metadata | assetDimensions }}
         </td>
         <td *ngIf="!shrink">
           {{ asset.History.DateUpdated | date: "short" }}

@@ -14,7 +14,12 @@
       View Fullsize
     </a>
     <figure>
-      <img [src]="asset.Url + '-m'" [alt]="asset.Title" />
+      <img
+        (load)="loaded = true"
+        [style.opacity]="loaded ? 1 : 0"
+        [src]="asset.Url + '-m'"
+        [alt]="asset.Title"
+      />
     </figure>
   </div>
   <nav class="navbar navbar-light">

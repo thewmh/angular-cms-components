@@ -35,6 +35,7 @@ export class AssetDetailComponent implements OnInit, OnChanges {
   @ViewChild('confirmModalTemplate') confirmTemplate: ElementRef;
   confirmDeleteModal: NgbModalRef;
   assetForm: any;
+  loaded = false;
 
   constructor(private modalService: NgbModal) {}
 
@@ -46,6 +47,7 @@ export class AssetDetailComponent implements OnInit, OnChanges {
     // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     // Add '${implements OnChanges}' to the class.
     if (changes.asset && !changes.asset.firstChange) {
+      this.loaded = false;
       this.initializeForm();
       this.assetImageView.nativeElement.scrollTop = 0;
     }

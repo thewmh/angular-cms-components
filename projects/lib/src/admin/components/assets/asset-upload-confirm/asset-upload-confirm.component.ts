@@ -46,9 +46,7 @@ export class AssetUploadConfirmComponent implements OnInit, OnChanges {
 
   handleUploadFiles() {
     const uploadQueue: Promise<any>[] = [];
-
     this.files.forEach((f) => {
-      console.log('hit2');
       const uploadAsset: AssetUpload = {
         Type: 'Image',
         File: f,
@@ -60,7 +58,6 @@ export class AssetUploadConfirmComponent implements OnInit, OnChanges {
       uploadQueue.push(HeadStartSDK.Upload.UploadAsset(uploadAsset));
     });
     Q.all(uploadQueue).then((assets: Asset[]) => {
-      console.log('hit3', assets);
       this.done.emit(assets);
     });
   }
