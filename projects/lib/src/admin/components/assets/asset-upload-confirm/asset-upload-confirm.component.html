@@ -1,0 +1,30 @@
+<div class="modal-content" *ngIf="files">
+  <div class="modal-header">
+    <h5 class="modal-title" *ngIf="files">Continue?</h5>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex align-items-start" *ngFor="let file of files">
+      <div class="file-preview img-thumbnail">
+        <div
+          class="h-100 w-100 overflow-hidden"
+          [style.background-image]="
+            file.dataUrl ? 'url(\'' + file.dataUrl + '\')' : ''
+          "
+        ></div>
+      </div>
+      <div class="file-details flex-auto p-2">
+        <p><b>File Name:</b> {{ file.name }}</p>
+        <p><b>Type:</b> {{ file.type }}</p>
+        <p><b>Size:</b> {{ file.size }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="cancel.emit()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="handleUploadFiles()">
+      Upload {{ files.length }} file{{ files.length === 1 ? "" : "s" }}
+    </button>
+  </div>
+</div>

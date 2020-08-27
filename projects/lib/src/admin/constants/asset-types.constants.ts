@@ -1,0 +1,56 @@
+export const ASSET_TYPE_IMAGE = 'Image';
+export type ASSET_TYPE_IMAGE = typeof ASSET_TYPE_IMAGE;
+
+export const ASSET_TYPE_TEXT = 'Text';
+export type ASSET_TYPE_TEXT = typeof ASSET_TYPE_TEXT;
+
+export const ASSET_TYPE_AUDIO = 'Audio';
+export type ASSET_TYPE_AUDIO = typeof ASSET_TYPE_AUDIO;
+
+export const ASSET_TYPE_VIDEO = 'Video';
+export type ASSET_TYPE_VIDEO = typeof ASSET_TYPE_VIDEO;
+
+export const ASSET_TYPE_PRESENTATION = 'Presentation';
+export type ASSET_TYPE_PRESENTATION = typeof ASSET_TYPE_PRESENTATION;
+
+export const ASSET_TYPE_SPREADSHEET = 'Spreadsheet';
+export type ASSET_TYPE_SPREADSHEET = typeof ASSET_TYPE_SPREADSHEET;
+
+export const ASSET_TYPE_PDF = 'PDF';
+export type ASSET_TYPE_PDF = typeof ASSET_TYPE_PDF;
+
+export const ASSET_TYPE_ZIP = 'Archive';
+export type ASSET_TYPE_ZIP = typeof ASSET_TYPE_ZIP;
+
+export const ASSET_TYPE_CODE = 'Code';
+export type ASSET_TYPE_CODE = typeof ASSET_TYPE_CODE;
+
+export const ASSET_TYPE_MARKUP = 'Markup';
+export type ASSET_TYPE_MARKUP = typeof ASSET_TYPE_MARKUP;
+
+export type ASSET_TYPES =
+  | ASSET_TYPE_IMAGE
+  | ASSET_TYPE_TEXT
+  | ASSET_TYPE_AUDIO
+  | ASSET_TYPE_VIDEO
+  | ASSET_TYPE_PRESENTATION
+  | ASSET_TYPE_SPREADSHEET
+  | ASSET_TYPE_PDF
+  | ASSET_TYPE_ZIP
+  | ASSET_TYPE_CODE
+  | ASSET_TYPE_MARKUP;
+
+const DEFAULT_ASSET_TYPES: ASSET_TYPES[] = [
+  ASSET_TYPE_IMAGE,
+  ASSET_TYPE_TEXT,
+  ASSET_TYPE_AUDIO,
+  ASSET_TYPE_VIDEO,
+  ASSET_TYPE_PRESENTATION,
+  ASSET_TYPE_SPREADSHEET,
+  ASSET_TYPE_PDF,
+  ASSET_TYPE_ZIP,
+  ASSET_TYPE_CODE,
+  ASSET_TYPE_MARKUP,
+];
+
+export default DEFAULT_ASSET_TYPES;

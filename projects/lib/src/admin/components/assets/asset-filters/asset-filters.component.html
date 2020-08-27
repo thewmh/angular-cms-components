@@ -1,0 +1,35 @@
+<div class="p-3 border-right bg-light h-100 overflow-auto">
+  <label for="assetTypes" class="font-weight-bold">Asset Type</label>
+  <fieldset id="assetTypes" class="form-group">
+    <div class="custom-control custom-checkbox" *ngFor="let type of types">
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        [id]="'assetType_' + type"
+      />
+      <label class="custom-control-label" [for]="'assetType_' + type">{{
+        type
+      }}</label>
+    </div>
+  </fieldset>
+  <hr />
+  <div *ngIf="tags && tags.length">
+    <label for="assetTags" class="font-weight-bold">Tags</label>
+    <fieldset id="assetTags" class="form-group">
+      <div
+        class="custom-control custom-checkbox"
+        *ngFor="let tag of tags; index as i"
+      >
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          [id]="'assetTag_' + i"
+        />
+        <label class="custom-control-label" [for]="'assetTag_' + i">{{
+          tag
+        }}</label>
+      </div>
+    </fieldset>
+    <hr />
+  </div>
+</div>

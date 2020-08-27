@@ -8,7 +8,7 @@ import { SectionPickerComponent } from './components/section-picker/section-pick
 import { SectionDateSettingsComponent } from './components/section-date-settings/section-date-settings.component';
 import { CmsBuyerModule } from '../buyer/public_api';
 import { CmsSharedModule } from '../shared/shared.module';
-import { AssetListComponent } from './components/asset-list/asset-list.component';
+// import { AssetListComponent } from './components/asset-list/asset-list.component';
 import { AssetUpdateComponent } from './components/asset-update/asset-update.component';
 import { AssetUploadComponent } from './components/asset-upload/asset-upload.component';
 import { DragAndDropDirective } from './components/directives/drag-and-drop/drag-and-drop.directive';
@@ -20,6 +20,14 @@ import { PageSummaryComponent } from './components/page-summary/page-summary.com
 import { PagePreviewComponent } from './components/page-preview/page-preview.component';
 import { PagePreviewRendererComponent } from './components/page-preview-renderer/page-preview-renderer.component';
 import { PagePreviewModalComponent } from './components/page-preview-modal/page-preview-modal.component';
+import { AssetListComponent } from './components/assets/asset-list/asset-list.component';
+import { AssetFiltersComponent } from './components/assets/asset-filters/asset-filters.component';
+import { AssetManagementComponent } from './components/assets/asset-management/asset-management.component';
+import { AssetToolbarComponent } from './components/assets/asset-toolbar/asset-toolbar.component';
+import { AssetDetailComponent } from './components/assets/asset-detail/asset-detail.component';
+import { AssetDimensionsPipe } from './pipes/asset-dimensions.pipe';
+import { AssetUploadConfirmComponent } from './components/assets/asset-upload-confirm/asset-upload-confirm.component';
+import { AssetUploadButtonComponent } from './components/assets/asset-upload-button/asset-upload-button.component';
 
 const declarations = [
   AssetSearchComponent,
@@ -31,6 +39,12 @@ const declarations = [
   SectionPickerComponent,
   SectionDateSettingsComponent,
   AssetListComponent,
+  AssetManagementComponent,
+  AssetFiltersComponent,
+  AssetToolbarComponent,
+  AssetDetailComponent,
+  AssetUploadConfirmComponent,
+  AssetUploadButtonComponent,
   AssetUpdateComponent,
   AssetUploadComponent,
   DragAndDropDirective,
@@ -40,17 +54,19 @@ const declarations = [
   PageSummaryComponent,
   PagePreviewComponent,
   PagePreviewRendererComponent,
-  PagePreviewModalComponent
+  PagePreviewModalComponent,
+  AssetDimensionsPipe,
 ];
 @NgModule({
   declarations,
   entryComponents: [
     ConfirmModalComponent,
+    AssetUploadConfirmComponent,
     AssetPickerComponent,
     CarouselEditorComponent,
     SectionPickerComponent,
     SectionDateSettingsComponent,
-    PagePreviewModalComponent
+    PagePreviewModalComponent,
   ],
   imports: [CmsSharedModule, CmsBuyerModule],
   exports: declarations,

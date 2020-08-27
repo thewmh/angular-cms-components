@@ -1,0 +1,18 @@
+.file-preview {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  flex: 0 0 auto;
+  & > div {
+    background-size: cover;
+  }
+}
+
+.file-details {
+  word-break: break-all;
+
+  h6,
+  p {
+    margin: 0;
+  }
+}
