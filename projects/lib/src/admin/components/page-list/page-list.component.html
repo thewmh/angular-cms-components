@@ -1,7 +1,6 @@
 <!-- LIST VIEW -->
 <div *ngIf="!selected" class="main-content">
   <div class="d-flex align-items-center justify-content-start p-3">
-    <ng-content select=".cms-toolbar-additions"></ng-content>
     <div class="flex-grow-0 flex-shrink-1 pr-2">
       <button
         type="button"
@@ -32,6 +31,7 @@
         <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
       </svg>
     </div> -->
+    <ng-content select=".cms-toolbar-additions"></ng-content>
   </div>
   <div
     class="table-responsive"
