@@ -1,6 +1,7 @@
 <!-- LIST VIEW -->
 <div *ngIf="!selected" class="main-content">
   <div class="d-flex align-items-center justify-content-start p-3">
+    <ng-content select=".cms-toolbar-additions"></ng-content>
     <div class="flex-grow-0 flex-shrink-1 pr-2">
       <button
         type="button"
