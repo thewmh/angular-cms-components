@@ -36,7 +36,7 @@ export class AssetUploadButtonComponent implements OnInit {
   }
 
   confirmAssetUpload(e) {
-    this.selectedFiles = e.target.files;
+    this.selectedFiles = Array.from(e.target.files);
     this.confirmModal = this.modalService.open(this.confirmAssetUploadModal);
   }
 
