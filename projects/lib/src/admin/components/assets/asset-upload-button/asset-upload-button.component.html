@@ -11,6 +11,7 @@
 <ng-template #confirmAssetUploadTemplate>
   <cms-asset-upload-confirm
     [files]="selectedFiles"
+    [beforeAssetUpload]="beforeAssetUpload"
     (cancel)="handleCancel()"
     (done)="handleAssetsUploaded($event)"
   ></cms-asset-upload-confirm>

@@ -17,6 +17,7 @@ export type AssetListMode = 'table' | 'grid';
   styleUrls: ['./asset-list.component.scss'],
 })
 export class AssetListComponent implements OnInit, OnChanges {
+  @Input() showAssetStatus = true;
   @Input() shrink = false;
   @Input() mode: AssetListMode = 'table';
   @Input() selectable = false;

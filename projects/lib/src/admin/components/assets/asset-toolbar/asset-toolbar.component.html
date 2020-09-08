@@ -1,9 +1,10 @@
 <nav class="navbar navbar-light border-bottom">
   <cms-asset-upload-button
     [multiple]="multiple"
+    (beforeAssetUpload)="(beforeAssetUpload)"
     (assetsUploaded)="assetsUploaded.emit($event)"
   ></cms-asset-upload-button>
-  <form class="form-inline ml-2">
+  <form class="form-inline ml-2 mr-auto">
     <input
       name="search"
       type="search"
@@ -14,7 +15,8 @@
     />
   </form>
   <div
-    class="btn-group btn-group-toggle ml-auto"
+    *ngIf="showListModeToggle"
+    class="btn-group btn-group-toggle"
     ngbRadioGroup
     name="listMode"
     [(ngModel)]="listMode"

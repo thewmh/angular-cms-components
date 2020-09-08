@@ -8,7 +8,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Asset } from '@ordercloud/headstart-sdk';
+import { Asset, AssetUpload } from '@ordercloud/headstart-sdk';
 
 @Component({
   selector: 'cms-asset-upload-button',
@@ -17,9 +17,13 @@ import { Asset } from '@ordercloud/headstart-sdk';
 })
 export class AssetUploadButtonComponent implements OnInit {
   @Input() multiple = false;
+  @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @ViewChild('confirmAssetUploadTemplate') confirmAssetUploadModal: ElementRef;
   @ViewChild('fileInput') fileInput: ElementRef;
-  @Output() assetsUploaded = new EventEmitter<Asset[]>();
+  @Output() assetsUploaded = new EventEmitter<{
+    uploaded: Asset[];
+    errors: any[];
+  }>();
   selectedFiles?: any; // FileList
   confirmModal: NgbModalRef;
   constructor(private modalService: NgbModal) {}
@@ -41,9 +45,9 @@ export class AssetUploadButtonComponent implements OnInit {
     this.selectedFiles = undefined;
   }
 
-  handleAssetsUploaded(newAssets: Asset[]) {
+  handleAssetsUploaded(event: any) {
     this.confirmModal.close();
     this.selectedFiles = undefined;
-    this.assetsUploaded.emit(newAssets);
+    this.assetsUploaded.emit(event);
   }
 }

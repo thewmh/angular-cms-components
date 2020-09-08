@@ -2,9 +2,12 @@
   <div class="flex-grow-0 flex-shrink-0">
     <cms-asset-toolbar
       [multiple]="multiple"
-      [(search)]="search"
+      [search]="search"
+      (searchChange)="handleSearchChange($event)"
+      [showListModeToggle]="showListModeToggle"
       [(listMode)]="listMode"
       (assetsUploaded)="handleAssetsUploaded($event)"
+      [beforeAssetUpload]="beforeAssetUpload"
     ></cms-asset-toolbar>
   </div>
   <div
@@ -15,6 +18,11 @@
       <cms-asset-filters
         [types]="assetTypes"
         [tags]="tagOptions"
+        [selections]="{
+          types: typeSelections,
+          tags: tagSelections
+        }"
+        (selectionsChange)="handleFilterChange($event)"
       ></cms-asset-filters>
     </div>
     <div class="flex-grow-1 flex-shrink-1 overflow-hidden">
@@ -25,7 +33,9 @@
           [meta]="meta"
           [shrink]="!!assetDetail"
           [(assetDetail)]="assetDetail"
-          [(selected)]="selected"
+          [showAssetStatus]="showAssetStatus"
+          [selected]="selected"
+          (selectedChange)="handleSelectedChange($event)"
           [selectable]="selectable"
           [multiple]="multiple"
           [mode]="listMode"
@@ -36,7 +46,7 @@
           [tagOptions]="tagOptions"
           (closeClick)="assetDetail = undefined"
           (assetDeleted)="handleAssetDeleted($event)"
-          (saveClick)="handleSaveAsset($event)"
+          (assetSaved)="handleAssetSaved($event)"
         >
         </cms-asset-detail>
       </div>

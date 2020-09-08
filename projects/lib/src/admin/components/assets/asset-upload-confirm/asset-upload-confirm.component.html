@@ -3,7 +3,10 @@
     <h5 class="modal-title" *ngIf="files">Continue?</h5>
   </div>
   <div class="modal-body">
-    <div class="d-flex align-items-start" *ngFor="let file of files">
+    <div
+      class="d-flex align-items-start"
+      *ngFor="let file of files; let i = index"
+    >
       <div class="file-preview img-thumbnail">
         <div
           class="h-100 w-100 overflow-hidden"
@@ -17,13 +20,33 @@
         <p><b>Type:</b> {{ file.type }}</p>
         <p><b>Size:</b> {{ file.size }}</p>
       </div>
+      <div class="file-upload-status" *ngIf="uploading && uploadQueue[i]">
+        <div
+          class="spinner-border text-primary"
+          role="status"
+          *ngIf="!uploadQueue[i].ID"
+        >
+          <span class="sr-only">Uploading...</span>
+        </div>
+        <div role="status" *ngIf="uploadQueue[i].ID">Complete!</div>
+      </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="cancel.emit()">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="cancel.emit()"
+      [disabled]="uploading"
+    >
       Cancel
     </button>
-    <button type="button" class="btn btn-primary" (click)="handleUploadFiles()">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="handleUploadFiles()"
+      [disabled]="uploading"
+    >
       Upload {{ files.length }} file{{ files.length === 1 ? "" : "s" }}
     </button>
   </div>

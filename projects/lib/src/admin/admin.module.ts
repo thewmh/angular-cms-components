@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HtmlEditorComponent } from './components/html-editor/html-editor.component';
 import { PageEditorComponent } from './components/page-editor/page-editor.component';
-import { AssetPickerComponent } from './components/asset-picker/asset-picker.component';
+// import { AssetPickerComponent } from './components/asset-picker/asset-picker.component';
 import { CarouselEditorComponent } from './components/carousel-editor/carousel-editor.component';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { SectionPickerComponent } from './components/section-picker/section-picker.component';
@@ -28,6 +28,7 @@ import { AssetDetailComponent } from './components/assets/asset-detail/asset-det
 import { AssetDimensionsPipe } from './pipes/asset-dimensions.pipe';
 import { AssetUploadConfirmComponent } from './components/assets/asset-upload-confirm/asset-upload-confirm.component';
 import { AssetUploadButtonComponent } from './components/assets/asset-upload-button/asset-upload-button.component';
+import { AssetPickerComponent } from './components/assets/asset-picker/asset-picker.component';
 
 const declarations = [
   AssetSearchComponent,

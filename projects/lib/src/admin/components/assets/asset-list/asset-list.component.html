@@ -20,7 +20,7 @@
         <th *ngIf="!shrink">Type</th>
         <th *ngIf="!shrink">Dimensions</th>
         <th *ngIf="!shrink">Last Updated</th>
-        <th *ngIf="!shrink">Status</th>
+        <th *ngIf="!shrink && showAssetStatus">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -67,7 +67,7 @@
         <td *ngIf="!shrink">
           {{ asset.History.DateUpdated | date: "short" }}
         </td>
-        <td *ngIf="!shrink">
+        <td *ngIf="!shrink && showAssetStatus">
           <cms-status-icon
             [status]="asset.Active"
             activeText="Active"
@@ -78,6 +78,9 @@
       </tr>
     </tbody>
   </table>
+  <div class="container" *ngIf="!items || !items.length">
+    <cms-no-results message="No assets found"></cms-no-results>
+  </div>
 </div>
 
 <div
@@ -98,7 +101,7 @@
         [alt]="asset.Title"
         class="img-thumbnail shadow-sm"
       />
-      <div class="asset-figure_overlay px-2">
+      <div class="asset-figure_overlay px-2" *ngIf="showAssetStatus">
         <cms-status-icon
           [status]="asset.Active"
           activeText="Active"

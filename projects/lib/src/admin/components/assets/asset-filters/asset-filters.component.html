@@ -5,6 +5,8 @@
       <input
         type="checkbox"
         class="custom-control-input"
+        [(ngModel)]="selections.types[type]"
+        (ngModelChange)="handleSelectionChange('types', type, $event)"
         [id]="'assetType_' + type"
       />
       <label class="custom-control-label" [for]="'assetType_' + type">{{
@@ -23,6 +25,8 @@
         <input
           type="checkbox"
           class="custom-control-input"
+          [(ngModel)]="selections.tags[tag]"
+          (ngModelChange)="handleSelectionChange('tags', tag, $event)"
           [id]="'assetTag_' + i"
         />
         <label class="custom-control-label" [for]="'assetTag_' + i">{{

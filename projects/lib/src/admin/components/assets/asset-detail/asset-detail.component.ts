@@ -11,13 +11,7 @@ import {
 } from '@angular/core';
 import { Asset, HeadStartSDK } from '@ordercloud/headstart-sdk';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormArray,
-  PatternValidator,
-} from '@angular/forms';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'cms-asset-detail',
@@ -27,7 +21,7 @@ import {
 export class AssetDetailComponent implements OnInit, OnChanges {
   @Input() asset: Asset;
   @Input() tagOptions: string[] = [];
-  @Output() saveClick = new EventEmitter();
+  @Output() assetSaved = new EventEmitter<Asset>();
   @Output() assetDeleted = new EventEmitter();
   @Output() closeClick = new EventEmitter();
 
@@ -47,14 +41,15 @@ export class AssetDetailComponent implements OnInit, OnChanges {
     // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     // Add '${implements OnChanges}' to the class.
     if (changes.asset && !changes.asset.firstChange) {
-      this.loaded = false;
+      this.loaded =
+        changes.asset.previousValue.Url === changes.asset.currentValue.Url;
       this.initializeForm();
       this.assetImageView.nativeElement.scrollTop = 0;
     }
   }
 
   initializeForm() {
-    this.assetForm = Object.assign({}, this.asset);
+    this.assetForm = cloneDeep(this.asset);
   }
 
   handleTagToggle(tag: string) {
@@ -70,11 +65,15 @@ export class AssetDetailComponent implements OnInit, OnChanges {
     }
   }
 
+  onAssetStatusChange(): void {
+    this.assetForm.Active = !this.assetForm.Active;
+  }
+
   confirmDelete() {
     this.confirmDeleteModal = this.modalService.open(this.confirmTemplate);
   }
 
-  get hasChanges() {
+  get hasChanges(): boolean {
     return JSON.stringify(this.asset) !== JSON.stringify(this.assetForm);
   }
 
@@ -83,5 +82,20 @@ export class AssetDetailComponent implements OnInit, OnChanges {
       this.assetDeleted.emit(this.asset);
       this.confirmDeleteModal.close();
     });
+  }
+
+  handleSaveAsset() {
+    if (!this.asset.ID) {
+      return;
+    }
+    HeadStartSDK.Assets.Save(this.asset.ID, this.assetForm).then(
+      (updated: Asset) => {
+        this.assetSaved.emit(updated);
+      }
+    );
+  }
+
+  handleDiscardChanges() {
+    this.initializeForm();
   }
 }

@@ -17,8 +17,11 @@ import * as Q from 'q';
 })
 export class AssetUploadConfirmComponent implements OnInit, OnChanges {
   @Input() files: any;
-  @Output() done = new EventEmitter<Asset[]>();
+  @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
+  @Output() done = new EventEmitter<{ uploaded: Asset[]; errors: any[] }>();
   @Output() cancel = new EventEmitter();
+  uploadQueue: Promise<any>[] = [];
+  uploading = false;
 
   constructor() {}
 
@@ -45,7 +48,7 @@ export class AssetUploadConfirmComponent implements OnInit, OnChanges {
   }
 
   handleUploadFiles() {
-    const uploadQueue: Promise<any>[] = [];
+    this.uploading = true;
     this.files.forEach((f) => {
       const uploadAsset: AssetUpload = {
         Type: 'Image',
@@ -55,10 +58,33 @@ export class AssetUploadConfirmComponent implements OnInit, OnChanges {
         Active: true,
       };
 
-      uploadQueue.push(HeadStartSDK.Upload.UploadAsset(uploadAsset));
+      this.uploadQueue.push(this.uploadFile(uploadAsset));
     });
-    Q.all(uploadQueue).then((assets: Asset[]) => {
-      this.done.emit(assets);
+    Q.allSettled(this.uploadQueue).then((values: Q.PromiseState<Asset>[]) => {
+      const uploaded = values
+        .filter((v) => v.state === 'fulfilled')
+        .map((v) => v.value);
+
+      const errors = values
+        .filter((v) => v.state === 'rejected')
+        .map((v) => v.value);
+
+      this.done.emit({
+        uploaded,
+        errors,
+      });
+
+      this.uploading = false;
+      this.uploadQueue = [];
     });
+  }
+
+  uploadFile(asset: AssetUpload) {
+    if (this.beforeAssetUpload) {
+      return this.beforeAssetUpload(asset).then(
+        HeadStartSDK.Upload.UploadAsset
+      );
+    }
+    return HeadStartSDK.Upload.UploadAsset(asset);
   }
 }
