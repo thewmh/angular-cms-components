@@ -1,8 +1,8 @@
 <svg
-  [ngbTooltip]="status ? 'Live' : 'Disabled'"
+  [ngbTooltip]="status ? activeText : inactiveText"
   [disableTooltip]="inline"
-  id="CMS_PAGE_STATUS"
-  aria-describedby="CMS_PAGE_STATUS_LABEL"
+  id="CMS_STATUS"
+  aria-describedby="CMS_STATUS_LABEL"
   xmlns="http://www.w3.org/2000/svg"
   [attr.fill]="color"
   height="24"
@@ -12,6 +12,6 @@
   <circle cx="12" cy="10" r="8" />
 </svg>
 
-<span role="label" id="CMS_PAGE_STATUS_LABEL" class="ml-1" *ngIf="inline">{{
-  status ? "Live" : "Disabled"
+<span role="label" id="CMS_STATUS_LABEL" class="ml-1" *ngIf="inline">{{
+  status ? activeText : inactiveText
 }}</span>

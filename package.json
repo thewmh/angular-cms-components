@@ -79,6 +79,7 @@
     "ordercloud-javascript-sdk": "4.0.0-12",
     "protractor": "~7.0.0",
     "publish-please": "^5.5.1",
+    "q": "^1.5.1",
     "shx": "^0.3.2",
     "slick-carousel": "^1.8.1",
     "tinymce": "^5.4.1",

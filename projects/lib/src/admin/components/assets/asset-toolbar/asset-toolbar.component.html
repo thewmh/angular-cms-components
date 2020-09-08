@@ -1,0 +1,32 @@
+<nav class="navbar navbar-light border-bottom">
+  <cms-asset-upload-button
+    [multiple]="multiple"
+    (beforeAssetUpload)="(beforeAssetUpload)"
+    (assetsUploaded)="assetsUploaded.emit($event)"
+  ></cms-asset-upload-button>
+  <form class="form-inline ml-2 mr-auto">
+    <input
+      name="search"
+      type="search"
+      class="form-control"
+      [(ngModel)]="search"
+      (ngModelChange)="searchChange.emit($event)"
+      placeholder="Search assets"
+    />
+  </form>
+  <div
+    *ngIf="showListModeToggle"
+    class="btn-group btn-group-toggle"
+    ngbRadioGroup
+    name="listMode"
+    [(ngModel)]="listMode"
+    (ngModelChange)="listModeChange.emit($event)"
+  >
+    <label ngbButtonLabel class="btn-secondary">
+      <input ngbButton type="radio" value="table" /> Table
+    </label>
+    <label ngbButtonLabel class="btn-secondary">
+      <input ngbButton type="radio" value="grid" /> Grid
+    </label>
+  </div>
+</nav>

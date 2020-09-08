@@ -1,0 +1,18 @@
+<input
+  #fileInput
+  type="file"
+  [multiple]="multiple"
+  class="sr-only"
+  (change)="confirmAssetUpload($event)"
+/>
+<button class="btn btn-primary" (click)="handleUploadClick()">Upload</button>
+
+<!-- CONFIRM DELETE MODAL -->
+<ng-template #confirmAssetUploadTemplate>
+  <cms-asset-upload-confirm
+    [files]="selectedFiles"
+    [beforeAssetUpload]="beforeAssetUpload"
+    (cancel)="handleCancel()"
+    (done)="handleAssetsUploaded($event)"
+  ></cms-asset-upload-confirm>
+</ng-template>

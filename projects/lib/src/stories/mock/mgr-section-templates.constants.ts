@@ -38,7 +38,9 @@ export default [
       <div class="row mt-4">
           <div class="col-md-4">
               <div class="card border-0 bg-transparent">
-                  <img alt="Card image cap" class="card-img-top" src="https://via.placeholder.com/600x250.png"/>
+                  <figure class="card-img-top">
+                    <img class="img-fluid" src="https://via.placeholder.com/350x250.png"/>
+                  </figure>
                   <div class="card-body">
                       <h3 class="h5 card-title font-weight-bold">Column 1</h3>
                       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -47,7 +49,9 @@ export default [
           </div>
           <div class="col-md-4">
               <div class="card border-0 bg-transparent">
-                  <img alt="Card image cap" class="card-img-top" src="https://via.placeholder.com/600x250.png"/>
+              <figure class="card-img-top">
+                <img class="img-fluid" src="https://via.placeholder.com/350x250.png"/>
+              </figure>
                   <div class="card-body">
                       <h3 class="h5 card-title font-weight-bold">Column 2</h3>
                       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -56,7 +60,9 @@ export default [
           </div>
           <div class="col-md-4">
               <div class="card border-0 bg-transparent">
-                  <img alt="Card image cap" class="card-img-top" src="https://via.placeholder.com/600x250.png"/>
+              <figure class="card-img-top">
+                <img class="img-fluid" src="https://via.placeholder.com/350x250.png"/>
+              </figure>
                   <div class="card-body">
                       <h3 class="h5 card-title font-weight-bold">Column 2</h3>
                       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>

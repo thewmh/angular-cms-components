@@ -10,7 +10,7 @@ import {
   OnChanges,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AssetPickerComponent } from '../asset-picker/asset-picker.component';
+import { AssetPickerComponent } from '../assets/asset-picker/asset-picker.component';
 import { CarouselEditorComponent } from '../carousel-editor/carousel-editor.component';
 import { v4 as guid } from 'uuid';
 import { SectionPickerComponent } from '../section-picker/section-picker.component';

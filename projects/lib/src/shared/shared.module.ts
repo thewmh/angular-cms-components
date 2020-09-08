@@ -17,6 +17,8 @@ import {
   NgbNavModule,
   NgbTooltipModule,
   NgbTooltip,
+  NgbButtonsModule,
+  NgbRadioGroup,
 } from '@ng-bootstrap/ng-bootstrap';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,6 +36,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     NgbCollapseModule,
     NgbModalModule,
     NgbNavModule,
+    NgbButtonsModule,
     NgxSpinnerModule,
     NgbTooltipModule,
     CommonModule,
@@ -47,6 +50,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     NgbCollapseModule,
     NgbModalModule,
     NgbNavModule,
+    NgbButtonsModule,
     NgxSpinnerModule,
     NgbTooltipModule,
     NoResultsComponent,
