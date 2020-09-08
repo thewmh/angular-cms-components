@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { HeadStartSDK, JDocument } from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
@@ -11,7 +11,7 @@ import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
   templateUrl: './page-list.component.html',
   styleUrls: ['./page-list.component.scss'],
 })
-export class PageListComponent implements OnInit {
+export class PageListComponent implements OnInit, OnChanges {
   @Input() resourceType: ResourceType;
   @Input() resourceID: string;
   @Input() parentResourceID?: string = null;
@@ -28,15 +28,14 @@ export class PageListComponent implements OnInit {
   list: JDocument[];
   selected?: JDocument;
 
-  constructor(private spinner: NgxSpinnerService) {}
+  constructor(private spinner: NgxSpinnerService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (!this.resourceType || !this.resourceID) {
       throw new Error(
         'cms-page-list is missing required props resourceType or resourceID'
       );
     }
-    this.spinner.show();
     this.listDocs();
 
     // debounce search for 300ms
@@ -53,7 +52,20 @@ export class PageListComponent implements OnInit {
       });
   }
 
-  listDocs() {
+  ngOnChanges(changes: SimpleChanges): void {
+    const resourceIDChanged = changes.resourceID &&
+                              !changes.resourceID.firstChange &&
+                              changes.resourceID.previousValue !== changes.resourceID.currentValue;
+    const resourceTypeChanged = changes.resourceType &&
+                              !changes.resourceType.firstChange &&
+                              changes.resourceType.previousValue !== changes.resourceType.currentValue;
+    if (resourceIDChanged || resourceTypeChanged) {
+      this.ngOnInit();
+    }
+  }
+
+  listDocs(): Promise<void> {
+    this.spinner.show();
     if (!this.resourceType || !this.resourceID) {
       throw new Error(
         'cms-page-list missing required props resourceType and resourceID for '

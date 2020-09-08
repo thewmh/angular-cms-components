@@ -77,3 +77,25 @@ export const PlayItAgainSportsStyles = () => ({
     },
   },
 });
+
+export const WithTranscludedToolbarAdditions = () => ({
+  component: PageListComponent,
+  template: `<div style="height:100vh">
+      <cms-page-list
+        [lockedSlugs]="lockedSlugs"
+        [renderSiteUrl]="renderSiteUrl"
+        [resourceType]="resourceType"
+        [resourceID]="resourceID"
+        [editorOptions]="editorOptions"
+        >
+        <button class="btn btn-secondary cms-toolbar-additions">Custom Button</button>
+        </cms-page-list>
+    </div>`,
+  props: {
+    renderSiteUrl: 'https://www.my-awesome-website.com',
+    resourceType: 'Suppliers',
+    resourceID: '41106',
+    lockedSlugs: ['', 'about-us'],
+    editorOptions: {},
+  },
+});
