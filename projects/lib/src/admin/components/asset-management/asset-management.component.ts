@@ -71,7 +71,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
         "Because you've provided a resourceType and resourceID, defaultListOptions will be ignored as they are not currently supported while listing assets per resource"
       );
     }
-    this.listAssets();
+    this.listAssets(this.defaultListOptions);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -94,34 +94,34 @@ export class AssetManagementComponent implements OnInit, OnChanges {
     }
   }
 
-  listAssets() {
+  listAssets(options: ListArgs<Asset>) {
     this.spinner.show();
     const requestOptions: ListArgs<Asset> = Object.assign(
       {},
       {
         ...this.options,
-        ...this.defaultListOptions,
+        ...options,
         filters: {
           ...this.options.filters,
-          ...this.defaultListOptions.filters,
+          ...options.filters,
         },
       }
     );
 
-    console.log(this.options);
-    console.log(requestOptions);
     return (this.resourceID && this.resourceType
-      ? this.listAssetsByResource()
+      ? this.listAssetsByResource(requestOptions)
       : this.listAssetsByFilters(requestOptions)
     ).finally(() => {
       this.spinner.hide();
     });
   }
 
-  listAssetsByResource() {
+  listAssetsByResource(options: ListArgs<Asset>) {
+    // only page and pageSize are accepted parameters
     return HeadStartSDK.Assets.ListAssets(
       this.resourceType,
-      this.resourceID
+      this.resourceID,
+      options
     ).then((response: any) => {
       this.items = response;
     });
@@ -175,7 +175,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
     this.search = value;
     this.options = { filters: { Filename: `*${value}*`, Title: `*${value}*` } };
     this.searchDebounce = setTimeout(() => {
-      this.listAssets();
+      this.listAssets(this.options);
     }, 300);
   }
 
@@ -185,7 +185,13 @@ export class AssetManagementComponent implements OnInit, OnChanges {
       Type: this.assetTypes.filter((k) => selections.types[k]).join('|'),
       Tags: this.tagOptions.filter((k) => selections.tags[k]).join('|'),
     };
-    this.listAssets();
+    this.listAssets(this.options);
+  }
+
+  handlePageChange(page: number) {
+    this.spinner.show();
+    this.options.page = page;
+    this.listAssets(this.options);
   }
 
   get tagSelections(): any {

@@ -78,6 +78,11 @@
       </tr>
     </tbody>
   </table>
+  <ngb-pagination *ngIf="meta"
+                  [collectionSize]="meta.TotalCount"
+                  [pageSize]="meta.PageSize"
+                  [(page)]="meta.Page"
+                  (pageChange)="pageChangeEvent.emit($event)"></ngb-pagination>
   <div class="container" *ngIf="!items || !items.length">
     <cms-no-results message="No assets found"></cms-no-results>
   </div>
@@ -114,4 +119,10 @@
       </figcaption>
     </figure>
   </div>
+  <ngb-pagination *ngIf="meta"
+                  [collectionSize]="meta.TotalCount"
+                  [pageSize]="meta.PageSize"
+                  [(page)]="meta.Page"
+                  (pageChange)="pageChangeEvent.emit($event)"></ngb-pagination>
+  <div class="container" *ngIf="!items || !items.length">
 </div>
