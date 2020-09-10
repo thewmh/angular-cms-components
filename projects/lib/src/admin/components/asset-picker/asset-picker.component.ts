@@ -1,83 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import DEFAULT_ASSET_TYPES, {
+  ASSET_TYPES,
+} from '../../constants/asset-types.constants';
+import { ListArgs, Asset } from '@ordercloud/headstart-sdk';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { HeadStartSDK } from '@ordercloud/headstart-sdk';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { debounceTime, takeWhile, filter } from 'rxjs/operators';
-import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'cms-asset-picker',
   templateUrl: './asset-picker.component.html',
-  styleUrls: ['./asset-picker.component.scss']
+  styleUrls: ['./asset-picker.component.css'],
 })
-export class AssetPickerComponent implements OnInit, OnDestroy {
-  loading = true;
-  alive = true;
-  previousSearchTerm = ''
-  searchForm: FormGroup
-  list: any;
-  parameters = {
-    page: 1,
-    pageSize: 10,
-    filters: {}
-  }
+export class AssetPickerComponent implements OnInit {
+  @Input() multiple = false;
+  @Input() tagOptions?: string[];
+  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
+  selected: Asset[] = [];
 
-  constructor(
-    public modal: NgbActiveModal, 
-    private formBuilder: FormBuilder, 
-    private spinner: NgxSpinnerService
-    ) { }
+  constructor(public modal: NgbActiveModal) {}
 
-  
-
-  ngOnInit(): void {
-    this.searchForm = this.formBuilder.group({search: ''})
-    this.onFormChanges();
-    this.changePage(1);
-  }
-
-  onFormChanges() {
-    this.searchForm.controls['search'].valueChanges
-      .pipe(
-        filter((searchTerm) =>  searchTerm !== this.previousSearchTerm),
-        debounceTime(500),
-        takeWhile(() => this.alive)
-      )
-      .subscribe((searchTerm) => {
-        this.previousSearchTerm = searchTerm;
-        this.search();
-      });
-  }
-
-  search() {
-    // undefined if empty string so sdk ignores parameter completely
-    const searchTerm = this.searchForm.controls.search.value || undefined;
-    this.parameters.filters['Title'] = searchTerm;
-    this.changePage(1);
-  }
-
-  changePage(page: number) {
-    this.loading = true;
-    this.spinner.show();
-    this.parameters.page = page;
-    return HeadStartSDK.Assets.List(this.parameters)
-      .then(assetList => {
-        this.list = assetList;
-      })
-      .catch(e => {
-        if(e.response.status === 401) {
-          alert('Access forbidden');
-        } else {
-          alert(e.message);
-        }
-      })
-      .finally(() => {
-        this.loading = false;
-        this.spinner.hide()
-      })
-  }
-  
-  ngOnDestroy() {
-    this.alive = false;
-  }
+  ngOnInit(): void {}
 }

@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { CmsAdminModule } from '../public-api';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AssetManagementComponent } from '../admin/components/assets/asset-management/asset-management.component';
+import { AssetManagementComponent } from '../admin/components/asset-management/asset-management.component';
 
 export default {
   title: 'Admin/Asset Management',

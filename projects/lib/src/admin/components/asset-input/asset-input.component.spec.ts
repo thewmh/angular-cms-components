@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetListComponent } from './asset-list.component';
+import { AssetInputComponent } from './asset-input.component';
 
-describe('AssetListComponent', () => {
-  let component: AssetListComponent;
-  let fixture: ComponentFixture<AssetListComponent>;
+describe('AssetInputComponent', () => {
+  let component: AssetInputComponent;
+  let fixture: ComponentFixture<AssetInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AssetListComponent ]
+      declarations: [ AssetInputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AssetListComponent);
+    fixture = TestBed.createComponent(AssetInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

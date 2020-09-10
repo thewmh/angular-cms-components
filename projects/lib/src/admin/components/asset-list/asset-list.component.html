@@ -1,70 +1,117 @@
-<h1>Assets</h1>
-<ul
-  ngbNav
-  #nav="ngbNav"
-  (navChange)="onChangeTab($event)"
-  [(activeId)]="selectedTab"
-  class="nav-tabs mb-3"
->
-  <li *ngFor="let type of assetTypes" [ngbNavItem]="type">
-    <a ngbNavLink>{{ type }}s</a>
-    <ng-template ngbNavContent>
-      <div class="row mb-3">
-        <div class="col-12 co-sm-4 col-md-3 col-xl-2">
-          <button
-            class="btn btn-block btn-outline-primary"
-            (click)="handleUploadAssetModal(uploadAssetModal)"
-          >
-            Upload {{ type }}
-          </button>
-        </div>
-        <div class="col">
-          <cms-asset-search
-            [assetType]="type"
-            placeholderText="{{ 'Search ' + type + 's' }}"
-            [searchTerm]=""
-            (searched)="handleSearch($event)"
-          ></cms-asset-search>
-        </div>
-      </div>
-      <div *ngIf="!loading">
-        <div *ngFor="let asset of assets">
-          <cms-asset-update
-            [resourceType]="resourceType"
-            [resourceID]="resourceID"
-            [assetType]="type"
-            [isNew]="false"
-            [asset]="asset"
-            (onDelete)="listAssets(type, null)"
-          ></cms-asset-update>
-        </div>
-        <div class="no-results" *ngIf="assets && !assets.length">
-          <cms-no-results message="No {{ type }}s found"></cms-no-results>
-        </div>
-      </div>
-    </ng-template>
-  </li>
-</ul>
-
-<div class="container-fluid">
-  <div [ngbNavOutlet]="nav"></div>
+<div class="h-100 table-responsive" *ngIf="mode === 'table' || shrink">
+  <table class="table table-hover asset-list_table">
+    <colgroup>
+      <col style="width: 1%" />
+    </colgroup>
+    <thead>
+      <tr>
+        <!-- <th *ngIf="!selectable">
+          <div class="custom-control custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="selectAllAssets"
+            />
+            <label class="sr-only" for="selectAllAssets">Select All</label>
+          </div>
+        </th> -->
+        <th><span class="sr-only">Image Preview</span></th>
+        <th>Title</th>
+        <th *ngIf="!shrink">Type</th>
+        <th *ngIf="!shrink">Dimensions</th>
+        <th *ngIf="!shrink">Last Updated</th>
+        <th *ngIf="!shrink && showAssetStatus">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let asset of items; index as i"
+        [ngClass]="{
+          'table-primary': isAssetSelected(asset),
+          'table-active': assetDetail && assetDetail.ID === asset.ID
+        }"
+        (click)="handleAssetClick(asset)"
+      >
+        <!-- <th *ngIf="!selectable">
+          <div class="custom-control custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [id]="'selectAsset_' + i"
+            />
+            <label class="sr-only" [for]="selectAsset_' + i"
+              >Select {{ asset.Title || asset.Name }}</label
+            >
+          </div>
+        </th> -->
+        <td>
+          <figure class="asset-table_figure">
+            <img
+              [src]="asset.Url + '-s'"
+              [alt]="asset.Title"
+              class="img-thumbnail shadow-sm"
+            />
+          </figure>
+        </td>
+        <td>
+          {{ asset.Title || "---" }}
+          <br />
+          <small class="text-muted">{{ asset.FileName }}</small>
+        </td>
+        <td *ngIf="!shrink">
+          {{ asset.Metadata.ContentType || "---" }}
+        </td>
+        <td *ngIf="!shrink">
+          {{ asset.Metadata | assetDimensions }}
+        </td>
+        <td *ngIf="!shrink">
+          {{ asset.History.DateUpdated | date: "short" }}
+        </td>
+        <td *ngIf="!shrink && showAssetStatus">
+          <cms-status-icon
+            [status]="asset.Active"
+            activeText="Active"
+            inactiveText="Inactive"
+            inline="true"
+          ></cms-status-icon>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="container" *ngIf="!items || !items.length">
+    <cms-no-results message="No assets found"></cms-no-results>
+  </div>
 </div>
 
-<ng-template #uploadAssetModal>
-  <cms-asset-upload
-    [resourceType]="resourceType"
-    [resourceID]="resourceID"
-    [assetType]="selectedTab"
-    (cancel)="modalReference.dismiss()"
-    (submit)="handleSubmit()"
-  ></cms-asset-upload>
-</ng-template>
-
-<!-- LOADING INDICATOR -->
-<ngx-spinner
-  class="assetlist-spinner"
-  type="ball-beat"
-  bdColor="rgba(255, 255, 255, 0.38)"
-  color="#969696"
-  [fullScreen]="false"
-></ngx-spinner>
+<div
+  *ngIf="mode === 'grid' && !shrink"
+  class="overflow-auto h-100 row mx-1 py-2 align-items-start align-content-start"
+>
+  <div
+    *ngFor="let asset of items"
+    class="col-sm-6 col-md-4 col-lg-3 col-xl-2 px-1"
+  >
+    <figure
+      class="asset-grid_figure"
+      [ngClass]="{ selected: isAssetSelected(asset) }"
+      (click)="handleAssetClick(asset)"
+    >
+      <img
+        [src]="asset.Url + '-m'"
+        [alt]="asset.Title"
+        class="img-thumbnail shadow-sm"
+      />
+      <div class="asset-figure_overlay px-2" *ngIf="showAssetStatus">
+        <cms-status-icon
+          [status]="asset.Active"
+          activeText="Active"
+          inactiveText="Inactive"
+          inline="true"
+        ></cms-status-icon>
+      </div>
+      <figcaption class="figure-caption">
+        {{ asset.Title || asset.FileName }}
+      </figcaption>
+    </figure>
+  </div>
+</div>
