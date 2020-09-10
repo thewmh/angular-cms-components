@@ -88,17 +88,6 @@ export default (editor) => {
 
           if (isWidgetType(editor, node, OC_TINYMCE_SECTION_WIDGET_ID)) {
             node.attr('contenteditable', state ? 'false' : null);
-            tinymce.each(node.getAll('h1'), toggleContentEditable);
-            tinymce.each(node.getAll('h2'), toggleContentEditable);
-            tinymce.each(node.getAll('h3'), toggleContentEditable);
-            tinymce.each(node.getAll('h4'), toggleContentEditable);
-            tinymce.each(node.getAll('h5'), toggleContentEditable);
-            tinymce.each(node.getAll('h6'), toggleContentEditable);
-            tinymce.each(node.getAll('p'), toggleContentEditable);
-            tinymce.each(node.getAll('a'), toggleContentEditable);
-            tinymce.each(node.getAll('button'), toggleContentEditable);
-            tinymce.each(node.getAll('figure'), toggleContentEditable);
-            tinymce.each(node.getAll('img'), toggleContentEditable);
           }
         }
       };

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import DEFAULT_ASSET_TYPES, {
   ASSET_TYPES,
-} from '../../../constants/asset-types.constants';
+} from '../../constants/asset-types.constants';
 
 export interface CmsAssetFilterSelections {
   types: {

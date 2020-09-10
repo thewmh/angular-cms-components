@@ -1,112 +1,64 @@
-import { Component, Input, OnInit } from '@angular/core';
 import {
-  NgbModal,
-  NgbModalRef,
-  NgbNavChangeEvent,
-} from '@ng-bootstrap/ng-bootstrap';
-import { Asset, HeadStartSDK, ListArgs } from '@ordercloud/headstart-sdk';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { merge as _merge, isEmpty as _isEmpty } from 'lodash';
-import { ResourceType } from '../../../shared/models/resource-type.interface';
-import { ParentResourceType } from '../../../shared/models/parent-resource-type.interface';
+  Component,
+  OnInit,
+  Input,
+  SimpleChanges,
+  OnChanges,
+  Output,
+  EventEmitter,
+} from '@angular/core';
+import { Asset, Meta } from '@ordercloud/headstart-sdk';
 
-const ASSET_TYPE_IMAGE = 'Image';
-type ASSET_TYPE_IMAGE = typeof ASSET_TYPE_IMAGE;
-const ASSET_TYPE_THEME = 'Theme';
-type ASSET_TYPE_THEME = typeof ASSET_TYPE_THEME;
-const ASSET_TYPE_ATTACHMENT = 'Attachment';
-type ASSET_TYPE_ATTACHMENT = typeof ASSET_TYPE_ATTACHMENT;
-const ASSET_TYPE_STRUCTURED = 'Structured';
-type ASSET_TYPE_STRUCTURED = typeof ASSET_TYPE_STRUCTURED;
-
-type AssetType =
-  | ASSET_TYPE_IMAGE
-  | ASSET_TYPE_THEME
-  | ASSET_TYPE_ATTACHMENT
-  | ASSET_TYPE_STRUCTURED;
+export type AssetListMode = 'table' | 'grid';
 
 @Component({
   selector: 'cms-asset-list',
   templateUrl: './asset-list.component.html',
   styleUrls: ['./asset-list.component.scss'],
 })
-export class AssetListComponent implements OnInit {
-  @Input() defaultFilterOptions?: Partial<ListArgs> = {};
-  @Input() resourceType?: ResourceType = null;
-  @Input() resourceID?: string = null;
-  @Input() parentResourceID?: ParentResourceType = null;
-  assets: any;
-  modalReference: NgbModalRef;
-  loading = true;
-  assetTypes: AssetType[] = [
-    ASSET_TYPE_IMAGE,
-    ASSET_TYPE_THEME,
-    ASSET_TYPE_ATTACHMENT,
-    ASSET_TYPE_STRUCTURED,
-  ];
-  selectedTab: AssetType = ASSET_TYPE_IMAGE;
+export class AssetListComponent implements OnInit, OnChanges {
+  @Input() showAssetStatus = true;
+  @Input() shrink = false;
+  @Input() mode: AssetListMode = 'table';
+  @Input() selectable = false;
+  @Input() multiple = false;
+  @Input() items?: Asset[];
+  @Input() meta?: Meta;
+  @Input() selected: Asset[] = [];
+  @Output() selectedChange = new EventEmitter<Asset[]>();
+  @Input() assetDetail?: Asset;
+  @Output() assetDetailChange = new EventEmitter<Asset>();
 
-  constructor(
-    private spinner: NgxSpinnerService,
-    private modalService: NgbModal
-  ) {}
+  constructor() {}
 
-  ngOnInit() {
-    if (
-      this.resourceID &&
-      this.resourceType &&
-      !_isEmpty(this.defaultFilterOptions)
-    ) {
-      console.warn(
-        "Because you've provided a resourceType and resourceID, defaultFilterOptions will be ignored as they are not currently supported while listing assets per resource"
-      );
-    }
-    this.listAssets(this.selectedTab, null);
+  ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    // Add '${implements OnChanges}' to the class.
   }
 
-  listAssets(assetType: AssetType, searchTerm: string) {
-    this.spinner.show();
-    let options: ListArgs<Asset> = _merge(
-      { filters: { Type: assetType } },
-      this.defaultFilterOptions
-    );
-    if (searchTerm) {
-      options = { ...options, search: searchTerm, searchOn: ['Title'] };
+  handleAssetClick = (asset: Asset) => {
+    if (!this.selectable) {
+      this.assetDetailChange.emit(asset);
     }
-    if (this.resourceID && this.resourceType) {
-      // return HeadStartSDK.Assets.ListAssets(this.resourceType, this.resourceID)
-      //   .then((response) => this.assets = response.Items.filter(a => a.Type === assetType))
-      //   .catch((ex) => ex)
-      //   .finally(() => {
-      //     this.loading = false;
-      //     this.spinner.hide();
-      //   });
+    const selectedIndex = this.getAssetIndex(asset);
+    if (selectedIndex < 0) {
+      this.multiple ? this.selected.push(asset) : (this.selected = [asset]);
     } else {
-      return HeadStartSDK.Assets.List(options)
-        .then((response) => (this.assets = response.Items))
-        .catch((ex) => ex)
-        .finally(() => {
-          this.loading = false;
-          this.spinner.hide();
-        });
+      this.multiple
+        ? this.selected.splice(selectedIndex, 1)
+        : (this.selected = []);
     }
-  }
 
-  handleUploadAssetModal(modalRef) {
-    this.modalReference = this.modalService.open(modalRef, { size: 'lg' });
-  }
+    this.selectedChange.emit(this.selected);
+  };
 
-  handleSubmit() {
-    this.modalReference.close();
-    this.listAssets(this.selectedTab, null);
-  }
+  getAssetIndex = (asset: Asset) => {
+    return this.selected.findIndex((a) => a.ID === asset.ID);
+  };
 
-  handleSearch($event) {
-    this.listAssets(this.selectedTab, $event);
-  }
-
-  onChangeTab(event: NgbNavChangeEvent): void {
-    this.selectedTab = event.nextId;
-    this.listAssets(this.selectedTab, null);
-  }
+  isAssetSelected = (asset: Asset) => {
+    return this.selectable && !!this.selected.find((a) => a.ID === asset.ID);
+  };
 }

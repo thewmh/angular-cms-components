@@ -17,11 +17,11 @@ import {
   ListPage,
   AssetUpload,
 } from '@ordercloud/headstart-sdk';
-import { ResourceType } from '../../../../shared/models/resource-type.interface';
+import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { AssetListMode } from '../asset-list/asset-list.component';
 import DEFAULT_ASSET_TYPES, {
   ASSET_TYPES,
-} from '../../../constants/asset-types.constants';
+} from '../../constants/asset-types.constants';
 import { CmsAssetFilterSelections } from '../asset-filters/asset-filters.component';
 
 @Component({
