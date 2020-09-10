@@ -4,7 +4,9 @@ export default [
       <div class="row mt-4">
           <div class="col-md-4">
               <div class="card border-0 bg-transparent">
-                  <img alt="Card image cap" class="card-img-top w-50 mx-auto" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/1-bring-it-in.svg"/>
+                  <div class="card-img-top w-50 mx-auto">
+                    <img alt="Card image cap" class="img-fluid" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/1-bring-it-in.svg"/>
+                  </div>
                   <div class="card-body">
                       <h3 class="h5 card-title font-weight-bold">Bring It In</h3>
                       <p class="card-text"> Bring us your musical instruments like guitars, amps, drums, keyboards, MIDI equipment, mixers, pro sound equipment, band instruments as well as related accessories. We buy all day, every day! </p>
@@ -13,7 +15,9 @@ export default [
           </div>
           <div class="col-md-4">
               <div class="card border-0 bg-transparent">
-                  <img alt="Card image cap" class="card-img-top w-50 mx-auto" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/2-take-a-look.svg"/>
+                  <div class="card-img-top w-50 mx-auto">
+                    <img alt="Card image cap" class="img-fluid" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/2-take-a-look.svg"/>
+                  </div>
                   <div class="card-body">
                       <h3 class="h5 card-title font-weight-bold">We'll Take a Look</h3>
                       <p class="card-text">We’ll review and research each item and identify a fair market value for your products. While we are doing this, feel free to check out all of the cool used gear in our stores.</p>
@@ -22,7 +26,9 @@ export default [
           </div>
           <div class="col-md-4">
               <div class="card border-0 bg-transparent">
-                  <img alt="Card image cap" class="card-img-top w-50 mx-auto" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/3-make-an-offer.svg"/>
+                  <div class="card-img-top w-50 mx-auto">
+                    <img alt="Card image cap" class="img-fluid" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/3-make-an-offer.svg"/>
+                  </div>
                   <div class="card-body">
                       <h3 class="h5 card-title font-weight-bold">We'll Make An Offer</h3>
                       <p class="card-text">We will then make you an offer based on that fair market value. If you like the offer, we will pay you on the spot or you can trade against the cool, used gear you find in our stores.</p>
@@ -38,9 +44,9 @@ export default [
       <div class="row mt-4">
           <div class="col-md-4">
               <div class="card border-0 bg-transparent">
-                  <figure class="card-img-top">
+                <div class="card-img-top" contenteditable="true">
                     <img class="img-fluid" src="https://via.placeholder.com/350x250.png"/>
-                  </figure>
+                </div>
                   <div class="card-body">
                       <h3 class="h5 card-title font-weight-bold">Column 1</h3>
                       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -49,9 +55,9 @@ export default [
           </div>
           <div class="col-md-4">
               <div class="card border-0 bg-transparent">
-              <figure class="card-img-top">
-                <img class="img-fluid" src="https://via.placeholder.com/350x250.png"/>
-              </figure>
+                <div class="card-img-top" contenteditable="true">
+                    <img class="img-fluid" src="https://via.placeholder.com/350x250.png"/>
+                </div>
                   <div class="card-body">
                       <h3 class="h5 card-title font-weight-bold">Column 2</h3>
                       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -60,9 +66,9 @@ export default [
           </div>
           <div class="col-md-4">
               <div class="card border-0 bg-transparent">
-              <figure class="card-img-top">
-                <img class="img-fluid" src="https://via.placeholder.com/350x250.png"/>
-              </figure>
+                <div class="card-img-top" contenteditable="true">
+                    <img class="img-fluid" src="https://via.placeholder.com/350x250.png"/>
+                </div>
                   <div class="card-body">
                       <h3 class="h5 card-title font-weight-bold">Column 2</h3>
                       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>

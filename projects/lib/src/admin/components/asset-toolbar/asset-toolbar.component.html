@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light border-bottom">
   <cms-asset-upload-button
     [multiple]="multiple"
-    (beforeAssetUpload)="(beforeAssetUpload)"
+    [beforeAssetUpload]="beforeAssetUpload"
     (assetsUploaded)="assetsUploaded.emit($event)"
   ></cms-asset-upload-button>
   <form class="form-inline ml-2 mr-auto">
