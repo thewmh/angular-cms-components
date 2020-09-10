@@ -2,7 +2,7 @@
   "name": "@ordercloud/angular-cms-components",
   "author": "Four51",
   "license": "MIT",
-  "version": "1.0.0-beta.22",
+  "version": "1.0.0-beta.24",
   "scripts": {
     "start": "run-s copy-constants buildconfig-dev app-watchmode",
     "build": "run-s copy-constants buildconfig-prod plugin-prod build-lib buildconfig-dev move-scripts build-storybook",
@@ -79,6 +79,7 @@
     "ordercloud-javascript-sdk": "4.0.0-12",
     "protractor": "~7.0.0",
     "publish-please": "^5.5.1",
+    "q": "^1.5.1",
     "shx": "^0.3.2",
     "slick-carousel": "^1.8.1",
     "tinymce": "^5.4.1",

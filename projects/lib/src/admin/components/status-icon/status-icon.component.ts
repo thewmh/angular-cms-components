@@ -13,6 +13,8 @@ import {
 })
 export class StatusIconComponent implements OnInit, OnChanges {
   color: string;
+  @Input() activeText = 'Live';
+  @Input() inactiveText = 'Disabled';
   @Input() status = false;
   @Input() inline = false;
 

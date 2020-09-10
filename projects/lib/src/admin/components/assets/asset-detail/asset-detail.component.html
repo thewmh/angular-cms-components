@@ -1,0 +1,182 @@
+<div class="border-left h-100">
+  <div #assetImageView class="bg-dark asset-detail_image p-2">
+    <button
+      class="btn btn-sm btn-outline-light float-left sticky-top shadow"
+      (click)="closeClick.emit()"
+    >
+      Close
+    </button>
+    <a
+      class="btn btn-sm btn-outline-light float-right sticky-top shadow"
+      [href]="asset.Url"
+      target="_blank"
+    >
+      View Fullsize
+    </a>
+    <figure>
+      <img
+        (load)="loaded = true"
+        [style.opacity]="loaded ? 1 : 0"
+        [src]="asset.Url + '-m'"
+        [alt]="asset.Title"
+      />
+    </figure>
+  </div>
+  <div class="row p-3">
+    <div class="col-md-6 col-lg-5">
+      <table class="table table-sm table-borderless mb-0">
+        <tbody>
+          <tr>
+            <th scope="row" class="text-muted">Status</th>
+            <td>
+              <cms-status-icon
+                [status]="asset.Active"
+                activeText="Active"
+                inactiveText="Inactive"
+                inline="true"
+              ></cms-status-icon>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" class="text-muted">File Name</th>
+            <td>
+              {{ asset.FileName }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" class="text-muted">Asset Type</th>
+            <td>
+              {{ asset.Type }}
+              <span class="badge badge-secondary">{{
+                asset.Metadata.ContentType
+              }}</span>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" class="text-muted">Dimensions</th>
+            <td>
+              {{ asset.Metadata | assetDimensions }}
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" class="text-muted">Size</th>
+            <td>{{ asset.Metadata.SizeBytes }} bytes</td>
+          </tr>
+          <tr>
+            <th scope="row" class="text-muted">Date Created</th>
+            <td>
+              {{ asset.History.DateCreated | date: "MMMM d, yyyy 'at' h:mm a" }}
+            </td>
+          </tr>
+          <tr *ngIf="asset.History.DateUpdated !== asset.History.DateCreated">
+            <th scope="row" class="text-muted">Date Updated</th>
+            <td>
+              {{ asset.History.DateUpdated | date: "MMMM d, yyyy 'at' h:mm a" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6 col-lg-7">
+      <fieldset class="form-group">
+        <label for="assetStatus">Status</label>
+        <div id="assetStatus">
+          <div class="custom-control custom-radio custom-control-inline">
+            <input
+              type="radio"
+              id="assetActive1"
+              name="assetActiveStatus"
+              class="custom-control-input"
+              [checked]="assetForm.Active"
+              [disabled]="isLocked"
+              (change)="onAssetStatusChange()"
+            />
+            <label class="custom-control-label" for="assetActive1"
+              >Active</label
+            >
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input
+              type="radio"
+              id="assetActive2"
+              name="assetActiveStatus"
+              class="custom-control-input"
+              [checked]="!assetForm.Active"
+              [disabled]="isLocked"
+              (change)="onAssetStatusChange()"
+            />
+            <label class="custom-control-label" for="assetActive2"
+              >Disabled</label
+            >
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="assetTitle">Title</label>
+        <input
+          type="text"
+          id="assetTitle"
+          class="form-control"
+          [(ngModel)]="assetForm.Title"
+          required
+        />
+      </fieldset>
+
+      <fieldset class="form-group" *ngIf="tagOptions.length">
+        <label for="assetTags"
+          >Tagging ({{ assetForm.Tags ? assetForm.Tags.length : 0 }})</label
+        >
+        <div id="assetTags">
+          <button
+            *ngFor="let tag of tagOptions; index as i"
+            class="btn btn-sm ml-1"
+            [ngClass]="
+              assetForm.Tags && assetForm.Tags.includes(tag)
+                ? 'btn-primary'
+                : 'btn-outline-dark'
+            "
+            (click)="handleTagToggle(tag)"
+          >
+            {{ tag }}
+          </button>
+        </div>
+      </fieldset>
+      <div class="d-flex">
+        <button
+          [disabled]="!hasChanges"
+          class="btn btn-primary"
+          (click)="handleSaveAsset()"
+        >
+          Save Changes
+        </button>
+        <button
+          *ngIf="hasChanges"
+          class="btn btn-light ml-2"
+          (click)="handleDiscardChanges()"
+        >
+          Discard Changes
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="px-3 mt-5">
+    <div
+      class="alert alert-danger d-flex align-items-center justify-content-between"
+    >
+      <h5 class="text-danger m-0">Danger Zone</h5>
+      <button class="btn btn-danger" (click)="confirmDelete()">
+        Delete Asset
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE MODAL -->
+<ng-template #confirmModalTemplate>
+  <cms-confirm-modal
+    message="Are you sure you want to delete this asset?"
+    (proceed)="handleDeleteAsset()"
+    (cancel)="confirmDeleteModal.close()"
+  >
+  </cms-confirm-modal>
+</ng-template>

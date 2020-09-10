@@ -1,0 +1,16 @@
+:host {
+  flex: 1 0 auto;
+}
+
+.asset-detail_image {
+
+  figure {
+    margin: 0;
+    text-align: center;
+
+    img {
+      margin: 0 auto;
+      transition: opacity 100ms ease-in-out;
+    }
+  }
+}
