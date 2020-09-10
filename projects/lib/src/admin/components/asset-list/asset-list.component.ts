@@ -28,6 +28,7 @@ export class AssetListComponent implements OnInit, OnChanges {
   @Output() selectedChange = new EventEmitter<Asset[]>();
   @Input() assetDetail?: Asset;
   @Output() assetDetailChange = new EventEmitter<Asset>();
+  @Output() pageChangeEvent = new EventEmitter<number>();
 
   constructor() {}
 

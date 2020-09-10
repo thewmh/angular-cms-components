@@ -78,6 +78,12 @@
       </tr>
     </tbody>
   </table>
+  <ngb-pagination *ngIf="meta" 
+                  class="d-flex justify-content-center"
+                  [collectionSize]="meta.TotalCount"
+                  [pageSize]="meta.PageSize"
+                  [(page)]="meta.Page"
+                  (pageChange)="pageChangeEvent.emit($event)"></ngb-pagination>
   <div class="container" *ngIf="!items || !items.length">
     <cms-no-results message="No assets found"></cms-no-results>
   </div>
