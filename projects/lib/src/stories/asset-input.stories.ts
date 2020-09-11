@@ -19,10 +19,44 @@ export default {
   ],
 };
 
-export const FullExample = () => ({
+export const SingleAsset = () => ({
   component: AssetInputComponent,
   template: `<div class="p-5">
-    <cms-asset-input></cms-asset-input>
+    <cms-asset-input [(selected)]="selected" [tagOptions]="tagOptions" [defaultListOptions]="defaultListOptions"></cms-asset-input>
   </div>`,
-  props: {},
+  props: {
+    defaultListOptions: {
+      filters: {
+        Active: false,
+      },
+    },
+    selected: undefined,
+    tagOptions: [
+      'Blog',
+      'Promotion',
+      'People',
+      'Instruments',
+      'Backgrounds',
+      'Icons',
+      'Graphics',
+    ],
+  },
+});
+export const MultipleAssets = () => ({
+  component: AssetInputComponent,
+  template: `<div class="p-5">
+  <cms-asset-input [(selected)]="selected" [multiple]="true" [tagOptions]="tagOptions"></cms-asset-input>
+  </div>`,
+  props: {
+    selected: undefined,
+    tagOptions: [
+      'Blog',
+      'Promotion',
+      'People',
+      'Instruments',
+      'Backgrounds',
+      'Icons',
+      'Graphics',
+    ],
+  },
 });

@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import DEFAULT_ASSET_TYPES, {
   ASSET_TYPES,
 } from '../../constants/asset-types.constants';
-import { ListArgs, Asset } from '@ordercloud/headstart-sdk';
+import { ListArgs, Asset, AssetUpload } from '@ordercloud/headstart-sdk';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -15,6 +15,7 @@ export class AssetPickerComponent implements OnInit {
   @Input() tagOptions?: string[];
   @Input() assetTypes?: ASSET_TYPES[];
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
+  @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   selected: Asset[] = [];
 
   constructor(public modal: NgbActiveModal) {}

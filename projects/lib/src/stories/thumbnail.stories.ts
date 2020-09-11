@@ -23,7 +23,7 @@ const createDemo = (props: any) => {
   return () => ({
     component: ThumbnailComponent,
     template: `<div class="p-5">
-          <cms-thumbnail [size]="size" [asset]="asset"></cms-thumbnail>
+          <cms-thumbnail [size]="size" [asset]="asset" [caption]="caption" [showRemove]="showRemove" (remove)="handleRemove($event)"></cms-thumbnail>
         </div>`,
     props: {
       asset: {
@@ -50,12 +50,32 @@ const createDemo = (props: any) => {
           DateUpdated: '2020-08-31T18:28:37.2748594+00:00',
           UpdatedByUserID: 'rwatt41106',
         },
+        ...props.asset,
       },
       ...props,
     },
   });
 };
 
-export const Small = createDemo({ size: 100 });
-export const Medium = createDemo({ size: 300 });
-export const Large = createDemo({ size: 500 });
+export const Small = createDemo({ size: 'small' });
+export const Medium = createDemo({
+  size: 'medium',
+  caption: 'With a caption',
+  showRemove: true,
+  handleRemove: (e) => console.log('closed!'),
+});
+export const Large = createDemo({ size: 'large' });
+
+export const Attachment = createDemo({
+  size: 'small',
+  asset: { Type: 'Attachment' },
+  showRemove: true,
+  handleRemove: (e) => console.log('closed!'),
+});
+export const Theme = createDemo({ size: 'medium', asset: { Type: 'Theme' } });
+export const Structured = createDemo({
+  size: 'large',
+  asset: { Type: 'Structured' },
+  showRemove: true,
+  handleRemove: (e) => console.log('closed!'),
+});

@@ -6,6 +6,10 @@ import {
   OnChanges,
   Output,
   EventEmitter,
+  ViewRef,
+  ElementRef,
+  ViewChild,
+  AfterViewChecked,
 } from '@angular/core';
 import { Asset, Meta } from '@ordercloud/headstart-sdk';
 
@@ -16,7 +20,7 @@ export type AssetListMode = 'table' | 'grid';
   templateUrl: './asset-list.component.html',
   styleUrls: ['./asset-list.component.scss'],
 })
-export class AssetListComponent implements OnInit, OnChanges {
+export class AssetListComponent implements AfterViewChecked, OnChanges {
   @Input() showAssetStatus = true;
   @Input() shrink = false;
   @Input() mode: AssetListMode = 'table';
@@ -29,15 +33,59 @@ export class AssetListComponent implements OnInit, OnChanges {
   @Input() assetDetail?: Asset;
   @Output() assetDetailChange = new EventEmitter<Asset>();
   @Output() pageChangeEvent = new EventEmitter<number>();
+  @ViewChild('gridContainer') gridContainerEl: ElementRef;
+  columnWidth: string | number;
 
-  constructor() {}
+  constructor() {
+    window.addEventListener('resize', this.evaluateColumnWidth);
+  }
 
-  ngOnInit(): void {}
+  ngAfterViewChecked(): void {
+    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    // Add 'implements OnInit' to the class.
+    this.evaluateColumnWidth();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    // Add '${implements OnChanges}' to the class.
+    if (
+      (changes.gridContainerEl && changes.gridContainerEl.currentValue) ||
+      (changes.mode &&
+        !changes.mode.firstChange &&
+        changes.mode.currentValue === 'grid')
+    ) {
+      setTimeout(this.evaluateColumnWidth, 100);
+    }
   }
+
+  evaluateColumnWidth = () => {
+    if (
+      this.gridContainerEl &&
+      this.gridContainerEl.nativeElement &&
+      this.gridContainerEl.nativeElement.offsetWidth
+    ) {
+      const columnCount = this.evaluateColumnCount();
+      this.columnWidth = `calc((${
+        (this.gridContainerEl.nativeElement.offsetWidth - 15) / columnCount
+      }px - 0.5rem) - (0.5rem / ${columnCount}))`;
+    }
+  };
+
+  evaluateColumnCount = () => {
+    const windowWidth = window.innerWidth;
+    if (windowWidth <= 425) {
+      return 2;
+    }
+    if (windowWidth <= 768) {
+      return 3;
+    }
+    if (windowWidth <= 1024) {
+      return 5;
+    }
+    if (windowWidth <= 1440) {
+      return 6;
+    }
+    return 8;
+  };
 
   handleAssetClick = (asset: Asset) => {
     if (!this.selectable) {

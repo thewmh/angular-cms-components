@@ -5,16 +5,6 @@
     </colgroup>
     <thead>
       <tr>
-        <!-- <th *ngIf="!selectable">
-          <div class="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              id="selectAllAssets"
-            />
-            <label class="sr-only" for="selectAllAssets">Select All</label>
-          </div>
-        </th> -->
         <th><span class="sr-only">Image Preview</span></th>
         <th>Title</th>
         <th *ngIf="!shrink">Type</th>
@@ -32,26 +22,13 @@
         }"
         (click)="handleAssetClick(asset)"
       >
-        <!-- <th *ngIf="!selectable">
-          <div class="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              [id]="'selectAsset_' + i"
-            />
-            <label class="sr-only" [for]="selectAsset_' + i"
-              >Select {{ asset.Title || asset.Name }}</label
-            >
-          </div>
-        </th> -->
         <td>
-          <figure class="asset-table_figure">
-            <img
-              [src]="asset.Url + '-s'"
-              [alt]="asset.Title"
-              class="img-thumbnail shadow-sm"
-            />
-          </figure>
+          <cms-thumbnail
+            [size]="'small'"
+            [height]="60"
+            [width]="60"
+            [asset]="asset"
+          ></cms-thumbnail>
         </td>
         <td>
           {{ asset.Title || "---" }}
@@ -78,11 +55,13 @@
       </tr>
     </tbody>
   </table>
-  <ngb-pagination *ngIf="meta"
-                  [collectionSize]="meta.TotalCount"
-                  [pageSize]="meta.PageSize"
-                  [(page)]="meta.Page"
-                  (pageChange)="pageChangeEvent.emit($event)"></ngb-pagination>
+  <ngb-pagination
+    *ngIf="meta && meta.TotalPages > 1"
+    [collectionSize]="meta.TotalCount"
+    [pageSize]="meta.PageSize"
+    [(page)]="meta.Page"
+    (pageChange)="pageChangeEvent.emit($event)"
+  ></ngb-pagination>
   <div class="container" *ngIf="!items || !items.length">
     <cms-no-results message="No assets found"></cms-no-results>
   </div>
@@ -90,39 +69,29 @@
 
 <div
   *ngIf="mode === 'grid' && !shrink"
-  class="overflow-auto h-100 row mx-1 py-2 align-items-start align-content-start"
+  class="overflow-auto h-100 w-100"
+  #gridContainer
 >
-  <div
+  <cms-thumbnail
     *ngFor="let asset of items"
-    class="col-sm-6 col-md-4 col-lg-3 col-xl-2 px-1"
-  >
-    <figure
-      class="asset-grid_figure"
-      [ngClass]="{ selected: isAssetSelected(asset) }"
-      (click)="handleAssetClick(asset)"
-    >
-      <img
-        [src]="asset.Url + '-m'"
-        [alt]="asset.Title"
-        class="img-thumbnail shadow-sm"
-      />
-      <div class="asset-figure_overlay px-2" *ngIf="showAssetStatus">
-        <cms-status-icon
-          [status]="asset.Active"
-          activeText="Active"
-          inactiveText="Inactive"
-          inline="true"
-        ></cms-status-icon>
-      </div>
-      <figcaption class="figure-caption">
-        {{ asset.Title || asset.FileName }}
-      </figcaption>
-    </figure>
-  </div>
-  <ngb-pagination *ngIf="meta"
-                  [collectionSize]="meta.TotalCount"
-                  [pageSize]="meta.PageSize"
-                  [(page)]="meta.Page"
-                  (pageChange)="pageChangeEvent.emit($event)"></ngb-pagination>
+    class="pl-2 pt-2 float-left"
+    [size]="'medium'"
+    [height]="columnWidth"
+    [width]="columnWidth"
+    [asset]="asset"
+    [selected]="isAssetSelected(asset)"
+    (click)="handleAssetClick(asset)"
+    [caption]="asset.Title || asset.FileName"
+  ></cms-thumbnail>
+
+  <ngb-pagination
+    *ngIf="meta && meta.TotalPages > 1"
+    [collectionSize]="meta.TotalCount"
+    [pageSize]="meta.PageSize"
+    [(page)]="meta.Page"
+    (pageChange)="pageChangeEvent.emit($event)"
+  ></ngb-pagination>
   <div class="container" *ngIf="!items || !items.length">
+    <cms-no-results message="No assets found"></cms-no-results>
+  </div>
 </div>

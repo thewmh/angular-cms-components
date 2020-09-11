@@ -1,11 +1,61 @@
 :host {
-  display: inline;
+  display: inline-block;
+  max-width: 100%;
 }
 
-.img-background {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-color: var(--light)
+.img-thumbnail {
+  position: relative;
+
+  &.selected {
+    background: var(--primary);
+  }
+
+  &__inner {
+    width: 100%;
+    height: 100%;
+
+    &-image {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-color: var(--light);
+    }
+
+    &-icon {
+      &.small {
+        font-size: 0.8em;
+      }
+
+      &.large {
+        font-size: 1.2em;
+      }
+    }
+  }
+
+  &__caption {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    p {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .remove-button {
+    position: absolute;
+    right: -0.5rem;
+    top: -0.5rem;
+    border-radius: 50%;
+    .icon {
+      color: inherit;
+      display: inline-block;
+      font-size: inherit;
+      height: 1em;
+      vertical-align: -0.125em;
+    }
+  }
 }

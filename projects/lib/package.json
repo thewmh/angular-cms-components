@@ -16,6 +16,7 @@
     "tinymce": "^5.4.1"
   },
   "dependencies": {
+    "@fortawesome/angular-fontawesome": "^0.7.0",
     "tslib": "^2.0.0"
   }
 }
