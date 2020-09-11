@@ -1,13 +1,18 @@
 import { error } from '@angular/compiler/src/util';
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { Asset } from '@ordercloud/headstart-sdk';
-import { ASSET_TYPES } from '../../constants/asset-types.constants';
+import DEFAULT_ASSET_TYPES, {
+  ASSET_TYPE,
+  ASSET_TYPES,
+} from '../../constants/asset-types.constants';
 import { getGroupName } from '@contentful/mimetype';
 
 @Component({
@@ -18,22 +23,46 @@ import { getGroupName } from '@contentful/mimetype';
 export class ThumbnailComponent implements OnInit, OnChanges {
   @Input() asset?: Asset;
   @Input() file?: any;
-  @Input() size = 300;
+  @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Input() selected = false;
+  @Input('width') customWidth: number | string;
+  @Input('height') customHeight: number | string;
+  @Input() caption?: string;
+  @Input() showRemove = false;
+  @Output() remove = new EventEmitter<number | undefined>();
 
+  assetType: typeof ASSET_TYPE;
   ready = false;
-  type?: ASSET_TYPES | 'Error';
+  type?: ASSET_TYPES;
   url?: string;
   alt?: string;
   fr = new FileReader();
+  defaultSize: string;
 
   constructor() {
-    this.fr.onload = this.handleFileLoad;
-    this.fr.onerror = this.handleFileError;
-    this.fr.onloadend = this.handleFileLoadEnd;
+    this.assetType = ASSET_TYPE;
+    this.fr.onload = this.handleFileLoad.bind(this);
+    this.fr.onerror = this.handleFileError.bind(this);
+  }
+
+  get width(): string {
+    return this.customWidth
+      ? typeof this.customWidth === 'number'
+        ? this.customWidth + 'px'
+        : this.customWidth
+      : this.defaultSize;
+  }
+
+  get height(): string {
+    return this.customHeight
+      ? typeof this.customHeight === 'number'
+        ? this.customHeight + 'px'
+        : this.customHeight
+      : this.defaultSize;
   }
 
   ngOnInit(): void {
+    this.defaultSize = this.determineDefaultSize();
     if (this.asset && this.file) {
       throw error(
         '[angular-cms-components] CmsThumbnailComponent requires either an asset or a file, not both.'
@@ -58,8 +87,11 @@ export class ThumbnailComponent implements OnInit, OnChanges {
       return;
     }
 
-    if (changes.size && !changes.size.firstChange && this.asset) {
-      this.url = this.assetSizedUrl(this.asset.Url);
+    if (changes.size && !changes.size.firstChange) {
+      this.defaultSize = this.determineDefaultSize();
+      if (this.asset) {
+        this.url = this.assetSizedUrl(this.asset.Url);
+      }
     }
   }
 
@@ -74,13 +106,23 @@ export class ThumbnailComponent implements OnInit, OnChanges {
   }
 
   assetSizedUrl(url: string): string {
-    if (this.size <= 100) {
+    if (this.size === 'small') {
       return url + '-s';
     }
-    if (this.size <= 300) {
-      return url + '-m';
+    if (this.size === 'large') {
+      return url;
     }
-    return url;
+    return url + '-m';
+  }
+
+  determineDefaultSize(): string {
+    if (this.size === 'small') {
+      return '100px';
+    }
+    if (this.size === 'medium') {
+      return '300px';
+    }
+    return '600px';
   }
 
   initFile(): void {
@@ -92,14 +134,13 @@ export class ThumbnailComponent implements OnInit, OnChanges {
   }
 
   handleFileLoad(e: ProgressEvent<FileReader>): void {
-    this.url = e.target.result.toString();
+    console.log('test', e.target.result);
+    this.url = e.target.result as string;
+    this.ready = true;
   }
 
   handleFileError(e: ProgressEvent<FileReader>): void {
     this.type = undefined;
-  }
-
-  handleFileLoadEnd(): void {
     this.ready = true;
   }
 }

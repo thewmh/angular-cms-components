@@ -54,5 +54,8 @@
       }
     }
   },
-  "defaultProject": "lib"
+  "defaultProject": "lib",
+  "cli": {
+    "analytics": false
+  }
 }

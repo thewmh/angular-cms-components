@@ -1,1 +1,44 @@
-<div class="root"></div>
+<div class="root">
+  <button class="btn btn-outline-dark" (click)="openAssetPicker()">
+    {{ buttonText }}
+  </button>
+  <div [ngSwitch]="multiple">
+    <div *ngSwitchCase="true">
+      <cms-thumbnail
+        *ngFor="let asset of selected; let i = index"
+        (remove)="handleRemove(i)($event)"
+        [showRemove]="true"
+        class="pt-2 pr-2 f-left"
+        [size]="'medium'"
+        [height]="200"
+        [width]="200"
+        [asset]="asset"
+        [caption]="asset.Title || asset.FileName"
+      ></cms-thumbnail>
+    </div>
+
+    <div *ngSwitchDefault>
+      <cms-thumbnail
+        *ngIf="selected"
+        class="pt-2 pr-2 f-left"
+        (remove)="handleRemove()($event)"
+        [showRemove]="true"
+        [size]="'medium'"
+        [height]="200"
+        [width]="200"
+        [asset]="selected"
+        [caption]="selected.Title || selected.FileName"
+      ></cms-thumbnail>
+    </div>
+  </div>
+</div>
+<!-- ASSET PICKER MODAL -->
+<ng-template #assetPickerTemplate>
+  <cms-asset-picker
+    [assetTypes]="assetTypes"
+    [multiple]="multiple"
+    [tagOptions]="tagOptions"
+    [defaultListOptions]="defaultListOptions"
+    [beforeAssetUpload]="beforeAssetUpload"
+  ></cms-asset-picker>
+</ng-template>
