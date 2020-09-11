@@ -30,6 +30,7 @@ export class AssetDetailComponent implements OnInit, OnChanges {
   confirmDeleteModal: NgbModalRef;
   assetForm: any;
   loaded = false;
+  isLocked = false;
 
   constructor(private modalService: NgbModal) {}
 
@@ -88,9 +89,11 @@ export class AssetDetailComponent implements OnInit, OnChanges {
     if (!this.asset.ID) {
       return;
     }
+    this.isLocked = true;
     HeadStartSDK.Assets.Save(this.asset.ID, this.assetForm).then(
       (updated: Asset) => {
         this.assetSaved.emit(updated);
+        this.isLocked = false;
       }
     );
   }
