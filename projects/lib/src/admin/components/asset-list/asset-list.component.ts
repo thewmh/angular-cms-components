@@ -9,7 +9,7 @@ import {
   ViewRef,
   ElementRef,
   ViewChild,
-  AfterViewInit,
+  AfterViewChecked,
 } from '@angular/core';
 import { Asset, Meta } from '@ordercloud/headstart-sdk';
 
@@ -20,7 +20,7 @@ export type AssetListMode = 'table' | 'grid';
   templateUrl: './asset-list.component.html',
   styleUrls: ['./asset-list.component.scss'],
 })
-export class AssetListComponent implements AfterViewInit {
+export class AssetListComponent implements AfterViewChecked, OnChanges {
   @Input() showAssetStatus = true;
   @Input() shrink = false;
   @Input() mode: AssetListMode = 'table';
@@ -40,47 +40,48 @@ export class AssetListComponent implements AfterViewInit {
     window.addEventListener('resize', this.evaluateColumnWidth);
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(this.evaluateColumnWidth, 100);
+  ngAfterViewChecked(): void {
+    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    // Add 'implements OnInit' to the class.
+    this.evaluateColumnWidth();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      (changes.gridContainerEl && changes.gridContainerEl.currentValue) ||
+      (changes.mode &&
+        !changes.mode.firstChange &&
+        changes.mode.currentValue === 'grid')
+    ) {
+      setTimeout(this.evaluateColumnWidth, 100);
+    }
   }
 
   evaluateColumnWidth = () => {
-    console.log(
-      'test',
-      JSON.stringify(this.gridContainerEl, null, 2),
-      JSON.stringify(this.gridContainerEl.nativeElement, null, 2)
-    );
     if (
       this.gridContainerEl &&
       this.gridContainerEl.nativeElement &&
       this.gridContainerEl.nativeElement.offsetWidth
     ) {
       const columnCount = this.evaluateColumnCount();
-      console.log(
-        'check',
-        this.gridContainerEl.nativeElement.offsetWidth,
-        columnCount
-      );
-
       this.columnWidth = `calc((${
-        this.gridContainerEl.nativeElement.offsetWidth / columnCount
+        (this.gridContainerEl.nativeElement.offsetWidth - 15) / columnCount
       }px - 0.5rem) - (0.5rem / ${columnCount}))`;
-      console.log('new width', this.columnWidth);
     }
   };
 
   evaluateColumnCount = () => {
     const windowWidth = window.innerWidth;
-    if (windowWidth <= 768) {
+    if (windowWidth <= 425) {
       return 2;
     }
-    if (windowWidth <= 1068) {
-      return 4;
+    if (windowWidth <= 768) {
+      return 3;
     }
-    if (windowWidth <= 1280) {
+    if (windowWidth <= 1024) {
       return 5;
     }
-    if (windowWidth <= 1920) {
+    if (windowWidth <= 1440) {
       return 6;
     }
     return 8;
