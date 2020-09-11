@@ -37,6 +37,7 @@ export const NewPageExample = () => ({
     resourceType: 'Suppliers',
     resourceID: '41106',
     editorOptions: {
+      plugins: ['wordcount'],
       content_css: [
         // 'https://piasstorageprod.azureedge.net/buyerweb/styles.07d24b25eb6a60350a70.css',
         'https://mgrstoragetest.azureedge.net/buyerweb/styles.e94215343d3493186ae1.css',

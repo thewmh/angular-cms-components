@@ -18,6 +18,7 @@ import { SectionDateSettingsComponent } from '../section-date-settings/section-d
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 import { Asset } from '@ordercloud/headstart-sdk';
 import sectionPickerMock from '../section-picker/section-picker.mock';
+import tinymce from 'tinymce';
 
 @Component({
   selector: 'cms-html-editor',
@@ -30,6 +31,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() editorOptions: any;
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
+  @Output() charCountChange? = new EventEmitter<number>();
   html: string;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
@@ -78,7 +80,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     plugins: [
       'ordercloud print paste importcss searchreplace autolink autosave save directionality',
       'code visualblocks visualchars fullscreen image link media template codesample table charmap',
-      'hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools',
+      'hr pagebreak nonbreaking anchor toc insertdatetime advlist lists imagetools',
       'textpattern noneditable help charmap emoticons',
     ],
     menubar: 'file edit view insert format tools table help',
@@ -239,6 +241,9 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   // TODO: Throttle this callback so that the emitter isn't fired multiple times for the same change.
   onEditorChange(e: any): void {
     this.htmlChange.emit(this.html);
+    if (this.resolvedEditorOptions.plugins.filter((p) => p.includes('wordcount').length)) {
+      this.getCharacterCount();
+    }
   }
 
   openAssetPicker(callback, value, meta): void {
@@ -304,5 +309,11 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     modalRef.componentInstance.html = data.html;
     modalRef.componentInstance.remoteCss = data.remoteCss;
     return modalRef.result;
+  }
+
+  getCharacterCount() {
+    const body = tinymce.get(this.tinymceId).getBody();
+    const content = tinymce.trim(body.innerText || body.textContent);
+    this.charCountChange.emit(content.length);
   }
 }
