@@ -46,6 +46,22 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
 
+  defaultListOptions = {
+    filters: {
+      Active: false,
+    },
+  };
+
+  tagOptions = [
+    'Blog',
+    'Promotion',
+    'People',
+    'Instruments',
+    'Backgrounds',
+    'Icons',
+    'Graphics',
+  ];
+
   page: Partial<PageContentDoc>;
   automaticUrl: boolean;
   pageNavigation: boolean;

@@ -268,9 +268,12 @@
 
           <div class="form-group">
             <label for="pageImage">Meta Image</label>
-            <p class="lead" id="pageImage">
-              TODO: Create AssetInputComponent
-            </p>
+            <cms-asset-input
+              [defaultListOptions]="defaultListOptions"
+              [(selected)]="page.MetaImage"
+              [tagOptions]="tagOptions"
+              [assetTypes]="[]"
+            ></cms-asset-input>
             <!-- <cms-asset-input></cms-asset-input> -->
           </div>
           <div class="form-group">

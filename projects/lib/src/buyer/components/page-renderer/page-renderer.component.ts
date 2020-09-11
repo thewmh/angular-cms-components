@@ -4,6 +4,7 @@ import { JDocument } from '@ordercloud/headstart-sdk';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { PageContentDoc } from '../../../admin/models/page-content-doc.interface';
+import { NONE_TYPE } from '@angular/compiler/src/output/output_ast';
 
 /** @dynamic */
 @Component({
@@ -58,7 +59,7 @@ export class PageRendererComponent implements OnInit {
     });
     this.metaService.updateTag({
       property: 'og:image',
-      content: page.MetaImageUrl,
+      content: page.MetaImage ? page.MetaImage.Url : undefined,
     });
 
     // twitter metadata
@@ -80,7 +81,7 @@ export class PageRendererComponent implements OnInit {
     });
     this.metaService.updateTag({
       property: 'twitter:image',
-      content: page.MetaImageUrl,
+      content: page.MetaImage ? page.MetaImage.Url : undefined,
     });
   }
 
