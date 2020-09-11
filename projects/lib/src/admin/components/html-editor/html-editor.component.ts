@@ -18,6 +18,7 @@ import { SectionDateSettingsComponent } from '../section-date-settings/section-d
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 import { Asset } from '@ordercloud/headstart-sdk';
 import sectionPickerMock from '../section-picker/section-picker.mock';
+import tinymce from 'tinymce';
 
 @Component({
   selector: 'cms-html-editor',
@@ -79,7 +80,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       'ordercloud print paste importcss searchreplace autolink autosave save directionality',
       'code visualblocks visualchars fullscreen image link media template codesample table charmap',
       'hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools',
-      'textpattern noneditable help charmap emoticons',
+      'textpattern noneditable help charmap emoticons wordcount',
     ],
     menubar: 'file edit view insert format tools table help',
     menu: {
@@ -239,6 +240,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   // TODO: Throttle this callback so that the emitter isn't fired multiple times for the same change.
   onEditorChange(e: any): void {
     this.htmlChange.emit(this.html);
+    this.getCharacterCount();
   }
 
   openAssetPicker(callback, value, meta): void {
@@ -304,5 +306,11 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     modalRef.componentInstance.html = data.html;
     modalRef.componentInstance.remoteCss = data.remoteCss;
     return modalRef.result;
+  }
+
+  getCharacterCount() {
+    const body = tinymce.get(this.tinymceId).getBody();
+    const content = tinymce.trim(body.innerText || body.textContent);
+    const characterCount = content.length
   }
 }
