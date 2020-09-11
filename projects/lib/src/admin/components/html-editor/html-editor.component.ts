@@ -31,7 +31,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() editorOptions: any;
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
-  @Output() charCount = new EventEmitter<number>();
+  @Output() charCountChange? = new EventEmitter<number>();
   html: string;
   hasCharCountLimit: boolean = false;
   resolvedEditorOptions: any = {};
@@ -316,6 +316,6 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   getCharacterCount() {
     const body = tinymce.get(this.tinymceId).getBody();
     const content = tinymce.trim(body.innerText || body.textContent);
-    this.charCount.emit(content.length);
+    this.charCountChange.emit(content.length);
   }
 }
