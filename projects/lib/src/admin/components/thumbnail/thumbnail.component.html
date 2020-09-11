@@ -4,6 +4,7 @@
   [style.width]="width"
   [style.height]="height"
   [ngSwitch]="ready"
+  [title]="caption || ready ? alt || 'Untitled' : 'loading'"
 >
   <button
     *ngIf="showRemove"
