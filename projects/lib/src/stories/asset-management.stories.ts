@@ -96,3 +96,49 @@ export const MultipleSelect = () => ({
     ],
   },
 });
+
+export const OneAssetType = () => ({
+  component: AssetManagementComponent,
+  template: `
+    <div style="height:100vh">
+      <cms-asset-management
+        [assetTypes]="assetTypes"
+        [multiple]="multiple"
+        [selectable]="selectable"
+        [tagOptions]="tagOptions">
+      </cms-asset-management>
+    </div>
+  `,
+  props: {
+    selectable: true,
+    multiple: true,
+    assetTypes: ['Image'],
+    tagOptions: [
+      'Blog',
+      'Promotion',
+      'People',
+      'Instruments',
+      'Backgrounds',
+      'Icons',
+      'Graphics',
+    ],
+  },
+});
+
+export const OneAssetTypeNoTags = () => ({
+  component: AssetManagementComponent,
+  template: `
+    <div style="height:100vh">
+      <cms-asset-management
+        [assetTypes]="assetTypes"
+        [multiple]="multiple"
+        [selectable]="selectable">
+      </cms-asset-management>
+    </div>
+  `,
+  props: {
+    selectable: true,
+    multiple: true,
+    assetTypes: ['Image'],
+  },
+});

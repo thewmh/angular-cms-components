@@ -13,7 +13,13 @@
   <div
     class="d-flex flex-grow-1 flex-shrink-1 align-items-stretch overflow-hidden"
   >
-    <div class="flex-grow-0 flex-shrink-1">
+    <div
+      class="flex-grow-0 flex-shrink-1"
+      *ngIf="
+        (assetTypes && assetTypes.length > 1) ||
+        (tagOptions && tagOptions.length)
+      "
+    >
       <!-- ASSET FILTERS -->
       <cms-asset-filters
         [types]="assetTypes"
