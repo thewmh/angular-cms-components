@@ -31,7 +31,9 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() editorOptions: any;
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
+  @Output() charCount = new EventEmitter<number>();
   html: string;
+  hasCharCountLimit: boolean = false;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
   private timer;
@@ -79,8 +81,8 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     plugins: [
       'ordercloud print paste importcss searchreplace autolink autosave save directionality',
       'code visualblocks visualchars fullscreen image link media template codesample table charmap',
-      'hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools',
-      'textpattern noneditable help charmap emoticons wordcount',
+      'hr pagebreak nonbreaking anchor toc insertdatetime advlist lists imagetools',
+      'textpattern noneditable help charmap emoticons',
     ],
     menubar: 'file edit view insert format tools table help',
     menu: {
@@ -240,7 +242,10 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   // TODO: Throttle this callback so that the emitter isn't fired multiple times for the same change.
   onEditorChange(e: any): void {
     this.htmlChange.emit(this.html);
-    this.getCharacterCount();
+    if (this.resolvedEditorOptions.plugins.filter((p) => p.includes('wordcount').length)) {
+      this.hasCharCountLimit = true;
+      this.getCharacterCount();
+    }
   }
 
   openAssetPicker(callback, value, meta): void {
@@ -311,6 +316,6 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   getCharacterCount() {
     const body = tinymce.get(this.tinymceId).getBody();
     const content = tinymce.trim(body.innerText || body.textContent);
-    const characterCount = content.length
+    this.charCount.emit(content.length);
   }
 }

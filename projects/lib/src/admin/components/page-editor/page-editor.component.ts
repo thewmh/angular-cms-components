@@ -42,6 +42,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() parentResourceType?: ParentResourceType = null; // optional
   @Input() parentResourceID?: string = null; // optional
   @Input() lockedSlugs?: string[]; // optional
+  @Input() maxCharCount?: number; // optional
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
@@ -52,6 +53,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   confirmModal: NgbModalRef;
   isLoadingSave: boolean;
   selectedTab: string;
+  charCount: number = 0;
 
   constructor(private modalService: NgbModal) {}
 
@@ -90,6 +92,10 @@ export class PageEditorComponent implements OnInit, OnChanges {
     if (this.automaticUrl && !this.isLocked) {
       this.page.Url = kebab(value);
     }
+  }
+
+  onCharCountChange(count: number): void {
+    this.charCount = count;
   }
 
   onAutomaticUrlChange(): void {
