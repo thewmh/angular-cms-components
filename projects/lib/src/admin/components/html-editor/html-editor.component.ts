@@ -33,7 +33,6 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Output() htmlChange = new EventEmitter<string>();
   @Output() charCountChange? = new EventEmitter<number>();
   html: string;
-  hasCharCountLimit: boolean = false;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
   private timer;
@@ -243,7 +242,6 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   onEditorChange(e: any): void {
     this.htmlChange.emit(this.html);
     if (this.resolvedEditorOptions.plugins.filter((p) => p.includes('wordcount').length)) {
-      this.hasCharCountLimit = true;
       this.getCharacterCount();
     }
   }
