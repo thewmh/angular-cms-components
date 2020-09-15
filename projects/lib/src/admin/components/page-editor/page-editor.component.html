@@ -18,7 +18,9 @@
           </div>
           <div class="flex-grow-0 flex-shrink-1 pr-3">
             <h4 class="m-0">
-              {{ document.Doc.Title || "Untitled" }}
+              {{
+                document.Doc.NavigationTitle || document.Doc.Title || "Untitled"
+              }}
             </h4>
           </div>
           <div class="flex-grow-0 flex-shrink-1" *ngIf="hasChanges">
