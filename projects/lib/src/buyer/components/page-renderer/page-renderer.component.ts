@@ -1,10 +1,9 @@
-import { Component, OnInit, Input, Renderer2, Inject } from '@angular/core';
+import { Component, Input, Renderer2, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { WidgetService } from '../../../shared/services/widget.service';
 import { JDocument } from '@ordercloud/headstart-sdk';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { PageContentDoc } from '../../../admin/models/page-content-doc.interface';
-import { NONE_TYPE } from '@angular/compiler/src/output/output_ast';
 
 /** @dynamic */
 @Component({
@@ -12,7 +11,7 @@ import { NONE_TYPE } from '@angular/compiler/src/output/output_ast';
   templateUrl: './page-renderer.component.html',
   styleUrls: ['./page-renderer.component.scss'],
 })
-export class PageRendererComponent implements OnInit {
+export class PageRendererComponent implements OnChanges {
   @Input() pageDoc: JDocument;
   content: string;
 
@@ -24,11 +23,13 @@ export class PageRendererComponent implements OnInit {
     @Inject(DOCUMENT) private document: HTMLDocument
   ) {}
 
-  ngOnInit(): void {
-    const page: PageContentDoc = this.pageDoc.Doc;
-    this.content = this.widgetService.applyDateRules(page.Content);
-    this.setMetaData(page);
-    this.loadScripts(page.HeaderEmbeds, page.FooterEmbeds);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.pageDoc && (changes.pageDoc.previousValue !== changes.pageDoc.currentValue)) {
+      const page: PageContentDoc = this.pageDoc.Doc;
+      this.content = this.widgetService.applyDateRules(page.Content);
+      this.setMetaData(page);
+      this.loadScripts(page.HeaderEmbeds, page.FooterEmbeds);
+    }
   }
 
   private setMetaData(page: PageContentDoc): void {
@@ -38,7 +39,7 @@ export class PageRendererComponent implements OnInit {
     if (page.NoRobotsIndexing) {
       this.metaService.updateTag({ property: 'robots', content: 'noindex' });
     } else {
-      this.metaService.removeTag('[property="robots"]');
+      this.metaService.removeTag('property = "robots"');
     }
     this.titleService.setTitle(page.Title);
     this.metaService.updateTag({
