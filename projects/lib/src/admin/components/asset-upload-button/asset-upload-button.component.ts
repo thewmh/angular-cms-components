@@ -41,7 +41,7 @@ export class AssetUploadButtonComponent implements OnInit {
   }
 
   handleCancel() {
-    this.confirmModal.dismiss();
+    this.confirmModal.dismiss('user dismissed modal');
     this.selectedFiles = undefined;
   }
 

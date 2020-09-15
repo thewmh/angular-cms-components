@@ -266,6 +266,11 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
         // TODO: do
         console.error('Filetype is not yet implemented');
       }
+    })
+    .catch(e => {
+      if (e !== 'user dismissed modal') {
+        throw e;
+      }
     });
   }
 

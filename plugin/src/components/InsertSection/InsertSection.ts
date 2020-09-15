@@ -23,9 +23,9 @@ export default (editor) => {
           </div>`
           );
         })
-        .catch((ex) => {
-          if (ex === 'Cross click') {
-            return;
+        .catch(e => {
+          if (e !== 'user dismissed modal') {
+            throw e;
           }
         });
     },
@@ -57,9 +57,9 @@ export default (editor) => {
           });
           editor.execCommand('mceSelectNode', false, node);
         })
-        .catch((ex) => {
-          if (ex === 'Cross click') {
-            return;
+        .catch(e => {
+          if (e !== 'user dismissed modal') {
+            throw e;
           }
         });
     },
@@ -73,9 +73,9 @@ export default (editor) => {
     scope: 'node',
   });
 
-  editor.on('preInit', function () {
+  editor.on('preInit', function() {
     function toggleContentEditableState(state) {
-      return function (nodes) {
+      return function(nodes) {
         let i = nodes.length,
           node;
 
