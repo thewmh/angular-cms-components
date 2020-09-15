@@ -9,23 +9,20 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body py-0">
-  <div class="row">
-    <div class="col-sm-3"></div>
-    <div class="col-sm-9 section-picker_container py-3">
-      <div #list class="section-picker_list">
-        <div *ngFor="let template of sectionTemplates; index as i">
-          <cms-section-template-renderer
-            [html]="template"
-            [selected]="i === selectedTemplateIndex"
-            (click)="handleSelectTemplate(i)"
-            [previewWidth]="previewWidth"
-            [previewTransformRatio]="previewTransformRatio"
-            [remoteCss]="data.remoteCss"
-          ></cms-section-template-renderer>
+<div class="modal-body">
+  <div class="section-picker_container">
+    <div #list class="section-picker_list">
+      <div *ngFor="let template of sectionTemplates; index as i">
+        <cms-section-template-renderer
+          [html]="template"
+          [selected]="i === selectedTemplateIndex"
+          (click)="handleSelectTemplate(i)"
+          [previewWidth]="previewWidth"
+          [previewTransformRatio]="previewTransformRatio"
+          [remoteCss]="data.remoteCss"
+        ></cms-section-template-renderer>
 
-          <hr *ngIf="i < sectionTemplates.length - 1" />
-        </div>
+        <hr *ngIf="i < sectionTemplates.length - 1" />
       </div>
     </div>
   </div>
