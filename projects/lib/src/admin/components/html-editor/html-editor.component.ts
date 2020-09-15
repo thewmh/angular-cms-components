@@ -286,7 +286,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
 
   openSectionPicker(data): Promise<any> {
     const modalRef = this.modalService.open(SectionPickerComponent, {
-      size: 'xl',
+      size: 'lg',
       centered: true,
       // TODO: might wanna abstract these classes / centered as default settings for any modal that's opened from the editor
       backdropClass: 'oc-tinymce-modal_backdrop',
