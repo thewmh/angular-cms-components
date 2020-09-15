@@ -18,7 +18,6 @@ import { SectionDateSettingsComponent } from '../section-date-settings/section-d
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 import { Asset } from '@ordercloud/headstart-sdk';
 import sectionPickerMock from '../section-picker/section-picker.mock';
-import tinymce from 'tinymce';
 
 @Component({
   selector: 'cms-html-editor',
@@ -31,7 +30,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() editorOptions: any;
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
-  @Output() charCountChange? = new EventEmitter<number>();
+  @Output() charCountChange ?= new EventEmitter<number>();
   html: string;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
@@ -171,7 +170,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net'],
   };
 
-  constructor(private modalService: NgbModal, public zone: NgZone) {}
+  constructor(private modalService: NgbModal, public zone: NgZone) { }
 
   ngOnInit(): void {
     this.componentMountedToDom = false;
@@ -241,7 +240,11 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   // TODO: Throttle this callback so that the emitter isn't fired multiple times for the same change.
   onEditorChange(e: any): void {
     this.htmlChange.emit(this.html);
-    if (this.resolvedEditorOptions.plugins.filter((p) => p.includes('wordcount').length)) {
+    if (
+      this.resolvedEditorOptions.plugins.filter(
+        (p) => p.includes('wordcount').length
+      )
+    ) {
       this.getCharacterCount();
     }
   }
@@ -311,9 +314,15 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     return modalRef.result;
   }
 
-  getCharacterCount() {
-    const body = tinymce.get(this.tinymceId).getBody();
-    const content = tinymce.trim(body.innerText || body.textContent);
-    this.charCountChange.emit(content.length);
+  getCharacterCount(): void {
+    // importing tinymce breaks things so we have to use instance from window
+    /* tslint:disable: no-string-literal */
+    const tinymce = window['tinymce'];
+
+    const body = tinymce.get(this.tinymceId)?.getBody();
+    if (body) {
+      const content = tinymce.trim(body.innerText || body.textContent);
+      this.charCountChange.emit(content.length);
+    }
   }
 }
