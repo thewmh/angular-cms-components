@@ -30,7 +30,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() editorOptions: any;
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
-  @Output() charCountChange ?= new EventEmitter<number>();
+  @Output() charCountChange? = new EventEmitter<number>();
   html: string;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
@@ -77,56 +77,39 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     height: 500,
 
     plugins: [
-      'ordercloud print paste importcss searchreplace autolink autosave save directionality',
+      'ordercloud wordcount print paste importcss searchreplace autolink autosave save directionality',
       'code visualblocks visualchars fullscreen image link media template codesample table charmap',
       'hr pagebreak nonbreaking anchor toc insertdatetime advlist lists imagetools',
       'textpattern noneditable help charmap emoticons',
     ],
-    menubar: 'file edit view insert format tools table help',
+    menubar: 'edit view insert format',
     menu: {
-      file: {
-        title: 'File',
-        items: 'newdocument restoredraft | oc-preview | print ',
-      },
       edit: {
         title: 'Edit',
         items: 'undo redo | cut copy paste | selectall | searchreplace',
       },
       view: {
         title: 'View',
-        items:
-          'code | visualaid visualchars visualblocks | spellchecker | oc-preview fullscreen',
+        items: 'code oc-preview fullscreen',
       },
       insert: {
         title: 'Insert',
-        items:
-          'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime',
+        items: 'image link media oc-section inserttable | charmap emoticons hr',
       },
       format: {
         title: 'Format',
         items:
           'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat',
       },
-      tools: {
-        title: 'Tools',
-        items: 'spellchecker spellcheckerlanguage | code wordcount',
-      },
-      table: {
-        title: 'Table',
-        items: 'inserttable | cell row column | tableprops deletetable',
-      },
-      help: { title: 'Help', items: 'help' },
     },
     toolbar: [
-      'oc-carousel oc-product oc-section',
       'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat',
     ],
     quickbars_selection_toolbar:
       'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
     imagetools_toolbar:
       'rotateleft rotateright | flipv fliph | editimage imageoptions',
-    contextmenu:
-      'link image imagetools table oc-product oc-row oc-col oc-section',
+    contextmenu: 'link image imagetools table oc-row oc-col',
     toolbar_sticky: true,
     autosave_ask_before_unload: true,
     autosave_interval: '30s',
@@ -170,7 +153,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net'],
   };
 
-  constructor(private modalService: NgbModal, public zone: NgZone) { }
+  constructor(private modalService: NgbModal, public zone: NgZone) {}
 
   ngOnInit(): void {
     this.componentMountedToDom = false;
@@ -256,22 +239,23 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });
-    modalRef.result.then((asset: Asset) => {
-      if (meta.filetype === 'image') {
-        callback(asset.Url, { alt: asset.Title });
-      } else if (meta.filetype === 'file') {
-        // TODO: do
-        console.error('Filetype is not yet implemented');
-      } else if (meta.filetype === 'media') {
-        // TODO: do
-        console.error('Filetype is not yet implemented');
-      }
-    })
-    .catch(e => {
-      if (e !== 'user dismissed modal') {
-        throw e;
-      }
-    });
+    modalRef.result
+      .then((asset: Asset) => {
+        if (meta.filetype === 'image') {
+          callback(asset.Url, { alt: asset.Title });
+        } else if (meta.filetype === 'file') {
+          // TODO: do
+          console.error('Filetype is not yet implemented');
+        } else if (meta.filetype === 'media') {
+          // TODO: do
+          console.error('Filetype is not yet implemented');
+        }
+      })
+      .catch((e) => {
+        if (e !== 'user dismissed modal') {
+          throw e;
+        }
+      });
   }
 
   openCarouselEditor(): Promise<any> {
