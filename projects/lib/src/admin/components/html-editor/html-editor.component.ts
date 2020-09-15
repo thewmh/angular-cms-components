@@ -30,7 +30,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() editorOptions: any;
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
-  @Output() charCountChange ? = new EventEmitter<number>();
+  @Output() charCountChange ?= new EventEmitter<number>();
   html: string;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
@@ -170,7 +170,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net'],
   };
 
-  constructor(private modalService: NgbModal, public zone: NgZone) {}
+  constructor(private modalService: NgbModal, public zone: NgZone) { }
 
   ngOnInit(): void {
     this.componentMountedToDom = false;
