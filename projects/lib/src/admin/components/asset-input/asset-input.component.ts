@@ -51,6 +51,11 @@ export class AssetInputComponent implements OnInit {
     this.assetPicker.componentInstance.beforeAssetUpload = this.beforeAssetUpload;
     this.assetPicker.result.then((selected: Asset | Asset[]) => {
       this.selectedChange.emit(selected);
+    })
+    .catch(e => {
+      if (e !== 'user dismissed modal') {
+        throw e;
+      }
     });
   }
 
