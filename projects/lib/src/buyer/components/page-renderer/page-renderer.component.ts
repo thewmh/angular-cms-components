@@ -38,7 +38,7 @@ export class PageRendererComponent implements OnInit {
     if (page.NoRobotsIndexing) {
       this.metaService.updateTag({ property: 'robots', content: 'noindex' });
     } else {
-      this.metaService.removeTag('[property="robots"]');
+      this.metaService.removeTag('property = "robots"');
     }
     this.titleService.setTitle(page.Title);
     this.metaService.updateTag({
