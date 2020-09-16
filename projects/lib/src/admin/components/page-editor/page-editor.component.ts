@@ -42,6 +42,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() parentResourceType?: ParentResourceType = null; // optional
   @Input() parentResourceID?: string = null; // optional
   @Input() lockedSlugs?: string[]; // optional
+  @Input() usedSlugs?: string[];
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
@@ -68,6 +69,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   confirmModal: NgbModalRef;
   isLoadingSave: boolean;
   selectedTab: string;
+  duplicateUrl: boolean;
 
   constructor(private modalService: NgbModal) {}
 
@@ -88,6 +90,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
       ? this.page.Url === kebab(this.page.Title)
       : true;
     this.pageNavigation = Boolean(this.page ? this.page.NavigationTitle : true);
+
+    this.duplicateUrl = false;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -105,13 +109,24 @@ export class PageEditorComponent implements OnInit, OnChanges {
   onPageTitleKeyUp(value: string): void {
     if (this.automaticUrl && !this.isLocked) {
       this.page.Url = kebab(value);
+      this.onPageUrlKeyUp();
     }
   }
 
   onAutomaticUrlChange(): void {
     if (this.automaticUrl && this.page.Title) {
       this.page.Url = kebab(this.page.Title);
+      this.onPageUrlKeyUp();
     }
+  }
+
+  onPageUrlKeyUp(): void {
+    this.duplicateUrl = this.usedSlugs.includes(this.page.Url);
+  }
+
+  onPageUrlChange() {
+    this.page.Url = kebab(this.page.Url);
+    this.onPageUrlKeyUp();
   }
 
   onPageNavigationChange(): void {
@@ -215,6 +230,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
   }
 
   get isValid(): boolean {
-    return Boolean(this.page.Title && (this.page.Url || this.isLocked));
+    return Boolean(
+      this.page.Title && (this.page.Url || this.isLocked) && !this.duplicateUrl
+    );
   }
 }

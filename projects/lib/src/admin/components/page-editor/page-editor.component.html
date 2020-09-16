@@ -152,6 +152,9 @@
                 [(ngModel)]="page.Url"
                 [readOnly]="automaticUrl"
                 [disabled]="isLocked"
+                (keyup)="onPageUrlKeyUp()"
+                (change)="onPageUrlChange()"
+                [ngClass]="{ 'is-invalid': duplicateUrl }"
                 required
                 aria-describedby="pageUrlHelp"
                 [placeholder]="
@@ -161,7 +164,18 @@
                 "
               />
             </div>
-            <small id="pageUrlHelp" class="form-text text-muted"
+            <small
+              id="pageUrlError"
+              class="form-text text-danger"
+              *ngIf="duplicateUrl"
+            >
+              This page location is already in use. Please choose something
+              different or remove the other page.
+            </small>
+            <small
+              id="pageUrlHelp"
+              class="form-text text-muted"
+              *ngIf="!duplicateUrl"
               >This must be unique across all of your pages. Kebab case
               recommended, use text relevant to this page for best SEO results.
             </small>

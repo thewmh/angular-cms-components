@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { HeadStartSDK, JDocument } from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
@@ -28,7 +36,7 @@ export class PageListComponent implements OnInit, OnChanges {
   list: JDocument[];
   selected?: JDocument;
 
-  constructor(private spinner: NgxSpinnerService) { }
+  constructor(private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     if (!this.resourceType || !this.resourceID) {
@@ -53,12 +61,14 @@ export class PageListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const resourceIDChanged = changes.resourceID &&
-                              !changes.resourceID.firstChange &&
-                              changes.resourceID.previousValue !== changes.resourceID.currentValue;
-    const resourceTypeChanged = changes.resourceType &&
-                              !changes.resourceType.firstChange &&
-                              changes.resourceType.previousValue !== changes.resourceType.currentValue;
+    const resourceIDChanged =
+      changes.resourceID &&
+      !changes.resourceID.firstChange &&
+      changes.resourceID.previousValue !== changes.resourceID.currentValue;
+    const resourceTypeChanged =
+      changes.resourceType &&
+      !changes.resourceType.firstChange &&
+      changes.resourceType.previousValue !== changes.resourceType.currentValue;
     if (resourceIDChanged || resourceTypeChanged) {
       this.ngOnInit();
     }
@@ -95,6 +105,14 @@ export class PageListComponent implements OnInit, OnChanges {
         this.loading = false;
         this.spinner.hide();
       });
+  }
+
+  get usedSlugs(): string[] {
+    return this.list && this.list.length
+      ? this.list
+          .map((i) => i.Doc.Url)
+          .filter((s) => this.selected && this.selected.Doc.Url !== s)
+      : [];
   }
 
   onSearchFieldChange(searchTerm): void {
