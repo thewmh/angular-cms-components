@@ -76,6 +76,7 @@ export const MultipleSelect = () => ({
   template: `
     <div style="height:100vh">
       <cms-asset-management
+        [defaultListOptions]="defaultListOptions"
         [multiple]="multiple"
         [selectable]="selectable"
         [tagOptions]="tagOptions">
@@ -83,6 +84,9 @@ export const MultipleSelect = () => ({
     </div>
   `,
   props: {
+    defaultListOptions: {
+      Active: true,
+    },
     selectable: true,
     multiple: true,
     tagOptions: [
