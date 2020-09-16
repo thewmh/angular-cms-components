@@ -36,7 +36,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
-  @Output() charCountChange ? = new EventEmitter<number>();
+  @Output() charCountChange? = new EventEmitter<number>();
   html: string;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;

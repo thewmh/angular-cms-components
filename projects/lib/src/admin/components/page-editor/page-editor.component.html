@@ -318,20 +318,18 @@
       <li ngbNavItem="2" [destroyOnHide]="false">
         <a ngbNavLink>Content</a>
         <ng-template ngbNavContent>
-          <div class="form-group">
-            <label for="pageContent" class="sr-only">Page Content</label>
-            <cms-html-editor
-              *ngIf="editorOptions"
-              [initialValue]="page.Content"
-              [editorOptions]="editorOptions"
-              (htmlChange)="onPageContentChange($event)"
-              [tagOptions]="tagOptions"
-              [assetTypes]="assetTypes"
-              [defaultListOptions]="defaultListOptions"
-              [beforeAssetUpload]="beforeAssetUpload"
-              (selectedAssetChange)="selectedAssetChange.emit($event)"
-            ></cms-html-editor>
-          </div>
+          <label for="pageContent" class="sr-only">Page Content</label>
+          <cms-html-editor
+            *ngIf="editorOptions"
+            [initialValue]="page.Content"
+            [editorOptions]="editorOptions"
+            (htmlChange)="onPageContentChange($event)"
+            [tagOptions]="tagOptions"
+            [assetTypes]="assetTypes"
+            [defaultListOptions]="defaultListOptions"
+            [beforeAssetUpload]="beforeAssetUpload"
+            (selectedAssetChange)="selectedAssetChange.emit($event)"
+          ></cms-html-editor>
         </ng-template>
       </li>
       <li ngbNavItem="3" [destroyOnHide]="false">
@@ -365,22 +363,21 @@
   </div>
 </div>
 
-<div class="tab-container container-fluid pt-3">
-  <div class="row">
-    <div
-      [ngClass]="{
-        'col-md-8 col-sm-7': selectedTab !== '2',
-        'col-12': selectedTab === '2'
-      }"
-      [ngbNavOutlet]="nav"
-    ></div>
-    <div class="col-md-4 col-sm-5" *ngIf="selectedTab !== '2'">
+<div
+  class="tab-container container-fluid pt-3"
+  [ngClass]="{ 'content-tab': selectedTab === '2' }"
+>
+  <div class="row" *ngIf="selectedTab !== '2'">
+    <div class="col-md-8 col-sm-7" [ngbNavOutlet]="nav"></div>
+    <div class="col-md-4 col-sm-5">
       <cms-page-summary
         [document]="document"
         [renderSiteUrl]="renderSiteUrl"
       ></cms-page-summary>
     </div>
   </div>
+
+  <div *ngIf="selectedTab === '2'" [ngbNavOutlet]="nav"></div>
 </div>
 
 <!-- CONFIRM DELETE MODAL -->

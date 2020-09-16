@@ -42,6 +42,8 @@ export const MusicGoRoundStyles = () => ({
     lockedSlugs: ['', 'about-us'],
 
     editorOptions: {
+      resize: false,
+      height: 'calc(100vh - 114px)',
       ordercloud: {
         get_section_templates_callback: () =>
           Promise.resolve(mgrSectionTemplates),
@@ -122,6 +124,6 @@ export const WithBeforeAssetUpload = () => ({
     beforeAssetUpload: (asset) => {
       console.log('before asset upload was hit');
       return Promise.resolve(asset);
-    }
+    },
   },
 });
