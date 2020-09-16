@@ -71,7 +71,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
         "Because you've provided a resourceType and resourceID, defaultListOptions will be ignored as they are not currently supported while listing assets per resource"
       );
     }
-    this.listAssets(this.defaultListOptions);
+    this.listAssets();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -94,16 +94,16 @@ export class AssetManagementComponent implements OnInit, OnChanges {
     }
   }
 
-  listAssets(options: ListArgs<Asset>) {
+  listAssets() {
     this.spinner.show();
     const requestOptions: ListArgs<Asset> = Object.assign(
       {},
       {
         ...this.options,
-        ...options,
+        ...this.defaultListOptions,
         filters: {
           ...this.options.filters,
-          ...options.filters,
+          ...this.defaultListOptions.filters,
         },
       }
     );
@@ -173,9 +173,15 @@ export class AssetManagementComponent implements OnInit, OnChanges {
       clearTimeout(this.searchDebounce);
     }
     this.search = value;
-    this.options = { filters: { Filename: `*${value}*`, Title: `*${value}*` } };
+    this.options = {
+      ...this.options,
+      filters: {
+        ...this.options.filters,
+        Title: `*${value}*`,
+      },
+    };
     this.searchDebounce = setTimeout(() => {
-      this.listAssets(this.options);
+      this.listAssets();
     }, 300);
   }
 
@@ -185,13 +191,13 @@ export class AssetManagementComponent implements OnInit, OnChanges {
       Type: this.assetTypes.filter((k) => selections.types[k]).join('|'),
       Tags: this.tagOptions.filter((k) => selections.tags[k]).join('|'),
     };
-    this.listAssets(this.options);
+    this.listAssets();
   }
 
   handlePageChange(page: number) {
     this.spinner.show();
     this.options.page = page;
-    this.listAssets(this.options);
+    this.listAssets();
   }
 
   get tagSelections(): any {
