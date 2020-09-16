@@ -97,7 +97,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   listAssets() {
     this.spinner.show();
     const requestOptions: ListArgs<Asset> = Object.assign(
-      {},
+      { pageSize: 24 }, // use 24 because this fits most grid cases
       {
         ...this.options,
         ...this.defaultListOptions,
