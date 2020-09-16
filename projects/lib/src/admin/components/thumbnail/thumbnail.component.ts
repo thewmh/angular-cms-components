@@ -134,7 +134,6 @@ export class ThumbnailComponent implements OnInit, OnChanges {
   }
 
   handleFileLoad(e: ProgressEvent<FileReader>): void {
-    console.log('test', e.target.result);
     this.url = e.target.result as string;
     this.ready = true;
   }
