@@ -29,7 +29,7 @@ export class AssetListComponent implements AfterViewChecked, OnChanges {
   @Input() items?: Asset[];
   @Input() meta?: Meta;
   @Input() selected: Asset[] = [];
-  @Output() selectedChange = new EventEmitter<Asset[]>();
+  @Output() selectedAssetChange = new EventEmitter<Asset[]>();
   @Input() assetDetail?: Asset;
   @Output() assetDetailChange = new EventEmitter<Asset>();
   @Output() pageChangeEvent = new EventEmitter<number>();
@@ -100,7 +100,7 @@ export class AssetListComponent implements AfterViewChecked, OnChanges {
         : (this.selected = []);
     }
 
-    this.selectedChange.emit(this.selected);
+    this.selectedAssetChange.emit(this.selected);
   };
 
   getAssetIndex = (asset: Asset) => {

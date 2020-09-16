@@ -25,7 +25,7 @@ export class AssetInputComponent implements OnInit {
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @ViewChild('assetPickerTemplate') assetPickerModal: ElementRef;
-  @Output() selectedChange = new EventEmitter<Asset | Asset[]>();
+  @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Input() selected?: Asset[] | Asset;
 
   constructor(private modalService: NgbModal) {}
@@ -50,7 +50,7 @@ export class AssetInputComponent implements OnInit {
     this.assetPicker.componentInstance.defaultListOptions = this.defaultListOptions;
     this.assetPicker.componentInstance.beforeAssetUpload = this.beforeAssetUpload;
     this.assetPicker.result.then((selected: Asset | Asset[]) => {
-      this.selectedChange.emit(selected);
+      this.selectedAssetChange.emit(selected);
     })
     .catch(e => {
       if (e !== 'user dismissed modal') {
@@ -64,9 +64,9 @@ export class AssetInputComponent implements OnInit {
       if (typeof index === 'number' && this.multiple === true) {
         const newSelected = cloneDeep(this.selected);
         newSelected.splice(index, 1);
-        this.selectedChange.emit(newSelected.length ? newSelected : undefined);
+        this.selectedAssetChange.emit(newSelected.length ? newSelected : undefined);
       } else {
-        this.selectedChange.emit(undefined);
+        this.selectedAssetChange.emit(undefined);
       }
     };
   }
