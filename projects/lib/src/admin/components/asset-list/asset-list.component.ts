@@ -10,6 +10,7 @@ import {
   ElementRef,
   ViewChild,
   AfterViewChecked,
+  AfterViewInit,
 } from '@angular/core';
 import { Asset, Meta } from '@ordercloud/headstart-sdk';
 
@@ -20,7 +21,7 @@ export type AssetListMode = 'table' | 'grid';
   templateUrl: './asset-list.component.html',
   styleUrls: ['./asset-list.component.scss'],
 })
-export class AssetListComponent implements AfterViewChecked, OnChanges {
+export class AssetListComponent implements AfterViewInit, OnChanges {
   @Input() showAssetStatus = true;
   @Input() shrink = false;
   @Input() mode: AssetListMode = 'table';
@@ -40,7 +41,7 @@ export class AssetListComponent implements AfterViewChecked, OnChanges {
     window.addEventListener('resize', this.evaluateColumnWidth);
   }
 
-  ngAfterViewChecked(): void {
+  ngAfterViewInit(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
     this.evaluateColumnWidth();
