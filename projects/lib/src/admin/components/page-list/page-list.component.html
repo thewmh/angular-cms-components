@@ -144,6 +144,11 @@
       [parentResourceType]="parentResourceType"
       [parentResourceID]="parentResourceID"
       [document]="selected"
+      [tagOptions]="tagOptions"
+      [assetTypes]="assetTypes"
+      [defaultListOptions]="defaultListOptions"
+      [beforeAssetUpload]="beforeAssetUpload"
+      (selectedAssetChange)="selectedAssetChange.emit($event)"
     >
     </cms-page-editor>
   </div>

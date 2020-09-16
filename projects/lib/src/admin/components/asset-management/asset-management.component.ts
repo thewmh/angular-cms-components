@@ -42,7 +42,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @Input() showListModeToggle = true;
   @Input() listMode: AssetListMode = 'table';
-  @Output() selectedChange = new EventEmitter<Asset[]>();
+  @Output() selectedAssetChange = new EventEmitter<Asset[]>();
 
   assetTypes: ASSET_TYPES[] = DEFAULT_ASSET_TYPES;
   tagOptions: string[] = [];
@@ -140,8 +140,8 @@ export class AssetManagementComponent implements OnInit, OnChanges {
     this.assetDetail = asset;
   }
 
-  handleSelectedChange(assets: Asset[]) {
-    this.selectedChange.emit(assets);
+  handleselectedAssetChange(assets: Asset[]) {
+    this.selectedAssetChange.emit(assets);
   }
 
   handleAssetsUploaded(event: { uploaded: Asset[]; errors: [] }) {

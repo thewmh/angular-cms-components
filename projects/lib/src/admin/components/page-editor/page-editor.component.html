@@ -306,6 +306,11 @@
               [(selected)]="page.MetaImage"
               [tagOptions]="tagOptions"
               [assetTypes]="[]"
+              [tagOptions]="tagOptions"
+              [assetTypes]="assetTypes"
+              [defaultListOptions]="defaultListOptions"
+              [beforeAssetUpload]="beforeAssetUpload"
+              (selectedAssetChange)="selectedAssetChange.emit($event)"
             ></cms-asset-input>
           </div>
         </ng-template>
@@ -320,6 +325,11 @@
               [initialValue]="page.Content"
               [editorOptions]="editorOptions"
               (htmlChange)="onPageContentChange($event)"
+              [tagOptions]="tagOptions"
+              [assetTypes]="assetTypes"
+              [defaultListOptions]="defaultListOptions"
+              [beforeAssetUpload]="beforeAssetUpload"
+              (selectedAssetChange)="selectedAssetChange.emit($event)"
             ></cms-html-editor>
           </div>
         </ng-template>

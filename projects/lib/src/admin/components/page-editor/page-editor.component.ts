@@ -10,12 +10,13 @@ import {
 import { kebab } from 'case';
 import * as OrderCloudSDK from 'ordercloud-javascript-sdk';
 import { PageContentDoc } from '../../models/page-content-doc.interface';
-import { JDocument, HeadStartSDK } from '@ordercloud/headstart-sdk';
+import { JDocument, HeadStartSDK, AssetUpload, ListArgs, Asset } from '@ordercloud/headstart-sdk';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { ParentResourceType } from '../../../shared/models/parent-resource-type.interface';
+import { ASSET_TYPES } from '../../constants/asset-types.constants';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -43,25 +44,15 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() parentResourceID?: string = null; // optional
   @Input() lockedSlugs?: string[]; // optional
   @Input() usedSlugs?: string[];
+  @Input() tagOptions?: string[];
+  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
+  @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
+  @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
 
-  defaultListOptions = {
-    filters: {
-      Active: false,
-    },
-  };
-
-  tagOptions = [
-    'Blog',
-    'Promotion',
-    'People',
-    'Instruments',
-    'Backgrounds',
-    'Icons',
-    'Graphics',
-  ];
 
   page: Partial<PageContentDoc>;
   automaticUrl: boolean;

@@ -16,8 +16,9 @@ import { v4 as guid } from 'uuid';
 import { SectionPickerComponent } from '../section-picker/section-picker.component';
 import { SectionDateSettingsComponent } from '../section-date-settings/section-date-settings.component';
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
-import { Asset } from '@ordercloud/headstart-sdk';
+import { Asset, ListArgs, AssetUpload } from '@ordercloud/headstart-sdk';
 import sectionPickerMock from '../section-picker/section-picker.mock';
+import { ASSET_TYPES } from '../../constants/asset-types.constants';
 
 @Component({
   selector: 'cms-html-editor',
@@ -28,9 +29,14 @@ import sectionPickerMock from '../section-picker/section-picker.mock';
 export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() initialValue: string;
   @Input() editorOptions: any;
+  @Input() tagOptions?: string[];
+  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
+  @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
+  @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
-  @Output() charCountChange? = new EventEmitter<number>();
+  @Output() charCountChange ? = new EventEmitter<number>();
   html: string;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
@@ -239,17 +245,15 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });
+    debugger;
+    modalRef.componentInstance.multiple = false;
+    modalRef.componentInstance.tagOptions = this.tagOptions;
+    modalRef.componentInstance.assetTypes = this.assetTypes;
+    modalRef.componentInstance.defaultListOptions = this.defaultListOptions;
+    modalRef.componentInstance.beforeAssetUpload = this.beforeAssetUpload;
     modalRef.result
-      .then((asset: Asset) => {
-        if (meta.filetype === 'image') {
-          callback(asset.Url, { alt: asset.Title });
-        } else if (meta.filetype === 'file') {
-          // TODO: do
-          console.error('Filetype is not yet implemented');
-        } else if (meta.filetype === 'media') {
-          // TODO: do
-          console.error('Filetype is not yet implemented');
-        }
+      .then((selected: Asset | Asset[]) => {
+        this.selectedAssetChange.emit(selected);
       })
       .catch((e) => {
         if (e !== 'user dismissed modal') {
