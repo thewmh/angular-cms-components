@@ -1,13 +1,13 @@
 {
   "name": "@ordercloud/angular-cms-components",
-  "version": "1.0.0-beta.35",
+  "version": "1.0.0-beta.37",
   "author": "Four51",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^10.0.2",
     "@angular/core": "^10.0.2",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
-    "@ordercloud/headstart-sdk": "^1.6.5",
+    "@ordercloud/headstart-sdk": "^^1.7.2",
     "@tinymce/tinymce-angular": "^4.0.0",
     "bootstrap": "^4.5.0",
     "case": "^1.6.3",

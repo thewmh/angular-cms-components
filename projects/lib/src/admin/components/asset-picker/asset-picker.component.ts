@@ -16,9 +16,13 @@ export class AssetPickerComponent implements OnInit {
   @Input() assetTypes?: ASSET_TYPES[];
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
-  selected: Asset[] = [];
+  selectedAsset: Asset[];
 
   constructor(public modal: NgbActiveModal) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.selectedAsset) {
+      this.selectedAsset = [];
+    }
+  }
 }

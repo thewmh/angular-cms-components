@@ -11,14 +11,14 @@
     [tagOptions]="tagOptions"
     [assetTypes]="assetTypes"
     [beforeAssetUpload]="beforeAssetUpload"
-    [(selected)]="selected"
+    [(selectedAsset)]="selectedAsset"
     [listMode]="'grid'"
   ></cms-asset-management>
   <div class="modal-footer">
     <button class="btn btn-light" (click)="modal.dismiss('user dismissed modal')">Cancel</button>
     <button
       class="btn btn-primary"
-      (click)="modal.close(multiple ? selected : selected[0])"
+      (click)="modal.close(multiple ? selectedAsset : selectedAsset[0])"
     >
       Select
     </button>

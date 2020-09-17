@@ -36,7 +36,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
-  @Output() charCountChange? = new EventEmitter<number>();
+  @Output() charCountChange ?= new EventEmitter<number>();
   html: string;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
@@ -159,7 +159,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net'],
   };
 
-  constructor(private modalService: NgbModal, public zone: NgZone) {}
+  constructor(private modalService: NgbModal, public zone: NgZone) { }
 
   ngOnInit(): void {
     this.componentMountedToDom = false;
@@ -251,8 +251,17 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     modalRef.componentInstance.defaultListOptions = this.defaultListOptions;
     modalRef.componentInstance.beforeAssetUpload = this.beforeAssetUpload;
     modalRef.result
-      .then((selected: Asset | Asset[]) => {
-        this.selectedAssetChange.emit(selected);
+      .then((asset: Asset) => {
+        if (meta.filetype === 'image') {
+          callback(asset.Url, { alt: asset.Title });
+          this.selectedAssetChange.emit([asset]);
+        } else if (meta.filetype === 'file') {
+          // TODO: do
+          console.error('Filetype is not yet implemented');
+        } else if (meta.filetype === 'media') {
+          // TODO: do
+          console.error('Filetype is not yet implemented');
+        }
       })
       .catch((e) => {
         if (e !== 'user dismissed modal') {

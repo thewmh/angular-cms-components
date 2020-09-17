@@ -305,14 +305,13 @@
             <label for="pageImage">Meta Image</label>
             <cms-asset-input
               [defaultListOptions]="defaultListOptions"
-              [(selected)]="page.MetaImage"
+              [(selectedAsset)]="page.MetaImage"
               [tagOptions]="tagOptions"
               [assetTypes]="[]"
               [tagOptions]="tagOptions"
               [assetTypes]="assetTypes"
               [defaultListOptions]="defaultListOptions"
               [beforeAssetUpload]="beforeAssetUpload"
-              (selectedAssetChange)="selectedAssetChange.emit($event)"
             ></cms-asset-input>
           </div>
         </ng-template>
