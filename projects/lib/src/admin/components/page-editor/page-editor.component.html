@@ -275,12 +275,14 @@
               maxlength="300"
               rows="4"
               required
-              aria-describedby="pageDescriptionHelp"
+              aria-describedby="pageDescriptionCounter"
               placeholder="Describe this page in 300 characters or less"
             ></textarea>
             <small id="pageDescriptionHelp" class="form-text text-muted">
-              {{ 300 - (page.Description ? page.Description.length : 0) }} / 300
-              characters remaining.
+              The SEO Meta Description is a brief summary of the website page's content. This description may appear in search engine results. 
+            </small>
+            <small id="pageDescriptionCounter" class="form-text text-muted">
+              {{ 300 - (page.Description ? page.Description.length : 0) }} / 300 characters remaining.
             </small>
           </div>
           <div class="form-group">

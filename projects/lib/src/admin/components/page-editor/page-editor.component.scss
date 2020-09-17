@@ -16,3 +16,13 @@
   height: calc(100% - 114px);
   overflow-y: auto;
 }
+
+#pageDescriptionHelp {
+  display: inline-block;
+  width: 60%;
+}
+
+#pageDescriptionCounter {
+  display: inline-block;
+  float: right;
+}
