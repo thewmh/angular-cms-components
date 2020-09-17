@@ -35,7 +35,7 @@ export const FullExample = () => ({
         DateLastUpdated: '2020-07-30T21:48:54.957Z',
         HeaderEmbeds: 'console.log(\'logged from header\');',
         Content:
-          '<h1>&nbsp;</h1>\n<h1><span style="color: #f1c40f;">LOCATIONS</span></h1>\n<div data-oc-widget="oc-section" data-oc-start-date="2020-08-12" data-oc-end-date="2020-08-13">\n<div class="container">\n<div class="row align-items-center">\n<div class="col-xs-12 col-sm-12 col-md-6">\n<h4>Show row on: 08/12 to 08/13</h4>\n<p>Cras consequat faucibus purus, nec viverra elit molestie dictum. Nunc at tempor purus.</p>\n<a class="btn btn-primary" href="#">Start Now</a> <a class="btn btn-secondary" href="#">Read More</a></div>\n<div class="col-xs-12 col-sm-12 col-md-6">\n<figure style="max-width: 100%;"><img style="max-width: 100%;" src="https://via.placeholder.com/600x250.png" /></figure>\n</div>\n</div>\n</div>\n</div>\n<p>&nbsp;</p>\n<div data-oc-widget="oc-section" data-oc-start-date="2020-07-27" data-oc-end-date="2020-08-07">\n<div class="jumbotron border-0">\n<div class="container text-center">\n<h1>Show on: 07/27 to 08/07&nbsp;</h1>\n<p>Donec fermentum magna at ex pulvinar, sit amet viverra ex suscipit. Integer fringilla mauris vitae eleifend dictum.</p>\n<a class="btn btn-primary" href="#">Start Now</a> <a class="btn btn-link" href="#">Read More</a></div>\n</div>\n</div>',
+          '<div data-oc-widget=\"oc-section\">\n<div class=\"container\">\n<h2 class=\"h1 special-heading text-center border-bottom\" contenteditable=\"true\">Homepage with example images</h2>\n<div class=\"row mt-4\">\n<div class=\"col-md-4\">\n<div class=\"card border-0 bg-transparent\">\n<div class=\"card-img-top\" contenteditable=\"true\"><img class=\"img-fluid\" src=\"https://marktplacetest.blob.core.windows.net/assets-c7902848-9b45-4caf-8be5-373b150301fa/6f478868-1e97-4259-bd23-84562e2e5a93\" alt=\"Four Guitars Black, White, Blue, Brown\" width=\"352\" height=\"278\" /></div>\n<div class=\"card-body\">\n<h3 class=\"h5 card-title font-weight-bold\" contenteditable=\"true\">Column 1</h3>\n<p class=\"card-text\" contenteditable=\"true\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>\n</div>\n</div>\n</div>\n<div class=\"col-md-4\">\n<div class=\"card border-0 bg-transparent\">\n<div class=\"card-img-top\" contenteditable=\"true\"><img class=\"img-fluid\" src=\"https://marktplacetest.blob.core.windows.net/assets-c7902848-9b45-4caf-8be5-373b150301fa/e24046ac-139e-4b95-b04d-300bd266e089\" alt=\"Microphone on Table\" width=\"399\" height=\"300\" /></div>\n<div class=\"card-body\">\n<h3 class=\"h5 card-title font-weight-bold\" contenteditable=\"true\">Column 2</h3>\n<p class=\"card-text\" contenteditable=\"true\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>\n</div>\n</div>\n</div>\n<div class=\"col-md-4\">\n<div class=\"card border-0 bg-transparent\">\n<div class=\"card-img-top\" contenteditable=\"true\"><img class=\"img-fluid\" src=\"https://marktplacetest.blob.core.windows.net/assets-c7902848-9b45-4caf-8be5-373b150301fa/43166970-6a89-4f83-869c-437002fd0b0e\" alt=\"6Y5A6556.jpg\" width=\"483\" height=\"337\" /></div>\n<div class=\"card-body\">\n<h3 class=\"h5 card-title font-weight-bold\" contenteditable=\"true\">Column 2</h3>\n<p class=\"card-text\" contenteditable=\"true\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>',
         FooterEmbeds: 'console.log(\'logged from footer\');',
         Active: true,
         NavigationTitle: 'Locations',
@@ -49,8 +49,8 @@ export const FullExample = () => ({
 export const WithContentChanging = () => ({
   component: PageRendererComponent,
   template: `
-  <button class="btn btn-primary" (click)="pageDoc = pageDoc1">Location 1</button>
-  <button class="btn btn-secondary" (click)="pageDoc = pageDoc2">Location 2</button>
+  <button class="btn btn-primary" (click)="pageDoc = pageDoc1">Page 1</button>
+  <button class="btn btn-secondary" (click)="pageDoc = pageDoc2">Page 2</button>
   <cms-page-renderer *ngIf="pageDoc" [pageDoc]="pageDoc"></cms-page-renderer>
   `,
   props: {
@@ -60,15 +60,15 @@ export const WithContentChanging = () => ({
       $schema:
         'https://marketplace-middleware-test.azurewebsites.net/schema-specs/5539d88d-2787-476c-9b61-cdadd181f12d',
       Doc: {
-        Title: 'Location1',
-        Url: 'location1',
+        Title: 'Page1',
+        Url: 'page1',
         SiteUrl: 'https://www.my-awesome-website.com',
         Description: '',
         MetaImageUrl: '',
         DateLastUpdated: '2020-07-30T21:48:54.957Z',
         HeaderEmbeds: 'console.log(\'logged from header\');',
         Content:
-          '<h1>&nbsp;</h1>\n<h1><span style="color: #f1c40f;">LOCATION 1</span></h1>\n<div data-oc-widget="oc-section" data-oc-start-date="2020-08-12" data-oc-end-date="2020-08-13">\n<div class="container">\n<div class="row align-items-center">\n<div class="col-xs-12 col-sm-12 col-md-6">\n<h4>Show row on: 08/12 to 08/13</h4>\n<p>Cras consequat faucibus purus, nec viverra elit molestie dictum. Nunc at tempor purus.</p>\n<a class="btn btn-primary" href="#">Start Now</a> <a class="btn btn-secondary" href="#">Read More</a></div>\n<div class="col-xs-12 col-sm-12 col-md-6">\n<figure style="max-width: 100%;"><img style="max-width: 100%;" src="https://via.placeholder.com/600x250.png" /></figure>\n</div>\n</div>\n</div>\n</div>\n<p>&nbsp;</p>\n<div data-oc-widget="oc-section" data-oc-start-date="2020-07-27" data-oc-end-date="2020-08-07">\n<div class="jumbotron border-0">\n<div class="container text-center">\n<h1>Show on: 07/27 to 08/07&nbsp;</h1>\n<p>Donec fermentum magna at ex pulvinar, sit amet viverra ex suscipit. Integer fringilla mauris vitae eleifend dictum.</p>\n<a class="btn btn-primary" href="#">Start Now</a> <a class="btn btn-link" href="#">Read More</a></div>\n</div>\n</div>',
+          '<h1>Page 1 content</h1>',
         FooterEmbeds: 'console.log(\'logged from footer\');',
         Active: true,
         NavigationTitle: 'Locations',
@@ -81,15 +81,15 @@ export const WithContentChanging = () => ({
       $schema:
         'https://marketplace-middleware-test.azurewebsites.net/schema-specs/5539d88d-2787-476c-9b61-cdadd181f12d',
       Doc: {
-        Title: 'Location2',
-        Url: 'location2',
+        Title: 'Page2',
+        Url: 'page2',
         SiteUrl: 'https://www.my-awesome-website.com',
         Description: '',
         MetaImageUrl: '',
         DateLastUpdated: '2020-07-30T21:48:54.957Z',
         HeaderEmbeds: 'console.log(\'logged from header\');',
         Content:
-          '<h1>&nbsp;</h1>\n<h1><span style="color: #f1c40f;">LOCATION 2</span></h1>\n<div data-oc-widget="oc-section" data-oc-start-date="2020-08-12" data-oc-end-date="2020-08-13">\n<div class="container">\n<div class="row align-items-center">\n<div class="col-xs-12 col-sm-12 col-md-6">\n<h4>Show row on: 08/12 to 08/13</h4>\n<p>Cras consequat faucibus purus, nec viverra elit molestie dictum. Nunc at tempor purus.</p>\n<a class="btn btn-primary" href="#">Start Now</a> <a class="btn btn-secondary" href="#">Read More</a></div>\n<div class="col-xs-12 col-sm-12 col-md-6">\n<figure style="max-width: 100%;"><img style="max-width: 100%;" src="https://via.placeholder.com/600x250.png" /></figure>\n</div>\n</div>\n</div>\n</div>\n<p>&nbsp;</p>\n<div data-oc-widget="oc-section" data-oc-start-date="2020-07-27" data-oc-end-date="2020-08-07">\n<div class="jumbotron border-0">\n<div class="container text-center">\n<h1>Show on: 07/27 to 08/07&nbsp;</h1>\n<p>Donec fermentum magna at ex pulvinar, sit amet viverra ex suscipit. Integer fringilla mauris vitae eleifend dictum.</p>\n<a class="btn btn-primary" href="#">Start Now</a> <a class="btn btn-link" href="#">Read More</a></div>\n</div>\n</div>',
+          '<h2>Page 2 content</h2>',
         FooterEmbeds: 'console.log(\'logged from footer\');',
         Active: true,
         NavigationTitle: 'Locations',
