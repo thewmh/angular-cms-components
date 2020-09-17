@@ -26,7 +26,8 @@ export class PageRendererComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pageDoc && (changes.pageDoc.previousValue !== changes.pageDoc.currentValue)) {
       const page: PageContentDoc = this.pageDoc.Doc;
-      this.content = this.widgetService.applyDateRules(page.Content);
+      const content = this.widgetService.applyDateRules(page.Content);
+      this.content = this.widgetService.stripEditableAttributes(content);
       this.setMetaData(page);
       this.loadScripts(page.HeaderEmbeds, page.FooterEmbeds);
     }
