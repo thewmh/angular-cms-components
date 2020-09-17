@@ -9,4 +9,8 @@
 .tab-container {
   height: calc(100% - 114px);
   overflow-y: auto;
+
+  &.content-tab {
+    padding: 0 !important;
+  }
 }
