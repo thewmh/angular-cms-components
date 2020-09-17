@@ -26,7 +26,7 @@ export class AssetInputComponent implements OnInit {
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @ViewChild('assetPickerTemplate') assetPickerModal: ElementRef;
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
-  @Input() selected?: Asset[] | Asset;
+  @Input() selectedAsset?: Asset[] | Asset;
 
   constructor(private modalService: NgbModal) {}
   assetPicker: NgbModalRef;
@@ -34,7 +34,7 @@ export class AssetInputComponent implements OnInit {
   ngOnInit(): void {}
 
   get buttonText(): string {
-    return `${this.selected ? 'Change' : `Choose`} Image${
+    return `${this.selectedAsset ? 'Change' : `Choose`} Image${
       this.multiple ? '(s)' : ''
     }`;
   }
@@ -62,7 +62,7 @@ export class AssetInputComponent implements OnInit {
   handleRemove(index?: number) {
     return (e: any) => {
       if (typeof index === 'number' && this.multiple === true) {
-        const newSelected = cloneDeep(this.selected);
+        const newSelected = cloneDeep(this.selectedAsset);
         newSelected.splice(index, 1);
         this.selectedAssetChange.emit(newSelected.length ? newSelected : undefined);
       } else {

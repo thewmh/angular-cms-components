@@ -22,7 +22,7 @@ export default {
 export const SingleAsset = () => ({
   component: AssetInputComponent,
   template: `<div class="p-5">
-    <cms-asset-input [(selected)]="selected" [tagOptions]="tagOptions" [defaultListOptions]="defaultListOptions"></cms-asset-input>
+    <cms-asset-input [(selectedAsset)]="selectedAsset" [tagOptions]="tagOptions" [defaultListOptions]="defaultListOptions"></cms-asset-input>
   </div>`,
   props: {
     defaultListOptions: {
@@ -30,7 +30,7 @@ export const SingleAsset = () => ({
         Active: false,
       },
     },
-    selected: undefined,
+    selectedAsset: undefined,
     tagOptions: [
       'Blog',
       'Promotion',
@@ -45,10 +45,10 @@ export const SingleAsset = () => ({
 export const MultipleAssets = () => ({
   component: AssetInputComponent,
   template: `<div class="p-5">
-  <cms-asset-input [(selected)]="selected" [multiple]="true" [tagOptions]="tagOptions"></cms-asset-input>
+  <cms-asset-input [(selectedAsset)]="selectedAsset" [multiple]="true" [tagOptions]="tagOptions"></cms-asset-input>
   </div>`,
   props: {
-    selected: undefined,
+    selectedAsset: undefined,
     tagOptions: [
       'Blog',
       'Promotion',

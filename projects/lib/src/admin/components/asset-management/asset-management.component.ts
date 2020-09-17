@@ -35,7 +35,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   @Input() resourceID?: string;
   @Input() selectable = false;
   @Input() multiple = false;
-  @Input() selected: Asset[] = [];
+  @Input() selectedAsset: Asset[] = [];
   @Input() showAssetStatus = true;
   @Input('assetTypes') assetTypesOverride?: ASSET_TYPES[];
   @Input('tagOptions') tagOptionsOverride?: string[];
@@ -68,7 +68,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
     }
     if (this.resourceID && this.resourceType && this.defaultListOptions) {
       console.warn(
-        "Because you've provided a resourceType and resourceID, defaultListOptions will be ignored as they are not currently supported while listing assets per resource"
+        'Because you\'ve provided a resourceType and resourceID, defaultListOptions will be ignored as they are not currently supported while listing assets per resource'
       );
     }
     this.listAssets();
@@ -149,6 +149,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
     if (event.uploaded.length === 1) {
       this.assetDetail = event.uploaded[0];
     }
+    this.selectedAssetChange.emit(event.uploaded);
     if (event.errors && event.errors.length) {
       // TODO: how should we handle upload errors?
     }
