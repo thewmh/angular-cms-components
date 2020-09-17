@@ -64,15 +64,17 @@ export class SectionTemplateRendererComponent implements OnInit, OnChanges {
   }
 
   initIframeSource(): SafeUrl {
-    const documentSource = `<?xml version="1.0" encoding="UTF-8"?>
-      <html xmlns="http://www.w3.org/1999/xhtml">
+    const documentSource = `
+    <!DOCTYPE html>
+    <html>
       <head>
+      <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
-      <style>@import url('${this.remoteCss}');</style>
+      ${this.remoteCss ? `<style>@import url('${this.remoteCss}');</style>` : ''}
       </head>
       <body style="padding-top:0 !important;">${this.html}</body>
       </html>`;
-    const blob = new Blob([documentSource], { type: 'application/xhtml+xml' });
+    const blob = new Blob([documentSource], { type: 'text/html' });
     return this.sanitizer.bypassSecurityTrustResourceUrl(
       URL.createObjectURL(blob)
     );
