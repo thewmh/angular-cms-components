@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DeviceDimensions } from '../../models/device-dimensions.interface';
 import { DeviceSize } from '../../models/device-size.interface';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { WidgetService } from 'projects/lib/src/shared/services/widget.service';
+import { WidgetService } from '../../../shared/services/widget.service';
 
 @Component({
   selector: 'cms-page-preview-modal',
