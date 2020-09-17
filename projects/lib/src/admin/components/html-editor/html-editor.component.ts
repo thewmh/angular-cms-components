@@ -245,7 +245,6 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });
-    debugger;
     modalRef.componentInstance.multiple = false;
     modalRef.componentInstance.tagOptions = this.tagOptions;
     modalRef.componentInstance.assetTypes = this.assetTypes;
