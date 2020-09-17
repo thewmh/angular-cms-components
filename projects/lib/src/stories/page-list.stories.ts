@@ -42,6 +42,8 @@ export const MusicGoRoundStyles = () => ({
     lockedSlugs: ['', 'about-us'],
 
     editorOptions: {
+      resize: false,
+      height: 'calc(100vh - 114px)',
       ordercloud: {
         get_section_templates_callback: () =>
           Promise.resolve(mgrSectionTemplates),
@@ -97,5 +99,31 @@ export const WithTranscludedToolbarAdditions = () => ({
     resourceID: '41106',
     lockedSlugs: ['', 'about-us'],
     editorOptions: {},
+  },
+});
+
+export const WithBeforeAssetUpload = () => ({
+  component: PageListComponent,
+  template: `<div style="height:100vh">
+      <cms-page-list
+        [lockedSlugs]="lockedSlugs"
+        [renderSiteUrl]="renderSiteUrl"
+        [resourceType]="resourceType"
+        [resourceID]="resourceID"
+        [editorOptions]="editorOptions"
+        [beforeAssetUpload]="beforeAssetUpload"
+        >
+        </cms-page-list>
+    </div>`,
+  props: {
+    renderSiteUrl: 'https://www.my-awesome-website.com',
+    resourceType: 'Suppliers',
+    resourceID: '41106',
+    lockedSlugs: ['', 'about-us'],
+    editorOptions: {},
+    beforeAssetUpload: (asset) => {
+      console.log('before asset upload was hit');
+      return Promise.resolve(asset);
+    },
   },
 });

@@ -7,8 +7,9 @@ import { isWidgetType } from '../../services/widget.service';
 import tinymce from 'tinymce';
 
 export default (editor) => {
-  editor.ui.registry.addButton('oc-section', {
-    text: 'Insert Section',
+  editor.ui.registry.addMenuItem('oc-section', {
+    icon: 'template',
+    text: 'Insert Template',
     onAction: () => {
       editor.settings.ordercloud
         .open_section_picker({
@@ -23,9 +24,9 @@ export default (editor) => {
           </div>`
           );
         })
-        .catch((ex) => {
-          if (ex === 'Cross click') {
-            return;
+        .catch((e) => {
+          if (e !== 'user dismissed modal') {
+            throw e;
           }
         });
     },
@@ -57,9 +58,9 @@ export default (editor) => {
           });
           editor.execCommand('mceSelectNode', false, node);
         })
-        .catch((ex) => {
-          if (ex === 'Cross click') {
-            return;
+        .catch((e) => {
+          if (e !== 'user dismissed modal') {
+            throw e;
           }
         });
     },

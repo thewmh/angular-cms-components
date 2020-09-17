@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  SimpleChanges,
-  OnChanges,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Asset, HeadStartSDK, AssetUpload } from '@ordercloud/headstart-sdk';
 import * as Q from 'q';
 
@@ -15,7 +7,7 @@ import * as Q from 'q';
   templateUrl: './asset-upload-confirm.component.html',
   styleUrls: ['./asset-upload-confirm.component.scss'],
 })
-export class AssetUploadConfirmComponent implements OnInit, OnChanges {
+export class AssetUploadConfirmComponent {
   @Input() files: any;
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @Output() done = new EventEmitter<{ uploaded: Asset[]; errors: any[] }>();
@@ -24,28 +16,6 @@ export class AssetUploadConfirmComponent implements OnInit, OnChanges {
   uploading = false;
 
   constructor() {}
-
-  ngOnInit(): void {
-    this.readDataUrls();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    // Add '${implements OnChanges}' to the class.
-    if (changes && changes.files && !changes.files.firstChange) {
-      this.readDataUrls();
-    }
-  }
-
-  readDataUrls() {
-    this.files.forEach((f) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        f.dataUrl = e.target.result;
-      };
-      reader.readAsDataURL(f);
-    });
-  }
 
   handleUploadFiles() {
     this.uploading = true;

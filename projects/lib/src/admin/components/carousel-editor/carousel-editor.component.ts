@@ -17,7 +17,7 @@ export class CarouselEditorComponent implements OnInit {
   carouselSettingsForm: FormGroup;
   selectedSlide: CarouselSlide;
   subs = new Subscription();
-  CAROUSEL_SLIDES = 'CAROUSEL_SLIDES'
+  CAROUSEL_SLIDES = 'CAROUSEL_SLIDES';
 
   slides: CarouselSlide[] = [];
   carouselSettings = {
@@ -40,28 +40,28 @@ export class CarouselEditorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.carouselSettingsForm = this.formBuilder.group(this.carouselSettings)
-    this.slideEditForm = this.formBuilder.group({ Heading: '', Subheading: '', ActionText: '', ActionUrl: '' })
+    this.carouselSettingsForm = this.formBuilder.group(this.carouselSettings);
+    this.slideEditForm = this.formBuilder.group({ Heading: '', Subheading: '', ActionText: '', ActionUrl: '' });
     this.onSlideEditFormChanges();
     this.onCarouselSettingsFormChanges();
   }
 
   onSlideEditFormChanges() {
     this.slideEditForm.valueChanges.subscribe(formValues => {
-      const index = this.getSlideIndex(this.selectedSlide)
-      this.slides[index] = { ...this.selectedSlide, ...formValues }
-    })
+      const index = this.getSlideIndex(this.selectedSlide);
+      this.slides[index] = { ...this.selectedSlide, ...formValues };
+    });
   }
 
   onCarouselSettingsFormChanges() {
     this.carouselSettingsForm.valueChanges.subscribe(formValues => {
       this.carouselSettings = formValues;
-    })
+    });
   }
 
   addCarousel() {
     const carouselId = `oc-carousel-${guid()}`;
-    const html = this.buildCarouselHtml.bind(this)(carouselId)
+    const html = this.buildCarouselHtml.bind(this)(carouselId);
     this.modal.close(html);
   }
 
@@ -70,15 +70,15 @@ export class CarouselEditorComponent implements OnInit {
     <div class="carousel-wrapper" contenteditable="false">
       <div id="${carouselId}">
         ${this.slides.map(slide => {
-          return `
+      return `
             <div class="c-slide-container">
               <img src="${slide.ImageUrl}" title="${slide.ImageTitle}"/>
               ${slide.Heading ? `<h1>${slide.Heading}</h1>` : ``}
               ${slide.Subheading ? `<h2>${slide.Heading}</h2>` : ``}
               ${slide.ActionUrl && slide.ActionText ? `<a href="${slide.ActionUrl}">${slide.ActionText}</a>` : ``}
             </div>
-            `
-        }).join('')}
+            `;
+    }).join('')}
       </div>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"/>
@@ -90,11 +90,11 @@ export class CarouselEditorComponent implements OnInit {
       });
     </script>
     </div>
-    `
+    `;
   }
 
   deleteSlide(slide: CarouselSlide) {
-    this.slides = this.slides.filter(s => s.ID !== slide.ID)
+    this.slides = this.slides.filter(s => s.ID !== slide.ID);
     if (this.isSelected(slide)) {
       delete this.selectedSlide;
       if (this.slides.length) {
@@ -119,6 +119,11 @@ export class CarouselEditorComponent implements OnInit {
       this.slides.unshift(slide);
       this.selectSlide(slide);
     })
+      .catch(e => {
+        if (e !== 'user dismissed modal') {
+          throw e;
+        }
+      });
   }
 
   getSlideIndex(slide: CarouselSlide) {
@@ -137,10 +142,10 @@ export class CarouselEditorComponent implements OnInit {
 
   selectSlide(slide: CarouselSlide) {
     this.selectedSlide = slide;
-    this.slideEditForm.controls['Heading'].setValue(slide.Heading)
-    this.slideEditForm.controls['Subheading'].setValue(slide.Subheading)
-    this.slideEditForm.controls['ActionText'].setValue(slide.ActionText)
-    this.slideEditForm.controls['ActionUrl'].setValue(slide.ActionUrl)
+    this.slideEditForm.controls.Heading.setValue(slide.Heading);
+    this.slideEditForm.controls.Subheading.setValue(slide.Subheading);
+    this.slideEditForm.controls.ActionText.setValue(slide.ActionText);
+    this.slideEditForm.controls.ActionUrl.setValue(slide.ActionUrl);
   }
 
 }

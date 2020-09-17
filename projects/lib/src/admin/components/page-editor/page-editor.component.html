@@ -18,7 +18,9 @@
           </div>
           <div class="flex-grow-0 flex-shrink-1 pr-3">
             <h4 class="m-0">
-              {{ document.Doc.Title || "Untitled" }}
+              {{
+                document.Doc.NavigationTitle || document.Doc.Title || "Untitled"
+              }}
             </h4>
           </div>
           <div class="flex-grow-0 flex-shrink-1" *ngIf="hasChanges">
@@ -150,6 +152,9 @@
                 [(ngModel)]="page.Url"
                 [readOnly]="automaticUrl"
                 [disabled]="isLocked"
+                (keyup)="onPageUrlKeyUp()"
+                (change)="onPageUrlChange()"
+                [ngClass]="{ 'is-invalid': duplicateUrl }"
                 required
                 aria-describedby="pageUrlHelp"
                 [placeholder]="
@@ -159,7 +164,18 @@
                 "
               />
             </div>
-            <small id="pageUrlHelp" class="form-text text-muted"
+            <small
+              id="pageUrlError"
+              class="form-text text-danger"
+              *ngIf="duplicateUrl"
+            >
+              This page location is already in use. Please choose something
+              different or remove the other page.
+            </small>
+            <small
+              id="pageUrlHelp"
+              class="form-text text-muted"
+              *ngIf="!duplicateUrl"
               >This must be unique across all of your pages. Kebab case
               recommended, use text relevant to this page for best SEO results.
             </small>
@@ -265,14 +281,6 @@
               </div>
             </div>
           </div>
-
-          <div class="form-group">
-            <label for="pageImage">Meta Image</label>
-            <p class="lead" id="pageImage">
-              TODO: Create AssetInputComponent
-            </p>
-            <!-- <cms-asset-input></cms-asset-input> -->
-          </div>
           <div class="form-group">
             <label for="pageTitle">Meta Description</label>
             <textarea
@@ -283,28 +291,47 @@
               maxlength="300"
               rows="4"
               required
-              aria-describedby="pageDescriptionHelp"
+              aria-describedby="pageDescriptionCounter"
               placeholder="Describe this page in 300 characters or less"
             ></textarea>
             <small id="pageDescriptionHelp" class="form-text text-muted">
-              {{ 300 - (page.Description ? page.Description.length : 0) }} / 300
-              characters remaining.
+              The SEO Meta Description is a brief summary of the website page's content. This description may appear in search engine results. 
             </small>
+            <small id="pageDescriptionCounter" class="form-text text-muted">
+              {{ 300 - (page.Description ? page.Description.length : 0) }} / 300 characters remaining.
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="pageImage">Meta Image</label>
+            <cms-asset-input
+              [defaultListOptions]="defaultListOptions"
+              [(selected)]="page.MetaImage"
+              [tagOptions]="tagOptions"
+              [assetTypes]="[]"
+              [tagOptions]="tagOptions"
+              [assetTypes]="assetTypes"
+              [defaultListOptions]="defaultListOptions"
+              [beforeAssetUpload]="beforeAssetUpload"
+              (selectedAssetChange)="selectedAssetChange.emit($event)"
+            ></cms-asset-input>
           </div>
         </ng-template>
       </li>
       <li ngbNavItem="2" [destroyOnHide]="false">
         <a ngbNavLink>Content</a>
         <ng-template ngbNavContent>
-          <div class="form-group">
-            <label for="pageContent" class="sr-only">Page Content</label>
-            <cms-html-editor
-              *ngIf="editorOptions"
-              [initialValue]="page.Content"
-              [editorOptions]="editorOptions"
-              (htmlChange)="onPageContentChange($event)"
-            ></cms-html-editor>
-          </div>
+          <label for="pageContent" class="sr-only">Page Content</label>
+          <cms-html-editor
+            *ngIf="editorOptions"
+            [initialValue]="page.Content"
+            [editorOptions]="editorOptions"
+            (htmlChange)="onPageContentChange($event)"
+            [tagOptions]="tagOptions"
+            [assetTypes]="assetTypes"
+            [defaultListOptions]="defaultListOptions"
+            [beforeAssetUpload]="beforeAssetUpload"
+            (selectedAssetChange)="selectedAssetChange.emit($event)"
+          ></cms-html-editor>
         </ng-template>
       </li>
       <li ngbNavItem="3" [destroyOnHide]="false">
@@ -338,22 +365,21 @@
   </div>
 </div>
 
-<div class="tab-container container-fluid pt-3">
-  <div class="row">
-    <div
-      [ngClass]="{
-        'col-md-8 col-sm-7': selectedTab !== '2',
-        'col-12': selectedTab === '2'
-      }"
-      [ngbNavOutlet]="nav"
-    ></div>
-    <div class="col-md-4 col-sm-5" *ngIf="selectedTab !== '2'">
+<div
+  class="tab-container container-fluid pt-3"
+  [ngClass]="{ 'content-tab': selectedTab === '2' }"
+>
+  <div class="row" *ngIf="selectedTab !== '2'">
+    <div class="col-md-8 col-sm-7" [ngbNavOutlet]="nav"></div>
+    <div class="col-md-4 col-sm-5">
       <cms-page-summary
         [document]="document"
         [renderSiteUrl]="renderSiteUrl"
       ></cms-page-summary>
     </div>
   </div>
+
+  <div *ngIf="selectedTab === '2'" [ngbNavOutlet]="nav"></div>
 </div>
 
 <!-- CONFIRM DELETE MODAL -->

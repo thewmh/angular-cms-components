@@ -1,5 +1,6 @@
 :host {
-  flex: 1 0 auto;
+  flex: 0 1 auto;
+  width: 925px;
 }
 
 .asset-detail_image {
@@ -13,4 +14,8 @@
       transition: opacity 100ms ease-in-out;
     }
   }
+}
+
+table th {
+  white-space: nowrap;
 }

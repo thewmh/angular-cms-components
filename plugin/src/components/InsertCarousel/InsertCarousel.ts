@@ -6,11 +6,16 @@ export default (editor, url) => {
   editor.ui.registry.addButton('oc-carousel', {
     icon: 'view-carousel',
     tooltip: 'Insert Carousel',
-    onAction: function () {
+    onAction () {
       editor.settings.ordercloud.open_carousel_editor()
         .then(html => {
-          editor.insertContent(html)
+          editor.insertContent(html);
         })
+        .catch(e => {
+          if (e !== 'user dismissed modal') {
+            throw e;
+          }
+        });
     },
   });
 };

@@ -1,20 +1,22 @@
 <div class="p-3 border-right bg-light h-100 overflow-auto">
-  <label for="assetTypes" class="font-weight-bold">Asset Type</label>
-  <fieldset id="assetTypes" class="form-group">
-    <div class="custom-control custom-checkbox" *ngFor="let type of types">
-      <input
-        type="checkbox"
-        class="custom-control-input"
-        [(ngModel)]="selections.types[type]"
-        (ngModelChange)="handleSelectionChange('types', type, $event)"
-        [id]="'assetType_' + type"
-      />
-      <label class="custom-control-label" [for]="'assetType_' + type">{{
-        type
-      }}</label>
-    </div>
-  </fieldset>
-  <hr />
+  <div *ngIf="types && types.length > 1">
+    <label for="assetTypes" class="font-weight-bold">Asset Type</label>
+    <fieldset id="assetTypes" class="form-group">
+      <div class="custom-control custom-checkbox" *ngFor="let type of types">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          [(ngModel)]="selections.types[type]"
+          (ngModelChange)="handleSelectionChange('types', type, $event)"
+          [id]="'assetType_' + type"
+        />
+        <label class="custom-control-label" [for]="'assetType_' + type">{{
+          type
+        }}</label>
+      </div>
+    </fieldset>
+    <hr />
+  </div>
   <div *ngIf="tags && tags.length">
     <label for="assetTags" class="font-weight-bold">Tags</label>
     <fieldset id="assetTags" class="form-group">

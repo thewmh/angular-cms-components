@@ -53,7 +53,7 @@
               [status]="contentDoc.Doc.Active"
               class="mr-1"
             ></cms-status-icon>
-            {{ contentDoc.Doc.Title }}
+            {{ contentDoc.Doc.NavigationTitle || contentDoc.Doc.Title }}
           </td>
           <td>{{ contentDoc.Doc.Author }}</td>
           <td>{{ contentDoc.Doc.DateCreated | date: "short" }}</td>
@@ -74,7 +74,7 @@
 
 <!-- DETAIL VIEW -->
 <div class="d-flex main-content" *ngIf="selected">
-  <div class="flex-shrink-0 flex-grow-0 border-right">
+  <div class="flex-shrink-1 flex-grow-0 border-right">
     <div class="d-flex align-items-center justify-content-start p-3">
       <div class="flex-grow-0 flex-shrink-1 pr-2">
         <button
@@ -108,7 +108,7 @@
       </div> -->
       <ng-content select=".cms-toolbar-additions"></ng-content>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive table-shrunk">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -119,10 +119,9 @@
           <tr *ngFor="let page of list" (click)="selectPage(page)">
             <td>
               <cms-status-icon [status]="page.Doc.Active"></cms-status-icon>
-              {{ page.Doc.Title }}<br />
+              {{ page.Doc.NavigationTitle || page.Doc.Title }}<br />
               <small class="text-muted">
-                Updated by {{ page.Doc.LastUpdatedBy }} on
-                {{ page.Doc.DateLastUpdated | date: "short" }}
+                Updated {{ page.Doc.DateLastUpdated | date: "short" }}
               </small>
             </td>
           </tr>
@@ -132,6 +131,7 @@
   </div>
   <div class="flex-grow-1 flex-shrink-1">
     <cms-page-editor
+      [usedSlugs]="usedSlugs"
       [lockedSlugs]="lockedSlugs"
       (backClicked)="goToList($event)"
       (pageSaved)="onPageSaved($event)"
@@ -143,6 +143,11 @@
       [parentResourceType]="parentResourceType"
       [parentResourceID]="parentResourceID"
       [document]="selected"
+      [tagOptions]="tagOptions"
+      [assetTypes]="assetTypes"
+      [defaultListOptions]="defaultListOptions"
+      [beforeAssetUpload]="beforeAssetUpload"
+      (selectedAssetChange)="selectedAssetChange.emit($event)"
     >
     </cms-page-editor>
   </div>

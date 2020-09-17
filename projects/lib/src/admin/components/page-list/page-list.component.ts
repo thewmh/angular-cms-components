@@ -1,10 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { HeadStartSDK, JDocument } from '@ordercloud/headstart-sdk';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
+import { HeadStartSDK, JDocument, ListArgs, Asset, AssetUpload } from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
+import { ASSET_TYPES } from '../../constants/asset-types.constants';
 
 @Component({
   selector: 'cms-page-list',
@@ -12,12 +21,17 @@ import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
   styleUrls: ['./page-list.component.scss'],
 })
 export class PageListComponent implements OnInit, OnChanges {
-  @Input() resourceType: ResourceType;
-  @Input() resourceID: string;
+  @Input() resourceType: ResourceType; // required
+  @Input() resourceID: string; // required
   @Input() parentResourceID?: string = null;
-  @Input() editorOptions: any;
-  @Input() renderSiteUrl: string;
+  @Input() editorOptions?: any;
+  @Input() renderSiteUrl?: string;
   @Input() lockedSlugs?: string[];
+  @Input() tagOptions?: string[];
+  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
+  @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
+  @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageCreated = new EventEmitter<JDocument>();
@@ -28,7 +42,7 @@ export class PageListComponent implements OnInit, OnChanges {
   list: JDocument[];
   selected?: JDocument;
 
-  constructor(private spinner: NgxSpinnerService) { }
+  constructor(private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     if (!this.resourceType || !this.resourceID) {
@@ -53,12 +67,14 @@ export class PageListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const resourceIDChanged = changes.resourceID &&
-                              !changes.resourceID.firstChange &&
-                              changes.resourceID.previousValue !== changes.resourceID.currentValue;
-    const resourceTypeChanged = changes.resourceType &&
-                              !changes.resourceType.firstChange &&
-                              changes.resourceType.previousValue !== changes.resourceType.currentValue;
+    const resourceIDChanged =
+      changes.resourceID &&
+      !changes.resourceID.firstChange &&
+      changes.resourceID.previousValue !== changes.resourceID.currentValue;
+    const resourceTypeChanged =
+      changes.resourceType &&
+      !changes.resourceType.firstChange &&
+      changes.resourceType.previousValue !== changes.resourceType.currentValue;
     if (resourceIDChanged || resourceTypeChanged) {
       this.ngOnInit();
     }
@@ -95,6 +111,14 @@ export class PageListComponent implements OnInit, OnChanges {
         this.loading = false;
         this.spinner.hide();
       });
+  }
+
+  get usedSlugs(): string[] {
+    return this.list && this.list.length
+      ? this.list
+          .map((i) => i.Doc.Url)
+          .filter((s) => this.selected && this.selected.Doc.Url !== s)
+      : [];
   }
 
   onSearchFieldChange(searchTerm): void {

@@ -16,8 +16,9 @@ import { v4 as guid } from 'uuid';
 import { SectionPickerComponent } from '../section-picker/section-picker.component';
 import { SectionDateSettingsComponent } from '../section-date-settings/section-date-settings.component';
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
-import { Asset } from '@ordercloud/headstart-sdk';
+import { Asset, ListArgs, AssetUpload } from '@ordercloud/headstart-sdk';
 import sectionPickerMock from '../section-picker/section-picker.mock';
+import { ASSET_TYPES } from '../../constants/asset-types.constants';
 
 @Component({
   selector: 'cms-html-editor',
@@ -28,8 +29,14 @@ import sectionPickerMock from '../section-picker/section-picker.mock';
 export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() initialValue: string;
   @Input() editorOptions: any;
+  @Input() tagOptions?: string[];
+  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
+  @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
+  @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
+  @Output() charCountChange? = new EventEmitter<number>();
   html: string;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
@@ -76,56 +83,39 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     height: 500,
 
     plugins: [
-      'ordercloud print paste importcss searchreplace autolink autosave save directionality',
+      'ordercloud wordcount print paste importcss searchreplace autolink autosave save directionality',
       'code visualblocks visualchars fullscreen image link media template codesample table charmap',
-      'hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools',
+      'hr pagebreak nonbreaking anchor toc insertdatetime advlist lists imagetools',
       'textpattern noneditable help charmap emoticons',
     ],
-    menubar: 'file edit view insert format tools table help',
+    menubar: 'edit view insert format',
     menu: {
-      file: {
-        title: 'File',
-        items: 'newdocument restoredraft | oc-preview | print ',
-      },
       edit: {
         title: 'Edit',
         items: 'undo redo | cut copy paste | selectall | searchreplace',
       },
       view: {
         title: 'View',
-        items:
-          'code | visualaid visualchars visualblocks | spellchecker | oc-preview fullscreen',
+        items: 'code oc-preview fullscreen',
       },
       insert: {
         title: 'Insert',
-        items:
-          'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime',
+        items: 'image link media oc-section inserttable | charmap emoticons hr',
       },
       format: {
         title: 'Format',
         items:
           'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat',
       },
-      tools: {
-        title: 'Tools',
-        items: 'spellchecker spellcheckerlanguage | code wordcount',
-      },
-      table: {
-        title: 'Table',
-        items: 'inserttable | cell row column | tableprops deletetable',
-      },
-      help: { title: 'Help', items: 'help' },
     },
     toolbar: [
-      'oc-carousel oc-product oc-section',
       'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat',
     ],
     quickbars_selection_toolbar:
       'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
     imagetools_toolbar:
       'rotateleft rotateright | flipv fliph | editimage imageoptions',
-    contextmenu:
-      'link image imagetools table oc-product oc-row oc-col oc-section',
+    contextmenu: 'link image imagetools table oc-row oc-col',
     toolbar_sticky: true,
     autosave_ask_before_unload: true,
     autosave_interval: '30s',
@@ -239,6 +229,13 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   // TODO: Throttle this callback so that the emitter isn't fired multiple times for the same change.
   onEditorChange(e: any): void {
     this.htmlChange.emit(this.html);
+    if (
+      this.resolvedEditorOptions.plugins.filter(
+        (p) => p.includes('wordcount').length
+      )
+    ) {
+      this.getCharacterCount();
+    }
   }
 
   openAssetPicker(callback, value, meta): void {
@@ -248,17 +245,20 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });
-    modalRef.result.then((asset: Asset) => {
-      if (meta.filetype === 'image') {
-        callback(asset.Url, { alt: asset.Title });
-      } else if (meta.filetype === 'file') {
-        // TODO: do
-        console.error('Filetype is not yet implemented');
-      } else if (meta.filetype === 'media') {
-        // TODO: do
-        console.error('Filetype is not yet implemented');
-      }
-    });
+    modalRef.componentInstance.multiple = false;
+    modalRef.componentInstance.tagOptions = this.tagOptions;
+    modalRef.componentInstance.assetTypes = this.assetTypes;
+    modalRef.componentInstance.defaultListOptions = this.defaultListOptions;
+    modalRef.componentInstance.beforeAssetUpload = this.beforeAssetUpload;
+    modalRef.result
+      .then((selected: Asset | Asset[]) => {
+        this.selectedAssetChange.emit(selected);
+      })
+      .catch((e) => {
+        if (e !== 'user dismissed modal') {
+          throw e;
+        }
+      });
   }
 
   openCarouselEditor(): Promise<any> {
@@ -273,7 +273,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
 
   openSectionPicker(data): Promise<any> {
     const modalRef = this.modalService.open(SectionPickerComponent, {
-      size: 'xl',
+      size: 'lg',
       centered: true,
       // TODO: might wanna abstract these classes / centered as default settings for any modal that's opened from the editor
       backdropClass: 'oc-tinymce-modal_backdrop',
@@ -304,5 +304,17 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     modalRef.componentInstance.html = data.html;
     modalRef.componentInstance.remoteCss = data.remoteCss;
     return modalRef.result;
+  }
+
+  getCharacterCount(): void {
+    // importing tinymce breaks things so we have to use instance from window
+    /* tslint:disable: no-string-literal */
+    const tinymce = window['tinymce'];
+
+    const body = tinymce.get(this.tinymceId)?.getBody();
+    if (body) {
+      const content = tinymce.trim(body.innerText || body.textContent);
+      this.charCountChange.emit(content.length);
+    }
   }
 }

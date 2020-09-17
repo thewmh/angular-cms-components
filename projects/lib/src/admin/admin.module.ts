@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { HtmlEditorComponent } from './components/html-editor/html-editor.component';
 import { PageEditorComponent } from './components/page-editor/page-editor.component';
-// import { AssetPickerComponent } from './components/asset-picker/asset-picker.component';
 import { CarouselEditorComponent } from './components/carousel-editor/carousel-editor.component';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { SectionPickerComponent } from './components/section-picker/section-picker.component';
 import { SectionDateSettingsComponent } from './components/section-date-settings/section-date-settings.component';
 import { CmsBuyerModule } from '../buyer/public_api';
 import { CmsSharedModule } from '../shared/shared.module';
-// import { AssetListComponent } from './components/asset-list/asset-list.component';
 import { DragAndDropDirective } from './components/directives/drag-and-drop/drag-and-drop.directive';
 import { PageListComponent } from './components/page-list/page-list.component';
 import { StatusIconComponent } from './components/status-icon/status-icon.component';

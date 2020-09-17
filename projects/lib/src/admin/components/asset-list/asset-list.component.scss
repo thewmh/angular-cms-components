@@ -11,6 +11,7 @@
     background: white;
     position: sticky;
     top: 0;
+    z-index: 1;
 
     &:after {
       content: ' ';
@@ -26,6 +27,22 @@
   td {
     vertical-align: middle;
   }
+}
+
+.table-responsive {
+  flex: 1 1 auto;
+}
+
+.asset-title {
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.grid-list-container {
+  flex: 1 1 auto;
+  overflow: auto;
 }
 
 .asset-table_figure {

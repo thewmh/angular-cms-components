@@ -10,12 +10,13 @@ import {
 import { kebab } from 'case';
 import * as OrderCloudSDK from 'ordercloud-javascript-sdk';
 import { PageContentDoc } from '../../models/page-content-doc.interface';
-import { JDocument, HeadStartSDK } from '@ordercloud/headstart-sdk';
+import { JDocument, HeadStartSDK, AssetUpload, ListArgs, Asset } from '@ordercloud/headstart-sdk';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { ParentResourceType } from '../../../shared/models/parent-resource-type.interface';
+import { ASSET_TYPES } from '../../constants/asset-types.constants';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -42,9 +43,16 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() parentResourceType?: ParentResourceType = null; // optional
   @Input() parentResourceID?: string = null; // optional
   @Input() lockedSlugs?: string[]; // optional
+  @Input() usedSlugs?: string[];
+  @Input() tagOptions?: string[];
+  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
+  @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
+  @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
+
 
   page: Partial<PageContentDoc>;
   automaticUrl: boolean;
@@ -52,6 +60,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   confirmModal: NgbModalRef;
   isLoadingSave: boolean;
   selectedTab: string;
+  duplicateUrl: boolean;
 
   constructor(private modalService: NgbModal) {}
 
@@ -72,6 +81,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
       ? this.page.Url === kebab(this.page.Title)
       : true;
     this.pageNavigation = Boolean(this.page ? this.page.NavigationTitle : true);
+
+    this.duplicateUrl = false;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -89,13 +100,24 @@ export class PageEditorComponent implements OnInit, OnChanges {
   onPageTitleKeyUp(value: string): void {
     if (this.automaticUrl && !this.isLocked) {
       this.page.Url = kebab(value);
+      this.onPageUrlKeyUp();
     }
   }
 
   onAutomaticUrlChange(): void {
     if (this.automaticUrl && this.page.Title) {
       this.page.Url = kebab(this.page.Title);
+      this.onPageUrlKeyUp();
     }
+  }
+
+  onPageUrlKeyUp(): void {
+    this.duplicateUrl = this.usedSlugs.includes(this.page.Url);
+  }
+
+  onPageUrlChange() {
+    this.page.Url = kebab(this.page.Url);
+    this.onPageUrlKeyUp();
   }
 
   onPageNavigationChange(): void {
@@ -199,6 +221,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
   }
 
   get isValid(): boolean {
-    return Boolean(this.page.Title && (this.page.Url || this.isLocked));
+    return Boolean(
+      this.page.Title && (this.page.Url || this.isLocked) && !this.duplicateUrl
+    );
   }
 }

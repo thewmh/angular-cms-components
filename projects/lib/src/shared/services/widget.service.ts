@@ -38,6 +38,14 @@ export class WidgetService {
     return element.html();
   }
 
+  // we want this attribute on admin because it lets the user edit any element that has it
+  // but we don't want it on the buyer because they shouldn't be able to edit it
+  public stripEditableAttributes(html: string): string {
+    const element = $(html);
+    element.find('*').removeAttr('contenteditable');
+    return element.html();
+  }
+
   private getNowDate(): string {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');

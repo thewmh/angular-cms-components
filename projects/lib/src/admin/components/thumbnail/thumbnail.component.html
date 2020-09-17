@@ -1,11 +1,73 @@
 <div
-  class="img-thumbnail"
-  [style.width]="size + 'px'"
-  [style.height]="size + 'px'"
+  class="img-thumbnail position-relative"
+  [ngClass]="{ selected: selected }"
+  [style.width]="width"
+  [style.height]="height"
+  [ngSwitch]="ready"
+  [title]="caption || ready ? alt || 'Untitled' : 'loading'"
 >
+  <button
+    *ngIf="showRemove"
+    class="btn btn-danger remove-button"
+    (click)="remove.emit(e)"
+  >
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      role="img"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 352 512"
+      class="icon"
+    >
+      <path
+        fill="currentColor"
+        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+        class=""
+      ></path>
+    </svg>
+  </button>
   <div
-    role="img"
-    class="img-background"
-    [style.background-image]="url ? 'url(\'' + url + '\')' : ''"
-  ></div>
+    *ngSwitchCase="true"
+    class="img-thumbnail__inner"
+    [ngClass]="{
+      'd-flex align-items-center justify-content-center':
+        type !== assetType.Image
+    }"
+    [ngSwitch]="type"
+  >
+    <div
+      *ngSwitchCase="assetType.Image"
+      role="img"
+      class="img-thumbnail__inner-image"
+      [style.background-image]="url ? 'url(\'' + url + '\')' : ''"
+    ></div>
+
+    <div
+      *ngSwitchDefault
+      [ngSwitch]="type"
+      class="img-thumbnail__inner-icon"
+      [ngClass]="size"
+    >
+      <div *ngSwitchCase="assetType.Attachment">Attachment</div>
+      <div *ngSwitchCase="assetType.Theme">Theme</div>
+      <div *ngSwitchCase="assetType.Structured">Structured</div>
+      <div *ngSwitchCase="assetType.Text">Text</div>
+      <div *ngSwitchCase="assetType.RichText">Rich Text</div>
+      <div *ngSwitchCase="assetType.Audio">Audio</div>
+      <div *ngSwitchCase="assetType.Video">Video</div>
+      <div *ngSwitchCase="assetType.Presentation">Presentation</div>
+      <div *ngSwitchCase="assetType.SpreadSheet">Spreadsheet</div>
+      <div *ngSwitchCase="assetType.PDF">PDF Document</div>
+      <div *ngSwitchCase="assetType.Archive">Archive (zip)</div>
+      <div *ngSwitchCase="assetType.Code">Code</div>
+      <div *ngSwitchCase="assetType.Markup">Markup</div>
+      <div *ngSwitchDefault><p class="text-danger">Error</p></div>
+    </div>
+  </div>
+  <div *ngSwitchCase="false" class="img-thumbnail__inner">loading</div>
+</div>
+<div class="img-thumbnail__caption" [style.width]="width" *ngIf="caption">
+  <p class="text-muted small">
+    {{ caption }}
+  </p>
 </div>
