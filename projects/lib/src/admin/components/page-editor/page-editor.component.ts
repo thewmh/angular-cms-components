@@ -10,7 +10,13 @@ import {
 import { kebab } from 'case';
 import * as OrderCloudSDK from 'ordercloud-javascript-sdk';
 import { PageContentDoc } from '../../models/page-content-doc.interface';
-import { JDocument, HeadStartSDK, AssetUpload, ListArgs, Asset } from '@ordercloud/headstart-sdk';
+import {
+  JDocument,
+  HeadStartSDK,
+  AssetUpload,
+  ListArgs,
+  Asset,
+} from '@ordercloud/headstart-sdk';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
@@ -20,6 +26,7 @@ import { ASSET_TYPES } from '../../constants/asset-types.constants';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
+  MetaTitle: '',
   Url: '',
   Description: '',
   HeaderEmbeds: '',
@@ -43,6 +50,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() parentResourceType?: ParentResourceType = null; // optional
   @Input() parentResourceID?: string = null; // optional
   @Input() lockedSlugs?: string[]; // optional
+  @Input() requiredSlugs?: string[];
   @Input() usedSlugs?: string[];
   @Input() tagOptions?: string[];
   @Input() assetTypes?: ASSET_TYPES[];
@@ -52,7 +60,6 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
-
 
   page: Partial<PageContentDoc>;
   automaticUrl: boolean;
@@ -215,6 +222,13 @@ export class PageEditorComponent implements OnInit, OnChanges {
       this.lockedSlugs.includes(this.document.Doc.Url)
     );
   }
+  get isRequired(): boolean {
+    return (
+      this.requiredSlugs &&
+      this.document.ID &&
+      this.requiredSlugs.includes(this.document.Doc.Url)
+    );
+  }
 
   get hasChanges(): boolean {
     return JSON.stringify(this.document.Doc) !== JSON.stringify(this.page);
@@ -222,7 +236,11 @@ export class PageEditorComponent implements OnInit, OnChanges {
 
   get isValid(): boolean {
     return Boolean(
-      this.page.Title && (this.page.Url || this.isLocked) && !this.duplicateUrl
+      this.page.Title &&
+        this.page.MetaTitle &&
+        (this.page.Url || this.isLocked) &&
+        ((this.page.Active && this.isRequired) || !this.isRequired) &&
+        !this.duplicateUrl
     );
   }
 }

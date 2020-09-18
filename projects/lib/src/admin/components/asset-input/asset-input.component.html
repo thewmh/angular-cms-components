@@ -5,7 +5,7 @@
   <div [ngSwitch]="multiple">
     <div *ngSwitchCase="true">
       <cms-thumbnail
-        *ngFor="let asset of selected; let i = index"
+        *ngFor="let asset of selectedAsset; let i = index"
         (remove)="handleRemove(i)($event)"
         [showRemove]="true"
         class="pt-2 pr-2 f-left"
@@ -19,15 +19,15 @@
 
     <div *ngSwitchDefault>
       <cms-thumbnail
-        *ngIf="selected"
+        *ngIf="selectedAsset"
         class="pt-2 pr-2 f-left"
         (remove)="handleRemove()($event)"
         [showRemove]="true"
         [size]="'medium'"
         [height]="200"
         [width]="200"
-        [asset]="selected"
-        [caption]="selected.Title || selected.FileName"
+        [asset]="selectedAsset"
+        [caption]="selectedAsset.Title || selectedAsset.FileName"
       ></cms-thumbnail>
     </div>
   </div>
