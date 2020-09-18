@@ -4,6 +4,7 @@ export interface PageContentDoc {
   Url: string;
   SiteUrl: string;
   Title: string;
+  MetaTitle: string;
   Description: string;
   MetaImage?: Asset;
   DateCreated: string;

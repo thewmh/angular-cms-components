@@ -22,11 +22,18 @@ export default {
 
 export const DefaultStyles = () => ({
   component: PageListComponent,
-  template: `<div style="height:100vh"><cms-page-list [lockedSlugs]="lockedSlugs" [renderSiteUrl]="renderSiteUrl" [resourceType]="resourceType" [resourceID]="resourceID" [editorOptions]="editorOptions"></cms-page-list></div>`,
+  template: `<div style="height:100vh"><cms-page-list
+    [requiredSlugs]="requiredSlugs"
+    [lockedSlugs]="lockedSlugs"
+    [renderSiteUrl]="renderSiteUrl"
+    [resourceType]="resourceType"
+    [resourceID]="resourceID"
+    [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
     resourceType: 'Suppliers',
     resourceID: '41106',
+    requiredSlugs: [''],
     lockedSlugs: ['', 'about-us'],
     editorOptions: {},
   },
@@ -34,11 +41,18 @@ export const DefaultStyles = () => ({
 
 export const MusicGoRoundStyles = () => ({
   component: PageListComponent,
-  template: `<div style="height:100vh"><cms-page-list [lockedSlugs]="lockedSlugs" [renderSiteUrl]="renderSiteUrl" [resourceType]="resourceType" [resourceID]="resourceID" [editorOptions]="editorOptions"></cms-page-list></div>`,
+  template: `<div style="height:100vh"><cms-page-list
+    [requiredSlugs]="requiredSlugs"
+    [lockedSlugs]="lockedSlugs"
+    [renderSiteUrl]="renderSiteUrl"
+    [resourceType]="resourceType"
+    [resourceID]="resourceID"
+    [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
     resourceType: 'Suppliers',
     resourceID: '41106',
+    requiredSlugs: [''],
     lockedSlugs: ['', 'about-us'],
 
     editorOptions: {
@@ -59,11 +73,18 @@ export const MusicGoRoundStyles = () => ({
 
 export const PlayItAgainSportsStyles = () => ({
   component: PageListComponent,
-  template: `<div style="height:100vh"><cms-page-list [lockedSlugs]="lockedSlugs" [renderSiteUrl]="renderSiteUrl" [resourceType]="resourceType" [resourceID]="resourceID" [editorOptions]="editorOptions"></cms-page-list></div>`,
+  template: `<div style="height:100vh"><cms-page-list
+    [requiredSlugs]="requiredSlugs"
+    [lockedSlugs]="lockedSlugs"
+    [renderSiteUrl]="renderSiteUrl"
+    [resourceType]="resourceType"
+    [resourceID]="resourceID"
+    [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
     resourceType: 'Suppliers',
     resourceID: '41106',
+    requiredSlugs: [''],
     lockedSlugs: ['', 'about-us'],
 
     editorOptions: {
@@ -84,6 +105,7 @@ export const WithTranscludedToolbarAdditions = () => ({
   component: PageListComponent,
   template: `<div style="height:100vh">
       <cms-page-list
+        [requiredSlugs]="requiredSlugs"
         [lockedSlugs]="lockedSlugs"
         [renderSiteUrl]="renderSiteUrl"
         [resourceType]="resourceType"
@@ -97,6 +119,7 @@ export const WithTranscludedToolbarAdditions = () => ({
     renderSiteUrl: 'https://www.my-awesome-website.com',
     resourceType: 'Suppliers',
     resourceID: '41106',
+    requiredSlugs: [''],
     lockedSlugs: ['', 'about-us'],
     editorOptions: {},
   },

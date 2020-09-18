@@ -7,7 +7,13 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { HeadStartSDK, JDocument, ListArgs, Asset, AssetUpload } from '@ordercloud/headstart-sdk';
+import {
+  HeadStartSDK,
+  JDocument,
+  ListArgs,
+  Asset,
+  AssetUpload,
+} from '@ordercloud/headstart-sdk';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
@@ -27,6 +33,7 @@ export class PageListComponent implements OnInit, OnChanges {
   @Input() editorOptions?: any;
   @Input() renderSiteUrl?: string;
   @Input() lockedSlugs?: string[];
+  @Input() requiredSlugs?: string[];
   @Input() tagOptions?: string[];
   @Input() assetTypes?: ASSET_TYPES[];
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
