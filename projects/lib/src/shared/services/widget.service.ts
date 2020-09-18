@@ -41,7 +41,7 @@ export class WidgetService {
   // we want this attribute on admin because it lets the user edit any element that has it
   // but we don't want it on the buyer because they shouldn't be able to edit it
   public stripEditableAttributes(html: string): string {
-    const element = $(html);
+    const element = $(`<div>${html}</div>`);
     element.find('*').removeAttr('contenteditable');
     return element.html();
   }
