@@ -36,7 +36,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Input() getSectionTemplates?: () => Promise<string[]>;
   @Output() htmlChange = new EventEmitter<string>();
-  @Output() charCountChange ?= new EventEmitter<number>();
+  @Output() charCountChange? = new EventEmitter<number>();
   html: string;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
@@ -100,7 +100,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       },
       insert: {
         title: 'Insert',
-        items: 'image link media oc-section inserttable | charmap emoticons hr',
+        items: 'image link oc-section inserttable | charmap emoticons hr',
       },
       format: {
         title: 'Format',
@@ -159,7 +159,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net'],
   };
 
-  constructor(private modalService: NgbModal, public zone: NgZone) { }
+  constructor(private modalService: NgbModal, public zone: NgZone) {}
 
   ngOnInit(): void {
     this.componentMountedToDom = false;
