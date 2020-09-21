@@ -68,7 +68,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
     }
     if (this.resourceID && this.resourceType && this.defaultListOptions) {
       console.warn(
-        'Because you\'ve provided a resourceType and resourceID, defaultListOptions will be ignored as they are not currently supported while listing assets per resource'
+        "Because you've provided a resourceType and resourceID, defaultListOptions will be ignored as they are not currently supported while listing assets per resource"
       );
     }
     this.listAssets();
@@ -146,7 +146,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
 
   handleAssetsUploaded(event: { uploaded: Asset[]; errors: [] }) {
     this.items = [...this.items, ...event.uploaded];
-    if (event.uploaded.length === 1) {
+    if (event.uploaded.length === 1 && !this.selectable) {
       this.assetDetail = event.uploaded[0];
     }
     this.selectedAssetChange.emit(event.uploaded);

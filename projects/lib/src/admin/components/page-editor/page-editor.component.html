@@ -76,9 +76,13 @@
                   required
                   maxlength="100"
                   (keyup)="onPageTitleKeyUp(pageTitle.value)"
-                  placeholder="Choose a descriptive title for this page"
+                  placeholder="Choose a descriptive headline for this page"
                 />
                 <small id="pageTitleHelp" class="form-text text-muted">
+                  This is used for the first H1 on the page and important for
+                  accessibiity.
+                </small>
+                <small id="pageTitleCount" class="form-text text-muted">
                   {{ 100 - (page.Title ? page.Title.length : 0) }} / 100
                   characters remaining.
                 </small>
@@ -97,7 +101,7 @@
                       name="pageActiveStatus"
                       class="custom-control-input"
                       [checked]="page.Active"
-                      [disabled]="isLocked"
+                      [disabled]="isRequired"
                       (change)="onPageStatusChange()"
                     />
                     <label class="custom-control-label" for="pageActive1"
@@ -113,7 +117,7 @@
                       name="pageActiveStatus"
                       class="custom-control-input"
                       [checked]="!page.Active"
-                      [disabled]="isLocked"
+                      [disabled]="isRequired"
                       (change)="onPageStatusChange()"
                     />
                     <label class="custom-control-label" for="pageActive2"
@@ -127,7 +131,10 @@
           <div class="form-group">
             <label for="pageUrl">Location</label>
             <div class="input-group">
-              <div class="input-group-prepend" *ngIf="!isLocked">
+              <div
+                class="input-group-prepend"
+                *ngIf="!(isLocked && !isRequired)"
+              >
                 <span class="input-group-text bg-light">
                   <div
                     class="custom-control custom-checkbox custom-control-inline"
@@ -151,7 +158,7 @@
                 class="form-control"
                 [(ngModel)]="page.Url"
                 [readOnly]="automaticUrl"
-                [disabled]="isLocked"
+                [disabled]="isLocked || isRequired"
                 (keyup)="onPageUrlKeyUp()"
                 (change)="onPageUrlChange()"
                 [ngClass]="{ 'is-invalid': duplicateUrl }"
@@ -230,14 +237,19 @@
                 <label for="metaTitle">Meta Title</label>
                 <input
                   type="text"
-                  readonly="true"
-                  [(ngModel)]="page.Title"
+                  required
+                  [(ngModel)]="page.MetaTitle"
                   class="form-control"
+                  maxlength="100"
                   aria-describedby="metaTitleHelp"
+                  placeholder="Choose a descriptive title for this page"
                 />
                 <small id="metaTitleHelp" class="form-text text-muted">
-                  The SEO Meta Title is based off of the Page Title (available
-                  in the Settings tab).
+                  The Meta Title is important for SEO
+                </small>
+                <small id="metaTitleCount" class="form-text text-muted">
+                  {{ 100 - (page.Title ? page.Title.length : 0) }} / 100
+                  characters remaining.
                 </small>
               </div>
             </div>
@@ -254,7 +266,7 @@
                       name="pageIndexingStatus"
                       class="custom-control-input"
                       [checked]="!page.NoRobotsIndexing"
-                      [disabled]="isLocked"
+                      [disabled]="isLocked || isRequired"
                       (change)="onPageIndexingChange()"
                     />
                     <label class="custom-control-label" for="pageIndexing1"
@@ -270,7 +282,7 @@
                       name="pageIndexingStatus"
                       class="custom-control-input"
                       [checked]="page.NoRobotsIndexing"
-                      [disabled]="isLocked"
+                      [disabled]="isLocked || isRequired"
                       (change)="onPageIndexingChange()"
                     />
                     <label class="custom-control-label" for="pageIndexing2"
@@ -295,10 +307,12 @@
               placeholder="Describe this page in 300 characters or less"
             ></textarea>
             <small id="pageDescriptionHelp" class="form-text text-muted">
-              The SEO Meta Description is a brief summary of the website page's content. This description may appear in search engine results. 
+              The SEO Meta Description is a brief summary of the website page's
+              content. This description may appear in search engine results.
             </small>
             <small id="pageDescriptionCounter" class="form-text text-muted">
-              {{ 300 - (page.Description ? page.Description.length : 0) }} / 300 characters remaining.
+              {{ 300 - (page.Description ? page.Description.length : 0) }} / 300
+              characters remaining.
             </small>
           </div>
           <div class="form-group">

@@ -1,4 +1,11 @@
-import { Component, Input, Renderer2, Inject, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  Renderer2,
+  Inject,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { WidgetService } from '../../../shared/services/widget.service';
 import { JDocument } from '@ordercloud/headstart-sdk';
 import { Meta, Title } from '@angular/platform-browser';
@@ -24,7 +31,10 @@ export class PageRendererComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.pageDoc && (changes.pageDoc.previousValue !== changes.pageDoc.currentValue)) {
+    if (
+      changes.pageDoc &&
+      changes.pageDoc.previousValue !== changes.pageDoc.currentValue
+    ) {
       const page: PageContentDoc = this.pageDoc.Doc;
       const content = this.widgetService.applyDateRules(page.Content);
       this.content = this.widgetService.stripEditableAttributes(content);
@@ -42,7 +52,7 @@ export class PageRendererComponent implements OnChanges {
     } else {
       this.metaService.removeTag('property = "robots"');
     }
-    this.titleService.setTitle(page.Title);
+    this.titleService.setTitle(page.MetaTitle);
     this.metaService.updateTag({
       property: 'application-name',
       content: page.SiteUrl,
@@ -54,7 +64,10 @@ export class PageRendererComponent implements OnChanges {
 
     // open graph meta data
     this.metaService.updateTag({ property: 'og:type', content: 'website' });
-    this.metaService.updateTag({ property: 'og:title', content: page.Title });
+    this.metaService.updateTag({
+      property: 'og:title',
+      content: page.MetaTitle,
+    });
     this.metaService.updateTag({
       property: 'og:description',
       content: page.Description,
@@ -75,7 +88,7 @@ export class PageRendererComponent implements OnChanges {
     });
     this.metaService.updateTag({
       property: 'twitter:title',
-      content: page.Title,
+      content: page.MetaTitle,
     });
     this.metaService.updateTag({
       property: 'twitter:description',

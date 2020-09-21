@@ -7,7 +7,8 @@ import {
   EventEmitter,
   ElementRef,
   ViewChild,
-  AfterViewInit, OnInit
+  AfterViewInit,
+  OnInit,
 } from '@angular/core';
 import { Asset, Meta } from '@ordercloud/headstart-sdk';
 
@@ -41,7 +42,7 @@ export class AssetListComponent implements AfterViewInit, OnChanges, OnInit {
   ngAfterViewInit(): void {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
-    this.evaluateColumnWidth();
+    setTimeout(this.evaluateColumnWidth, 300);
   }
 
   ngOnInit() {
@@ -52,7 +53,9 @@ export class AssetListComponent implements AfterViewInit, OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      (changes.gridContainerEl && changes.gridContainerEl.currentValue) ||
+      (changes.gridContainerEl &&
+        changes.gridContainerEl.currentValue &&
+        !changes.gridContrainerEl.firstChange) ||
       (changes.mode &&
         !changes.mode.firstChange &&
         changes.mode.currentValue === 'grid')
@@ -72,7 +75,7 @@ export class AssetListComponent implements AfterViewInit, OnChanges, OnInit {
         (this.gridContainerEl.nativeElement.offsetWidth - 15) / columnCount
       }px - 0.5rem) - (0.5rem / ${columnCount}))`;
     }
-  }
+  };
 
   evaluateColumnCount = () => {
     const windowWidth = window.innerWidth;
@@ -89,7 +92,7 @@ export class AssetListComponent implements AfterViewInit, OnChanges, OnInit {
       return 6;
     }
     return 8;
-  }
+  };
 
   handleAssetClick = (asset: Asset) => {
     if (!this.selectable) {
@@ -97,7 +100,9 @@ export class AssetListComponent implements AfterViewInit, OnChanges, OnInit {
     }
     const selectedIndex = this.getAssetIndex(asset);
     if (selectedIndex < 0) {
-      this.multiple ? this.selectedAsset.push(asset) : (this.selectedAsset = [asset]);
+      this.multiple
+        ? this.selectedAsset.push(asset)
+        : (this.selectedAsset = [asset]);
     } else {
       this.multiple
         ? this.selectedAsset.splice(selectedIndex, 1)
@@ -105,13 +110,15 @@ export class AssetListComponent implements AfterViewInit, OnChanges, OnInit {
     }
 
     this.selectedAssetChange.emit(this.selectedAsset);
-  }
+  };
 
   getAssetIndex = (asset: Asset) => {
     return this.selectedAsset.findIndex((a) => a.ID === asset.ID);
-  }
+  };
 
   isAssetSelected = (asset: Asset) => {
-    return this.selectable && !!this.selectedAsset.find((a) => a.ID === asset.ID);
-  }
+    return (
+      this.selectable && !!this.selectedAsset.find((a) => a.ID === asset.ID)
+    );
+  };
 }
