@@ -51,7 +51,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   filterSelections: CmsAssetFilterSelections;
   search = '';
   searchDebounce: any;
-  items?: Asset[];
+  items?: Asset[] = [];
   meta?: Meta;
 
   constructor(
