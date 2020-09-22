@@ -102,26 +102,46 @@ export class PageRendererComponent implements OnChanges {
   }
 
   private loadScripts(headerEmbeds: string, footerEmbeds: string): void {
-    this.createScriptTags(headerEmbeds, 'head');
-    this.createScriptTags(footerEmbeds, 'body');
+    this.buildContent(headerEmbeds, 'head');
+    this.buildContent(footerEmbeds, 'body');
   }
 
-  private createScriptTags(content: string, appendTo: string): void {
+  private buildContent(content: string, appendTo: string): void {
     const component = this;
+    const target = component.document.getElementsByTagName(appendTo)[0];
+
     if (content) {
       const element = $(content);
       const scripts = element.filter(function() {
         return this.tagName === 'SCRIPT';
       });
+      const nonScripts = element.filter(function() {
+        return this.tagName !== 'SCRIPT';
+      });
       scripts.each(function() {
+        // in order to run javascript after first page loads we need to append it as an html element
+
         // create script
         const script = component.renderer.createElement('script');
         script.type = 'text/javascript';
-        script.textContent = this.innerText;
+
+        if ((this as any).src) {
+          script.src = (this as any).src;
+        } else {
+          script.textContent = this.innerText;
+        }
 
         // append to target element
-        const target = component.document.getElementsByTagName(appendTo)[0];
         component.renderer.appendChild(target, script);
+
+      });
+
+      nonScripts.each(function() {
+        // non scripts like html/css can just be added to dom
+        // unlike javascript they will still be applied even after first page load
+        if (this.outerHTML) {
+          target.innerHTML += this.outerHTML;
+        }
       });
     }
   }
