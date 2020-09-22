@@ -51,9 +51,20 @@ export const MusicGoRoundStyles = () => ({
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
     resourceType: 'Suppliers',
-    resourceID: '41106',
-    requiredSlugs: [''],
-    lockedSlugs: ['', 'about-us'],
+    resourceID: '40015',
+    requiredSlugs: ['', 'about', 'in-store-pickpup'],
+    lockedSlugs: [
+      '',
+      'about',
+      'community',
+      'jobs',
+      'lessons',
+      'most-wanted',
+      'promotions',
+      'repairs',
+      'faq',
+      'in-store-pickup',
+    ],
 
     editorOptions: {
       resize: false,
@@ -83,9 +94,9 @@ export const PlayItAgainSportsStyles = () => ({
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
     resourceType: 'Suppliers',
-    resourceID: '41106',
+    resourceID: '400015',
     requiredSlugs: [''],
-    lockedSlugs: ['', 'about-us'],
+    lockedSlugs: ['', 'about', 'community'],
 
     editorOptions: {
       ordercloud: {

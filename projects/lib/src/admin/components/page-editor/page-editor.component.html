@@ -23,7 +23,7 @@
               }}
             </h4>
           </div>
-          <div class="flex-grow-0 flex-shrink-1" *ngIf="hasChanges">
+          <div class="flex-grow-0 flex-shrink-1" *ngIf="hasChanges()">
             <span class="badge badge-secondary">Unsaved Changes</span>
           </div>
         </div>
@@ -45,7 +45,7 @@
         <button
           *ngIf="!isLoadingSave"
           class="btn btn-primary"
-          [disabled]="!hasChanges || !isValid"
+          [disabled]="!hasChanges() || !isValid()"
           (click)="onSubmit()"
         >
           {{ document.ID ? "Save Changes" : "Create New Page" }}
@@ -131,10 +131,7 @@
           <div class="form-group">
             <label for="pageUrl">Location</label>
             <div class="input-group">
-              <div
-                class="input-group-prepend"
-                *ngIf="!(isLocked && !isRequired)"
-              >
+              <div class="input-group-prepend" *ngIf="!isLocked">
                 <span class="input-group-text bg-light">
                   <div
                     class="custom-control custom-checkbox custom-control-inline"

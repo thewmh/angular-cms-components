@@ -68,6 +68,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
   isLoadingSave: boolean;
   selectedTab: string;
   duplicateUrl: boolean;
+  isLocked: boolean;
+  isRequired: boolean;
 
   constructor(private modalService: NgbModal) {}
 
@@ -90,6 +92,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.pageNavigation = Boolean(this.page ? this.page.NavigationTitle : true);
 
     this.duplicateUrl = false;
+    this.isLocked = this.determineLocked();
+    this.isRequired = this.determineRequired();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -97,6 +101,14 @@ export class PageEditorComponent implements OnInit, OnChanges {
     // Add '${implements OnChanges}' to the class.
     if (changes.document && !changes.document.firstChange) {
       this.ngOnInit();
+    } else {
+      if (changes.lockedSlugs && !changes.lockedSlugs.firstChange) {
+        this.isLocked = this.determineLocked();
+      }
+
+      if (changes.requiredSlugs && !changes.requiredSlugs.firstChange) {
+        this.isRequired = this.determineRequired();
+      }
     }
   }
 
@@ -215,14 +227,15 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.confirmModal = this.modalService.open(confirmModalTemplate);
   }
 
-  get isLocked(): boolean {
+  determineLocked(): boolean {
     return (
       this.lockedSlugs &&
       this.document.ID &&
       this.lockedSlugs.includes(this.document.Doc.Url)
     );
   }
-  get isRequired(): boolean {
+
+  determineRequired(): boolean {
     return (
       this.requiredSlugs &&
       this.document.ID &&
@@ -230,11 +243,11 @@ export class PageEditorComponent implements OnInit, OnChanges {
     );
   }
 
-  get hasChanges(): boolean {
+  hasChanges(): boolean {
     return JSON.stringify(this.document.Doc) !== JSON.stringify(this.page);
   }
 
-  get isValid(): boolean {
+  isValid(): boolean {
     return Boolean(
       this.page.Title &&
         this.page.MetaTitle &&
