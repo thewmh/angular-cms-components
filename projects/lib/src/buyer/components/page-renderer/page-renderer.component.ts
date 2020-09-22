@@ -11,6 +11,7 @@ import { JDocument } from '@ordercloud/headstart-sdk';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { PageContentDoc } from '../../../admin/models/page-content-doc.interface';
+import * as $ from 'jquery';
 
 /** @dynamic */
 @Component({
@@ -28,7 +29,7 @@ export class PageRendererComponent implements OnChanges {
     private titleService: Title,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: HTMLDocument
-  ) {}
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -101,18 +102,27 @@ export class PageRendererComponent implements OnChanges {
   }
 
   private loadScripts(headerEmbeds: string, footerEmbeds: string): void {
-    this.createScriptTag(headerEmbeds, 'head');
-    this.createScriptTag(footerEmbeds, 'body');
+    this.createScriptTags(headerEmbeds, 'head');
+    this.createScriptTags(footerEmbeds, 'body');
   }
 
-  private createScriptTag(content: string, appendTo: string): void {
-    // create script
-    const script = this.renderer.createElement('script');
-    script.type = 'text/javascript';
-    script.textContent = content;
+  private createScriptTags(content: string, appendTo: string): void {
+    const component = this;
+    if (content) {
+      const element = $(content);
+      const scripts = element.filter(function() {
+        return this.tagName === 'SCRIPT';
+      });
+      scripts.each(function() {
+        // create script
+        const script = component.renderer.createElement('script');
+        script.type = 'text/javascript';
+        script.textContent = this.innerText;
 
-    // append to target element
-    const target = this.document.getElementsByTagName(appendTo)[0];
-    this.renderer.appendChild(target, script);
+        // append to target element
+        const target = component.document.getElementsByTagName(appendTo)[0];
+        component.renderer.appendChild(target, script);
+      });
+    }
   }
 }
