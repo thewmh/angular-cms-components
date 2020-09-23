@@ -11,6 +11,7 @@ import { JDocument } from '@ordercloud/headstart-sdk';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { PageContentDoc } from '../../../admin/models/page-content-doc.interface';
+import * as $ from 'jquery';
 
 /** @dynamic */
 @Component({
@@ -28,7 +29,7 @@ export class PageRendererComponent implements OnChanges {
     private titleService: Title,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: HTMLDocument
-  ) {}
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -101,18 +102,47 @@ export class PageRendererComponent implements OnChanges {
   }
 
   private loadScripts(headerEmbeds: string, footerEmbeds: string): void {
-    this.createScriptTag(headerEmbeds, 'head');
-    this.createScriptTag(footerEmbeds, 'body');
+    this.buildContent(headerEmbeds, 'head');
+    this.buildContent(footerEmbeds, 'body');
   }
 
-  private createScriptTag(content: string, appendTo: string): void {
-    // create script
-    const script = this.renderer.createElement('script');
-    script.type = 'text/javascript';
-    script.textContent = content;
+  private buildContent(content: string, appendTo: string): void {
+    const component = this;
+    const target = component.document.getElementsByTagName(appendTo)[0];
 
-    // append to target element
-    const target = this.document.getElementsByTagName(appendTo)[0];
-    this.renderer.appendChild(target, script);
+    if (content) {
+      const element = $(content);
+      const scripts = element.filter(function() {
+        return this.tagName === 'SCRIPT';
+      });
+      const nonScripts = element.filter(function() {
+        return this.tagName !== 'SCRIPT';
+      });
+      scripts.each(function() {
+        // in order to run javascript after first page loads we need to append it as an html element
+
+        // create script
+        const script = component.renderer.createElement('script');
+        script.type = 'text/javascript';
+
+        if ((this as any).src) {
+          script.src = (this as any).src;
+        } else {
+          script.textContent = this.innerText;
+        }
+
+        // append to target element
+        component.renderer.appendChild(target, script);
+
+      });
+
+      nonScripts.each(function() {
+        // non scripts like html/css can just be added to dom
+        // unlike javascript they will still be applied even after first page load
+        if (this.outerHTML) {
+          target.innerHTML += this.outerHTML;
+        }
+      });
+    }
   }
 }
