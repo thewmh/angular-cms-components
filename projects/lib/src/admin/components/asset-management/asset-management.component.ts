@@ -176,6 +176,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
     this.search = value;
     this.options = {
       ...this.options,
+      page: 1,
       filters: {
         ...this.options.filters,
         Title: `*${value}*`,
