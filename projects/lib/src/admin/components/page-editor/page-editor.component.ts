@@ -70,6 +70,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   duplicateUrl: boolean;
   isLocked: boolean;
   isRequired: boolean;
+  errorMessage: string;
 
   constructor(private modalService: NgbModal) {}
 
@@ -94,6 +95,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.duplicateUrl = false;
     this.isLocked = this.determineLocked();
     this.isRequired = this.determineRequired();
+    this.checkErrorMessage();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -109,6 +111,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
       if (changes.requiredSlugs && !changes.requiredSlugs.firstChange) {
         this.isRequired = this.determineRequired();
       }
+      this.checkErrorMessage();
     }
   }
 
@@ -121,6 +124,11 @@ export class PageEditorComponent implements OnInit, OnChanges {
       this.page.Url = kebab(value);
       this.onPageUrlKeyUp();
     }
+    this.checkErrorMessage();
+  }
+
+  onPageMetaTitleChange(): void {
+    this.checkErrorMessage();
   }
 
   onAutomaticUrlChange(): void {
@@ -128,15 +136,19 @@ export class PageEditorComponent implements OnInit, OnChanges {
       this.page.Url = kebab(this.page.Title);
       this.onPageUrlKeyUp();
     }
+    this.checkErrorMessage();
   }
 
   onPageUrlKeyUp(): void {
-    this.duplicateUrl = this.usedSlugs.includes(this.page.Url);
+    this.duplicateUrl = this.usedSlugs
+      ? this.usedSlugs.includes(this.page.Url)
+      : false;
   }
 
   onPageUrlChange() {
     this.page.Url = kebab(this.page.Url);
     this.onPageUrlKeyUp();
+    this.checkErrorMessage();
   }
 
   onPageNavigationChange(): void {
@@ -245,6 +257,20 @@ export class PageEditorComponent implements OnInit, OnChanges {
 
   hasChanges(): boolean {
     return JSON.stringify(this.document.Doc) !== JSON.stringify(this.page);
+  }
+
+  checkErrorMessage() {
+    if (!this.page) {
+      this.errorMessage = undefined;
+    } else if (!this.page.Title) {
+      this.errorMessage = 'Settings > Page Title is required';
+    } else if (!this.page.MetaTitle) {
+      this.errorMessage = 'SEO > Meta Title is required';
+    } else if (this.duplicateUrl) {
+      this.errorMessage = 'The selected URL is already in use.';
+    } else {
+      this.errorMessage = undefined;
+    }
   }
 
   isValid(): boolean {
