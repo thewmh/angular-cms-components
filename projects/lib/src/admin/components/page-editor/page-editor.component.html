@@ -42,14 +42,19 @@
           ></span>
           Saving...
         </button>
-        <button
+        <div
+          placement="left"
+          [ngbTooltip]="errorMessage"
           *ngIf="!isLoadingSave"
-          class="btn btn-primary"
-          [disabled]="!hasChanges() || !isValid()"
-          (click)="onSubmit()"
         >
-          {{ document.ID ? "Save Changes" : "Create New Page" }}
-        </button>
+          <button
+            class="btn btn-primary"
+            [disabled]="!hasChanges() || !isValid()"
+            (click)="onSubmit()"
+          >
+            {{ document.ID ? "Save Changes" : "Create New Page" }}
+          </button>
+        </div>
         <button
           *ngIf="document.ID && document.Doc && !document.Doc.Active"
           class="btn btn-outline-danger ml-3"
@@ -239,6 +244,7 @@
                   class="form-control"
                   maxlength="100"
                   aria-describedby="metaTitleHelp"
+                  (keyup)="onPageMetaTitleChange()"
                   placeholder="Choose a descriptive title for this page"
                 />
                 <small id="metaTitleHelp" class="form-text text-muted">
