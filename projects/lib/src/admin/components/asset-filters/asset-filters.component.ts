@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+} from '@angular/core';
 import DEFAULT_ASSET_TYPES, {
   ASSET_TYPES,
 } from '../../constants/asset-types.constants';
@@ -17,7 +23,8 @@ export interface CmsAssetFilterSelections {
   templateUrl: './asset-filters.component.html',
   styleUrls: ['./asset-filters.component.scss'],
 })
-export class AssetFiltersComponent implements OnInit {
+export class AssetFiltersComponent {
+  @Input() additionalFilters?: TemplateRef<any>;
   @Input() types: ASSET_TYPES[] = DEFAULT_ASSET_TYPES;
   @Input() tags?: string[];
   @Input() selections?: CmsAssetFilterSelections = {
@@ -27,8 +34,6 @@ export class AssetFiltersComponent implements OnInit {
   @Output() selectionsChange = new EventEmitter<CmsAssetFilterSelections>();
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   handleSelectionChange(filterType: string, key: string, value: boolean) {
     this.selectionsChange.emit({

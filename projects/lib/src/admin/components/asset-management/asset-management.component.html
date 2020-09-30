@@ -22,6 +22,7 @@
     >
       <!-- ASSET FILTERS -->
       <cms-asset-filters
+        [additionalFilters]="additionalFilters"
         [types]="assetTypes"
         [tags]="tagOptions"
         [selections]="{
@@ -29,7 +30,8 @@
           tags: tagSelections
         }"
         (selectionsChange)="handleFilterChange($event)"
-      ></cms-asset-filters>
+      >
+      </cms-asset-filters>
     </div>
     <div class="flex-grow-1 flex-shrink-1 overflow-hidden">
       <!-- ASSET LIST -->

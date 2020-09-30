@@ -6,6 +6,7 @@ import {
   Output,
   OnChanges,
   SimpleChanges,
+  TemplateRef,
 } from '@angular/core';
 import {
   HeadStartSDK,
@@ -36,6 +37,7 @@ export class PageListComponent implements OnInit, OnChanges {
   @Input() requiredSlugs?: string[];
   @Input() tagOptions?: string[];
   @Input() assetTypes?: ASSET_TYPES[];
+  @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();

@@ -22,7 +22,10 @@ export default {
 export const SingleAsset = () => ({
   component: AssetInputComponent,
   template: `<div class="p-5">
-    <cms-asset-input [(selectedAsset)]="selectedAsset" [tagOptions]="tagOptions" [defaultListOptions]="defaultListOptions"></cms-asset-input>
+    <ng-template #additionalFilters>
+      <div class="btn btn-outline-primary" (click)="defaultListOptions = {filters: {ID: '40009-*'}}">Test</div>
+    </ng-template>
+    <cms-asset-input [(selectedAsset)]="selectedAsset" [tagOptions]="tagOptions" [defaultListOptions]="defaultListOptions" [additionalFilters]="additionalFilters"></cms-asset-input>
   </div>`,
   props: {
     defaultListOptions: {

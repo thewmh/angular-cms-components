@@ -6,6 +6,7 @@ import {
   OnChanges,
   Output,
   EventEmitter,
+  TemplateRef,
 } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -37,6 +38,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   @Input() multiple = false;
   @Input() selectedAsset: Asset[] = [];
   @Input() showAssetStatus = true;
+  @Input() additionalFilters?: TemplateRef<any>;
   @Input('assetTypes') assetTypesOverride?: ASSET_TYPES[];
   @Input('tagOptions') tagOptionsOverride?: string[];
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
@@ -95,7 +97,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   }
 
   listAssets() {
-    this.spinner.show();
+    // this.spinner.show(); TODO: figure out why this is throwing errors when loading asset-management in a modal
     const requestOptions: ListArgs<Asset> = Object.assign(
       { pageSize: 24 }, // use 24 because this fits most grid cases
       {
@@ -112,7 +114,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
       ? this.listAssetsByResource(requestOptions)
       : this.listAssetsByFilters(requestOptions)
     ).finally(() => {
-      this.spinner.hide();
+      // this.spinner.hide();
     });
   }
 

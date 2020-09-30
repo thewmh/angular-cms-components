@@ -1,4 +1,5 @@
 <div class="p-3 border-right bg-light h-100 overflow-auto">
+  <ng-container *ngTemplateOutlet="additionalFilters"></ng-container>
   <div *ngIf="types && types.length > 1">
     <label for="assetTypes" class="font-weight-bold">Asset Type</label>
     <fieldset id="assetTypes" class="form-group">

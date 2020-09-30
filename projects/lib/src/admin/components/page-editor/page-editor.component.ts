@@ -6,6 +6,7 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  TemplateRef,
 } from '@angular/core';
 import { kebab } from 'case';
 import * as OrderCloudSDK from 'ordercloud-javascript-sdk';
@@ -54,6 +55,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() usedSlugs?: string[];
   @Input() tagOptions?: string[];
   @Input() assetTypes?: ASSET_TYPES[];
+  @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
