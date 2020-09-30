@@ -199,7 +199,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   }
 
   handlePageChange(page: number) {
-    this.spinner.show();
+    // this.spinner.show();
     this.options.page = page;
     this.listAssets();
   }

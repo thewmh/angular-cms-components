@@ -24,6 +24,7 @@ import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { ParentResourceType } from '../../../shared/models/parent-resource-type.interface';
 import { ASSET_TYPES } from '../../constants/asset-types.constants';
+import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -119,6 +120,18 @@ export class PageEditorComponent implements OnInit, OnChanges {
 
   onPageContentChange(html: string): void {
     this.page = { ...this.page, Content: html };
+  }
+
+  openPreviewModal(): Promise<any> {
+    const modalRef = this.modalService.open(PagePreviewModalComponent, {
+      size: 'xl',
+      centered: true,
+      backdropClass: 'oc-tinymce-modal_backdrop',
+      windowClass: 'oc-tinymce-modal_window',
+    });
+    modalRef.componentInstance.html = this.page.Content;
+    modalRef.componentInstance.remoteCss = this.editorOptions?.content_css[0];
+    return modalRef.result;
   }
 
   onPageTitleKeyUp(value: string): void {

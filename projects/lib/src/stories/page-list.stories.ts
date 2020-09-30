@@ -42,37 +42,8 @@ export const DefaultStyles = () => ({
 export const MusicGoRoundStyles = () => ({
   component: PageListComponent,
   template: `<div style="height:100vh">
-  <ng-template #additionalAssetFilters>
-    <fieldset id="customFilters" class="form-group">
-      <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="corporate_assets"
-          [checked]="defaultListOptions == {filters: {ID: 'mgrdev-*'}}"
-          (change)="defaultListOptions = {filters: {ID: 'mgrdev-*'}}"
-        />
-        <label class="custom-control-label" for="corporate_assets">
-          Corporate Assets
-        </label>
-      </div>
-      <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          [checked]="defaultListOptions == {filters: {ID: '40009-*'}}"
-          (change)="defaultListOptions = {filters: {ID: '40009-*'}}"
-          id="store_assets"
-        />
-        <label class="custom-control-label" for="store_assets">
-          Store Assets
-        </label>
-      </div>
-    </fieldset>
-  </ng-template>
   <cms-page-list
     [defaultListOptions]="defaultListOptions"
-    [additionalAssetFilters]="additionalAssetFilters"
     [requiredSlugs]="requiredSlugs"
     [lockedSlugs]="lockedSlugs"
     [renderSiteUrl]="renderSiteUrl"

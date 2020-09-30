@@ -7,7 +7,7 @@ import { WidgetService } from '../../../shared/services/widget.service';
 @Component({
   selector: 'cms-page-preview-modal',
   templateUrl: './page-preview-modal.component.html',
-  styleUrls: ['./page-preview-modal.component.scss']
+  styleUrls: ['./page-preview-modal.component.scss'],
 })
 export class PagePreviewModalComponent implements OnInit {
   @Input() html: string;
@@ -20,7 +20,7 @@ export class PagePreviewModalComponent implements OnInit {
   constructor(
     public modal: NgbActiveModal,
     private widgetService: WidgetService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const content = this.widgetService.applyDateRules(this.html);
