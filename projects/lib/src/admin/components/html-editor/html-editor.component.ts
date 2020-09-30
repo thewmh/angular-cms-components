@@ -8,8 +8,9 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  TemplateRef,
 } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AssetPickerComponent } from '../asset-picker/asset-picker.component';
 import { CarouselEditorComponent } from '../carousel-editor/carousel-editor.component';
 import { v4 as guid } from 'uuid';
@@ -31,6 +32,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Input() editorOptions: any;
   @Input() tagOptions?: string[];
   @Input() assetTypes?: ASSET_TYPES[];
+  @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
@@ -38,6 +40,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Output() htmlChange = new EventEmitter<string>();
   @Output() charCountChange? = new EventEmitter<number>();
   html: string;
+  assetPickerModalRef: NgbModalRef;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
   private timer;
@@ -224,6 +227,15 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     ) {
       this.html = changes.initialValue.currentValue;
     }
+    if (
+      changes.defaultListOptions &&
+      !changes.defaultListOptions.firstChange &&
+      this.assetPickerModalRef &&
+      this.assetPickerModalRef.componentInstance
+    ) {
+      this.assetPickerModalRef.componentInstance.defaultListOptions =
+        changes.defaultListOptions.currentValue;
+    }
   }
 
   // TODO: Throttle this callback so that the emitter isn't fired multiple times for the same change.
@@ -239,18 +251,19 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   }
 
   openAssetPicker(callback, value, meta): void {
-    const modalRef = this.modalService.open(AssetPickerComponent, {
+    this.assetPickerModalRef = this.modalService.open(AssetPickerComponent, {
       size: 'xl',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });
-    modalRef.componentInstance.multiple = false;
-    modalRef.componentInstance.tagOptions = this.tagOptions;
-    modalRef.componentInstance.assetTypes = this.assetTypes;
-    modalRef.componentInstance.defaultListOptions = this.defaultListOptions;
-    modalRef.componentInstance.beforeAssetUpload = this.beforeAssetUpload;
-    modalRef.result
+    this.assetPickerModalRef.componentInstance.multiple = false;
+    this.assetPickerModalRef.componentInstance.tagOptions = this.tagOptions;
+    this.assetPickerModalRef.componentInstance.assetTypes = this.assetTypes;
+    this.assetPickerModalRef.componentInstance.additionalFilters = this.additionalAssetFilters;
+    this.assetPickerModalRef.componentInstance.defaultListOptions = this.defaultListOptions;
+    this.assetPickerModalRef.componentInstance.beforeAssetUpload = this.beforeAssetUpload;
+    this.assetPickerModalRef.result
       .then((asset: Asset) => {
         if (meta.filetype === 'image') {
           callback(asset.Url, { alt: asset.Title });

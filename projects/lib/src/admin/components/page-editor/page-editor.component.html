@@ -327,6 +327,7 @@
               [assetTypes]="[]"
               [tagOptions]="tagOptions"
               [assetTypes]="assetTypes"
+              [additionalFilters]="additionalAssetFilters"
               [defaultListOptions]="defaultListOptions"
               [beforeAssetUpload]="beforeAssetUpload"
             ></cms-asset-input>
@@ -345,6 +346,7 @@
             [tagOptions]="tagOptions"
             [assetTypes]="assetTypes"
             [defaultListOptions]="defaultListOptions"
+            [additionalAssetFilters]="additionalAssetFilters"
             [beforeAssetUpload]="beforeAssetUpload"
             (selectedAssetChange)="selectedAssetChange.emit($event)"
           ></cms-html-editor>
