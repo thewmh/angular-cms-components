@@ -92,6 +92,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
       (changes.resourceID && !changes.resourceID.firstChange) ||
       (changes.resourceType && !changes.resourceType.firstChange)
     ) {
+      this.options.page = 1;
       this.ngOnInit();
     }
   }
