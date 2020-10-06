@@ -182,6 +182,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       this.editorOptions
     );
 
+    this.resolvedEditorOptions.file_picker_types = 'image';
     this.resolvedEditorOptions.file_picker_callback = (
       callback,
       value,
@@ -257,9 +258,15 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });
+
+    const assetTypes =
+      meta.filetype === 'image'
+        ? ['Image']
+        : this.assetTypes.filter((t) => t !== 'Image');
+
     this.assetPickerModalRef.componentInstance.multiple = false;
     this.assetPickerModalRef.componentInstance.tagOptions = this.tagOptions;
-    this.assetPickerModalRef.componentInstance.assetTypes = this.assetTypes;
+    this.assetPickerModalRef.componentInstance.assetTypes = assetTypes;
     this.assetPickerModalRef.componentInstance.additionalFilters = this.additionalAssetFilters;
     this.assetPickerModalRef.componentInstance.defaultListOptions = this.defaultListOptions;
     this.assetPickerModalRef.componentInstance.beforeAssetUpload = this.beforeAssetUpload;
