@@ -5,6 +5,7 @@ import {
   Inject,
   OnChanges,
   SimpleChanges,
+  AfterViewInit,
 } from '@angular/core';
 import { WidgetService } from '../../../shared/services/widget.service';
 import { JDocument } from '@ordercloud/headstart-sdk';
@@ -19,7 +20,7 @@ import * as $ from 'jquery';
   templateUrl: './page-renderer.component.html',
   styleUrls: ['./page-renderer.component.scss'],
 })
-export class PageRendererComponent implements OnChanges {
+export class PageRendererComponent implements OnChanges, AfterViewInit {
   @Input() pageDoc: JDocument;
   content: string;
 
@@ -29,7 +30,16 @@ export class PageRendererComponent implements OnChanges {
     private titleService: Title,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: HTMLDocument
-  ) { }
+  ) {}
+
+  ngAfterViewInit(): void {
+    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    // Add 'implements AfterViewInit' to the class.
+    const anchorLinks = this.document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach((anchor) =>
+      anchor.addEventListener('click', this.scrollTagIntoView)
+    );
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -42,6 +52,23 @@ export class PageRendererComponent implements OnChanges {
       this.setMetaData(page);
       this.loadScripts(page.HeaderEmbeds, page.FooterEmbeds);
     }
+  }
+
+  private scrollTagIntoView(e: any): void {
+    e.preventDefault();
+    const linkTarget = e.target.getAttribute('href').split('#')[1];
+    if (!linkTarget) {
+      return;
+    }
+    const linkTargetEl = document.querySelector(`[name="${linkTarget}"]`);
+    if (!linkTargetEl) {
+      return;
+    }
+    linkTargetEl.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+      behavior: 'smooth',
+    });
   }
 
   private setMetaData(page: PageContentDoc): void {
@@ -112,13 +139,13 @@ export class PageRendererComponent implements OnChanges {
 
     if (content) {
       const element = $(content);
-      const scripts = element.filter(function() {
+      const scripts = element.filter(function () {
         return this.tagName === 'SCRIPT';
       });
-      const nonScripts = element.filter(function() {
+      const nonScripts = element.filter(function () {
         return this.tagName !== 'SCRIPT';
       });
-      scripts.each(function() {
+      scripts.each(function () {
         // in order to run javascript after first page loads we need to append it as an html element
 
         // create script
@@ -133,10 +160,9 @@ export class PageRendererComponent implements OnChanges {
 
         // append to target element
         component.renderer.appendChild(target, script);
-
       });
 
-      nonScripts.each(function() {
+      nonScripts.each(function () {
         // non scripts like html/css can just be added to dom
         // unlike javascript they will still be applied even after first page load
         if (this.outerHTML) {

@@ -119,6 +119,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   }
 
   onPageContentChange(html: string): void {
+    console.log(JSON.stringify(html));
     this.page = { ...this.page, Content: html };
   }
 
