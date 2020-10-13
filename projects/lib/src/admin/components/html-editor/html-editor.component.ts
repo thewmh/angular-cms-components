@@ -325,8 +325,8 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
 
   openPreviewModal(data: { html: string; remoteCss: string }): Promise<any> {
     const modalRef = this.modalService.open(PagePreviewModalComponent, {
-      size: 'xl',
-      centered: true,
+      size: 'xxl',
+      centered: false,
       backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });
