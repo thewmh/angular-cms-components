@@ -32,6 +32,7 @@ import DEFAULT_ASSET_TYPES, {
 export class PageListComponent implements OnInit, OnChanges {
   @Input() resourceType: ResourceType; // required
   @Input() resourceID: string; // required
+  @Input() schemaID?: string;
   @Input() parentResourceID?: string = null;
   @Input() editorOptions?: any;
   @Input() renderSiteUrl?: string;
@@ -47,15 +48,17 @@ export class PageListComponent implements OnInit, OnChanges {
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageCreated = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
+  pageSchemaID: string;
   searchTerm = '';
   searchTermChanged = new Subject<string>();
   loading = true;
   list: JDocument[];
   selected?: JDocument;
 
-  constructor(private spinner: NgxSpinnerService) {}
+  constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.pageSchemaID = this.schemaID || PAGE_SCHEMA.ID;
     if (!this.resourceType || !this.resourceID) {
       throw new Error(
         'cms-page-list is missing required props resourceType or resourceID'
@@ -78,17 +81,19 @@ export class PageListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const resourceIDChanged =
-      changes.resourceID &&
-      !changes.resourceID.firstChange &&
-      changes.resourceID.previousValue !== changes.resourceID.currentValue;
-    const resourceTypeChanged =
-      changes.resourceType &&
-      !changes.resourceType.firstChange &&
-      changes.resourceType.previousValue !== changes.resourceType.currentValue;
-    if (resourceIDChanged || resourceTypeChanged) {
+    if (
+      this.valueChanged(changes, 'resourceID') ||
+      this.valueChanged(changes, 'resourceType') ||
+      this.valueChanged(changes, 'schemaID')
+    ) {
       this.ngOnInit();
     }
+  }
+
+  valueChanged(changes: SimpleChanges, propertyName: string): boolean {
+    return changes[propertyName] &&
+           !changes[propertyName].firstChange &&
+           changes[propertyName].previousValue !== changes[propertyName].currentValue;
   }
 
   listDocs(): Promise<void> {
@@ -99,7 +104,7 @@ export class PageListComponent implements OnInit, OnChanges {
       );
     }
     return HeadStartSDK.Documents.ListDocuments(
-      PAGE_SCHEMA.ID,
+      this.pageSchemaID,
       this.resourceType,
       this.resourceID
     )
@@ -110,9 +115,13 @@ export class PageListComponent implements OnInit, OnChanges {
           ex.response &&
           ex.response.data &&
           ex.response.data.Data &&
-          ex.response.data.Data.ObjectID === PAGE_SCHEMA.ID
+          ex.response.data.Data.ObjectID === this.pageSchemaID
         ) {
-          return HeadStartSDK.Schemas.Create(PAGE_SCHEMA as any).then(() =>
+          const schema = {
+            ...PAGE_SCHEMA,
+            ID: this.pageSchemaID
+          } as any;
+          return HeadStartSDK.Schemas.Create(schema).then(() =>
             this.listDocs()
           );
         }
@@ -127,8 +136,8 @@ export class PageListComponent implements OnInit, OnChanges {
   get usedSlugs(): string[] {
     return this.list && this.list.length
       ? this.list
-          .map((i) => i.Doc.Url)
-          .filter((s) => this.selected && this.selected.Doc.Url !== s)
+        .map((i) => i.Doc.Url)
+        .filter((s) => this.selected && this.selected.Doc.Url !== s)
       : [];
   }
 
@@ -197,7 +206,7 @@ export class PageListComponent implements OnInit, OnChanges {
         (d) => d.ID === this.selected.ID
       );
       const selectedPage = await HeadStartSDK.Documents.Get(
-        PAGE_SCHEMA.ID,
+        this.pageSchemaID,
         this.selected.ID
       );
       if (
