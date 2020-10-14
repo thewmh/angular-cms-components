@@ -68,7 +68,7 @@
       (pageChange)="pageChangeEvent.emit($event)"
     ></ngb-pagination>
   </div>
-  <div class="container" *ngIf="!items || !items.length">
+  <div class="container flex-grow-1" *ngIf="!items || !items.length">
     <cms-no-results message="No assets found"></cms-no-results>
   </div>
 </div>
@@ -102,7 +102,7 @@
       (pageChange)="pageChangeEvent.emit($event)"
     ></ngb-pagination>
   </div>
-  <div class="container" *ngIf="!items || !items.length">
+  <div class="container flex-grow-1" *ngIf="!items || !items.length">
     <cms-no-results message="No assets found"></cms-no-results>
   </div>
 </div>

@@ -10,7 +10,7 @@
       <cms-thumbnail [file]="file" [width]="100" [height]="100"></cms-thumbnail>
       <div class="file-details flex-auto p-2">
         <p><b>File Name:</b> {{ file.name }}</p>
-        <p><b>Type:</b> {{ file.type }}</p>
+        <p><b>Type:</b> {{ file.type || file.groupName }}</p>
         <p><b>Size:</b> {{ file.size }}</p>
       </div>
       <div class="file-upload-status" *ngIf="uploading && uploadQueue[i]">

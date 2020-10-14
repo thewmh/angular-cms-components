@@ -23,7 +23,9 @@ import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { ParentResourceType } from '../../../shared/models/parent-resource-type.interface';
-import { ASSET_TYPES } from '../../constants/asset-types.constants';
+import DEFAULT_ASSET_TYPES, {
+  ASSET_TYPES,
+} from '../../constants/asset-types.constants';
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
@@ -55,7 +57,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() requiredSlugs?: string[];
   @Input() usedSlugs?: string[];
   @Input() tagOptions?: string[];
-  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() assetTypes: ASSET_TYPES[] = DEFAULT_ASSET_TYPES;
   @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
