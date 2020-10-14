@@ -19,7 +19,9 @@ import { SectionDateSettingsComponent } from '../section-date-settings/section-d
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 import { Asset, ListArgs, AssetUpload } from '@ordercloud/headstart-sdk';
 import sectionPickerMock from '../section-picker/section-picker.mock';
-import { ASSET_TYPES } from '../../constants/asset-types.constants';
+import DEFAULT_ASSET_TYPES, {
+  ASSET_TYPES,
+} from '../../constants/asset-types.constants';
 
 @Component({
   selector: 'cms-html-editor',
@@ -28,10 +30,11 @@ import { ASSET_TYPES } from '../../constants/asset-types.constants';
   encapsulation: ViewEncapsulation.None,
 })
 export class HtmlEditorComponent implements OnInit, OnChanges {
+  constructor(private modalService: NgbModal, public zone: NgZone) {}
   @Input() initialValue: string;
   @Input() editorOptions: any;
   @Input() tagOptions?: string[];
-  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() assetTypes: ASSET_TYPES[] = DEFAULT_ASSET_TYPES;
   @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
@@ -43,7 +46,6 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   assetPickerModalRef: NgbModalRef;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
-  private timer;
 
   tinymceId = `tiny-angular_${guid()}`;
 
@@ -103,7 +105,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       },
       insert: {
         title: 'Insert',
-        items: 'image link oc-section inserttable | charmap emoticons hr',
+        items: 'image link media oc-section inserttable | charmap emoticons hr',
       },
       format: {
         title: 'Format',
@@ -118,7 +120,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
     imagetools_toolbar:
       'rotateleft rotateright | flipv fliph | editimage imageoptions',
-    contextmenu: 'link image imagetools table oc-row oc-col',
+    contextmenu: 'link image imagetools media table oc-row oc-col',
     toolbar_sticky: true,
     autosave_ask_before_unload: true,
     autosave_interval: '30s',
@@ -144,7 +146,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     /**
      * Adds an upload tab (uploads to ordercloud cms)
      */
-    image_uploadtab: true,
+    image_uploadtab: false,
     images_upload_handler(blobInfo, successCallback, errorCallback) {
       // importing tinymce breaks things so we have to use instance from window
       /* tslint:disable: no-string-literal */
@@ -161,8 +163,6 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
 
     imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net'],
   };
-
-  constructor(private modalService: NgbModal, public zone: NgZone) {}
 
   ngOnInit(): void {
     this.componentMountedToDom = false;
@@ -182,7 +182,6 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       this.editorOptions
     );
 
-    this.resolvedEditorOptions.file_picker_types = 'image';
     this.resolvedEditorOptions.file_picker_callback = (
       callback,
       value,
@@ -259,10 +258,15 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       windowClass: 'oc-tinymce-modal_window',
     });
 
+    // Restricting the asset types for specific insert actions
+    // Media embeds only works with video files for right now: https://github.com/tinymce/tinymce/issues/3610
+    // Since we have inserts for Image & Video (media), filter those types out when selecting a file (link)
     const assetTypes =
       meta.filetype === 'image'
         ? ['Image']
-        : this.assetTypes.filter((t) => t !== 'Image');
+        : meta.filetype === 'media'
+        ? ['Video']
+        : this.assetTypes.filter((t) => t !== 'Image' && t !== 'Video');
 
     this.assetPickerModalRef.componentInstance.multiple = false;
     this.assetPickerModalRef.componentInstance.tagOptions = this.tagOptions;
@@ -274,14 +278,12 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       .then((asset: Asset) => {
         if (meta.filetype === 'image') {
           callback(asset.Url, { alt: asset.Title });
-          this.selectedAssetChange.emit([asset]);
         } else if (meta.filetype === 'file') {
-          // TODO: do
-          console.error('Filetype is not yet implemented');
+          callback(asset.Url, { alt: asset.Title });
         } else if (meta.filetype === 'media') {
-          // TODO: do
-          console.error('Filetype is not yet implemented');
+          callback(asset.Url);
         }
+        this.selectedAssetChange.emit([asset]);
       })
       .catch((e) => {
         if (e !== 'user dismissed modal') {

@@ -55,6 +55,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   searchDebounce: any;
   items?: Asset[] = [];
   meta?: Meta;
+  currentRequestOptions?: ListArgs<Asset>;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -98,7 +99,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   }
 
   listAssets() {
-    // this.spinner.show(); TODO: figure out why this is throwing errors when loading asset-management in a modal
+    this.spinner.show();
     const requestOptions: ListArgs<Asset> = Object.assign(
       { pageSize: 24 }, // use 24 because this fits most grid cases
       {
@@ -111,11 +112,19 @@ export class AssetManagementComponent implements OnInit, OnChanges {
       }
     );
 
+    if (this.assetTypes.length === 1) {
+      requestOptions.filters.Type = this.assetTypes[0];
+    } else if (!(requestOptions.filters && requestOptions.filters.Type)) {
+      requestOptions.filters.Type = this.assetTypes.join('|');
+    }
+
+    this.currentRequestOptions = requestOptions;
+
     return (this.resourceID && this.resourceType
       ? this.listAssetsByResource(requestOptions)
       : this.listAssetsByFilters(requestOptions)
     ).finally(() => {
-      // this.spinner.hide();
+      this.spinner.hide();
     });
   }
 
@@ -126,15 +135,19 @@ export class AssetManagementComponent implements OnInit, OnChanges {
       this.resourceID,
       options
     ).then((response: any) => {
-      this.items = response;
+      if (options === this.currentRequestOptions) {
+        this.items = response;
+      }
     });
   }
 
   listAssetsByFilters(options: ListArgs<Asset>) {
     return HeadStartSDK.Assets.List(options).then(
       (response: ListPage<Asset>) => {
-        this.items = response.Items;
-        this.meta = response.Meta;
+        if (options === this.currentRequestOptions) {
+          this.items = response.Items;
+          this.meta = response.Meta;
+        }
       }
     );
   }
@@ -191,6 +204,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   }
 
   handleFilterChange(selections: CmsAssetFilterSelections) {
+    this.options.page = 1;
     this.options.filters = {
       ...this.options.filters,
       Type: this.assetTypes.filter((k) => selections.types[k]).join('|'),
@@ -200,7 +214,6 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   }
 
   handlePageChange(page: number) {
-    // this.spinner.show();
     this.options.page = page;
     this.listAssets();
   }

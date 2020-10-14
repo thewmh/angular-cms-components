@@ -20,7 +20,9 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
-import { ASSET_TYPES } from '../../constants/asset-types.constants';
+import DEFAULT_ASSET_TYPES, {
+  ASSET_TYPES,
+} from '../../constants/asset-types.constants';
 
 @Component({
   selector: 'cms-page-list',
@@ -36,7 +38,7 @@ export class PageListComponent implements OnInit, OnChanges {
   @Input() lockedSlugs?: string[];
   @Input() requiredSlugs?: string[];
   @Input() tagOptions?: string[];
-  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() assetTypes: ASSET_TYPES[] = DEFAULT_ASSET_TYPES;
   @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
