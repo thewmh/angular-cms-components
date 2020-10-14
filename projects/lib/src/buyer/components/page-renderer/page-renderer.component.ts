@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { WidgetService } from '../../../shared/services/widget.service';
 import { JDocument } from '@ordercloud/headstart-sdk';
-import { Meta, Title } from '@angular/platform-browser';
+import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { PageContentDoc } from '../../../admin/models/page-content-doc.interface';
 import * as $ from 'jquery';
@@ -23,6 +23,10 @@ import * as $ from 'jquery';
 export class PageRendererComponent implements OnChanges, AfterViewInit {
   @Input() pageDoc: JDocument;
   content: string;
+
+  // optional set of additional meta tags
+  // will overwrite existing tags
+  additionalMetaTags?: MetaDefinition[];
 
   constructor(
     private widgetService: WidgetService,
@@ -126,6 +130,9 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
       property: 'twitter:image',
       content: page.MetaImage ? page.MetaImage.Url : undefined,
     });
+
+    // additional custom meta tags provided by implemeuploadAssetnt
+    this.additionalMetaTags.forEach(tag => this.metaService.updateTag(tag));
   }
 
   private loadScripts(headerEmbeds: string, footerEmbeds: string): void {
@@ -139,13 +146,13 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
 
     if (content) {
       const element = $(content);
-      const scripts = element.filter(function () {
+      const scripts = element.filter(function() {
         return this.tagName === 'SCRIPT';
       });
-      const nonScripts = element.filter(function () {
+      const nonScripts = element.filter(function() {
         return this.tagName !== 'SCRIPT';
       });
-      scripts.each(function () {
+      scripts.each(function() {
         // in order to run javascript after first page loads we need to append it as an html element
 
         // create script
@@ -162,7 +169,7 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
         component.renderer.appendChild(target, script);
       });
 
-      nonScripts.each(function () {
+      nonScripts.each(function() {
         // non scripts like html/css can just be added to dom
         // unlike javascript they will still be applied even after first page load
         if (this.outerHTML) {
