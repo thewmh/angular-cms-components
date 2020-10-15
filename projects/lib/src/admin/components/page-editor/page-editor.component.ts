@@ -6,6 +6,7 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  TemplateRef,
 } from '@angular/core';
 import { kebab } from 'case';
 import * as OrderCloudSDK from 'ordercloud-javascript-sdk';
@@ -22,7 +23,10 @@ import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { ParentResourceType } from '../../../shared/models/parent-resource-type.interface';
-import { ASSET_TYPES } from '../../constants/asset-types.constants';
+import DEFAULT_ASSET_TYPES, {
+  ASSET_TYPES,
+} from '../../constants/asset-types.constants';
+import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -42,18 +46,20 @@ export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   styleUrls: ['./page-editor.component.scss'],
 })
 export class PageEditorComponent implements OnInit, OnChanges {
-  @Input() document?: JDocument;
-  @Input() renderSiteUrl?: string; // optional
-  @Input() editorOptions?: any; // optional
-  @Input() resourceType?: ResourceType = null; // optional
-  @Input() resourceID?: string = null; // optional
-  @Input() parentResourceType?: ParentResourceType = null; // optional
-  @Input() parentResourceID?: string = null; // optional
-  @Input() lockedSlugs?: string[]; // optional
+  @Input() document?: JDocument; // required
+  @Input() schemaID?: string;
+  @Input() renderSiteUrl?: string;
+  @Input() editorOptions?: any;
+  @Input() resourceType?: ResourceType = null;
+  @Input() resourceID?: string = null;
+  @Input() parentResourceType?: ParentResourceType = null;
+  @Input() parentResourceID?: string = null;
+  @Input() lockedSlugs?: string[];
   @Input() requiredSlugs?: string[];
   @Input() usedSlugs?: string[];
   @Input() tagOptions?: string[];
-  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() assetTypes: ASSET_TYPES[] = DEFAULT_ASSET_TYPES;
+  @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
@@ -61,6 +67,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
 
+  pageSchemaID: string;
   page: Partial<PageContentDoc>;
   automaticUrl: boolean;
   pageNavigation: boolean;
@@ -70,6 +77,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   duplicateUrl: boolean;
   isLocked: boolean;
   isRequired: boolean;
+  errorMessage: string;
 
   constructor(private modalService: NgbModal) {}
 
@@ -79,6 +87,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
         'cms-page-editor requires the content document (JDocument) to be edited'
       );
     }
+    this.pageSchemaID = this.schemaID || PAGE_SCHEMA.ID;
     if (!this.editorOptions) {
       this.editorOptions = {};
     }
@@ -94,6 +103,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.duplicateUrl = false;
     this.isLocked = this.determineLocked();
     this.isRequired = this.determineRequired();
+    this.checkErrorMessage();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -109,6 +119,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
       if (changes.requiredSlugs && !changes.requiredSlugs.firstChange) {
         this.isRequired = this.determineRequired();
       }
+      this.checkErrorMessage();
     }
   }
 
@@ -116,11 +127,28 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.page = { ...this.page, Content: html };
   }
 
+  openPreviewModal(): Promise<any> {
+    const modalRef = this.modalService.open(PagePreviewModalComponent, {
+      size: 'xxl',
+      centered: false,
+      backdropClass: 'oc-tinymce-modal_backdrop',
+      windowClass: 'oc-tinymce-modal_window',
+    });
+    modalRef.componentInstance.html = this.page.Content;
+    modalRef.componentInstance.remoteCss = this.editorOptions?.content_css[0];
+    return modalRef.result;
+  }
+
   onPageTitleKeyUp(value: string): void {
     if (this.automaticUrl && !this.isLocked) {
       this.page.Url = kebab(value);
       this.onPageUrlKeyUp();
     }
+    this.checkErrorMessage();
+  }
+
+  onPageMetaTitleChange(): void {
+    this.checkErrorMessage();
   }
 
   onAutomaticUrlChange(): void {
@@ -128,15 +156,19 @@ export class PageEditorComponent implements OnInit, OnChanges {
       this.page.Url = kebab(this.page.Title);
       this.onPageUrlKeyUp();
     }
+    this.checkErrorMessage();
   }
 
   onPageUrlKeyUp(): void {
-    this.duplicateUrl = this.usedSlugs.includes(this.page.Url);
+    this.duplicateUrl = this.usedSlugs
+      ? this.usedSlugs.includes(this.page.Url)
+      : false;
   }
 
   onPageUrlChange() {
     this.page.Url = kebab(this.page.Url);
     this.onPageUrlKeyUp();
+    this.checkErrorMessage();
   }
 
   onPageNavigationChange(): void {
@@ -171,7 +203,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
 
     if (this.document && this.document.ID) {
       updated = await HeadStartSDK.Documents.Save(
-        PAGE_SCHEMA.ID,
+        this.pageSchemaID,
         this.document.ID,
         {
           ID: this.document.ID,
@@ -183,7 +215,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
         }
       );
     } else {
-      updated = await HeadStartSDK.Documents.Create(PAGE_SCHEMA.ID, {
+      updated = await HeadStartSDK.Documents.Create(this.pageSchemaID, {
         Doc: {
           ...this.page,
           Author: fullName,
@@ -195,7 +227,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     }
 
     if (this.resourceType && this.resourceID) {
-      await HeadStartSDK.Documents.SaveAssignment(PAGE_SCHEMA.ID, {
+      await HeadStartSDK.Documents.SaveAssignment(this.pageSchemaID, {
         ResourceID: this.resourceID,
         ResourceType: this.resourceType,
         ParentResourceID: this.parentResourceID,
@@ -210,7 +242,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   async onDelete(): Promise<void> {
     if (this.resourceType && this.resourceID) {
       await HeadStartSDK.Documents.DeleteAssignment(
-        PAGE_SCHEMA.ID,
+        this.pageSchemaID,
         this.document.ID,
         this.resourceID,
         this.resourceType,
@@ -218,7 +250,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
         this.parentResourceType
       );
     }
-    await HeadStartSDK.Documents.Delete(PAGE_SCHEMA.ID, this.document.ID);
+    await HeadStartSDK.Documents.Delete(this.pageSchemaID, this.document.ID);
     this.pageDeleted.emit(this.document.ID);
     this.confirmModal.close();
   }
@@ -245,6 +277,20 @@ export class PageEditorComponent implements OnInit, OnChanges {
 
   hasChanges(): boolean {
     return JSON.stringify(this.document.Doc) !== JSON.stringify(this.page);
+  }
+
+  checkErrorMessage() {
+    if (!this.page) {
+      this.errorMessage = undefined;
+    } else if (!this.page.Title) {
+      this.errorMessage = 'Settings > Page Title is required';
+    } else if (!this.page.MetaTitle) {
+      this.errorMessage = 'SEO > Meta Title is required';
+    } else if (this.duplicateUrl) {
+      this.errorMessage = 'The selected URL is already in use.';
+    } else {
+      this.errorMessage = undefined;
+    }
   }
 
   isValid(): boolean {

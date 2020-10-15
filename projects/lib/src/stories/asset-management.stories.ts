@@ -49,14 +49,21 @@ export const SingleSelect = () => ({
   component: AssetManagementComponent,
   template: `
     <div style="height:100vh">
+      <ng-template #additionalFilters>
+        <div class="btn btn-outline-primary" (click)="defaultListOptions = {filters: {ID: '40009-*'}}">Test</div>
+      </ng-template>
       <cms-asset-management
+        [additionalFilters]="additionalFilters"
         [multiple]="multiple"
         [selectable]="selectable"
+        [defaultListOptions]="defaultListOptions"
         [tagOptions]="tagOptions">
+
       </cms-asset-management>
     </div>
   `,
   props: {
+    defaultListOptions: { filters: { ID: 'mgrdev-*|40009-*' } },
     selectable: true,
     multiple: false,
     tagOptions: [

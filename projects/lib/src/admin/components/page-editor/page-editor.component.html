@@ -29,9 +29,12 @@
         </div>
       </div>
       <div class="flex-grow-0 flex-shrink-1">
+        <button class="btn btn-outline-secondary" (click)="openPreviewModal()">
+          Preview
+        </button>
         <button
           *ngIf="isLoadingSave"
-          class="btn btn-primary"
+          class="btn btn-primary ml-3"
           type="button"
           disabled
         >
@@ -42,14 +45,20 @@
           ></span>
           Saving...
         </button>
-        <button
+        <div
+          [style.display]="'inline-block'"
+          placement="left"
+          [ngbTooltip]="errorMessage"
           *ngIf="!isLoadingSave"
-          class="btn btn-primary"
-          [disabled]="!hasChanges() || !isValid()"
-          (click)="onSubmit()"
         >
-          {{ document.ID ? "Save Changes" : "Create New Page" }}
-        </button>
+          <button
+            class="btn btn-primary ml-3"
+            [disabled]="!hasChanges() || !isValid()"
+            (click)="onSubmit()"
+          >
+            {{ document.ID ? "Save Changes" : "Create New Page" }}
+          </button>
+        </div>
         <button
           *ngIf="document.ID && document.Doc && !document.Doc.Active"
           class="btn btn-outline-danger ml-3"
@@ -239,6 +248,7 @@
                   class="form-control"
                   maxlength="100"
                   aria-describedby="metaTitleHelp"
+                  (keyup)="onPageMetaTitleChange()"
                   placeholder="Choose a descriptive title for this page"
                 />
                 <small id="metaTitleHelp" class="form-text text-muted">
@@ -321,7 +331,7 @@
               [assetTypes]="[]"
               [tagOptions]="tagOptions"
               [assetTypes]="assetTypes"
-              [defaultListOptions]="defaultListOptions"
+              [additionalFilters]="additionalAssetFilters"
               [beforeAssetUpload]="beforeAssetUpload"
             ></cms-asset-input>
           </div>
@@ -339,6 +349,7 @@
             [tagOptions]="tagOptions"
             [assetTypes]="assetTypes"
             [defaultListOptions]="defaultListOptions"
+            [additionalAssetFilters]="additionalAssetFilters"
             [beforeAssetUpload]="beforeAssetUpload"
             (selectedAssetChange)="selectedAssetChange.emit($event)"
           ></cms-html-editor>

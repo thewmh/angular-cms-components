@@ -1,8 +1,4 @@
-import { HeadStartSDK, Configuration } from '@ordercloud/headstart-sdk';
-
-Configuration.Set({
-  baseApiUrl: 'https://marketplace-middleware-test.azurewebsites.net',
-});
+import { HeadStartSDK } from '@ordercloud/headstart-sdk';
 
 export default function cmsUploadCommand(
   ignorethisparam,

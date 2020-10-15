@@ -41,7 +41,9 @@ export const DefaultStyles = () => ({
 
 export const MusicGoRoundStyles = () => ({
   component: PageListComponent,
-  template: `<div style="height:100vh"><cms-page-list
+  template: `<div style="height:100vh">
+  <cms-page-list
+    [defaultListOptions]="defaultListOptions"
     [requiredSlugs]="requiredSlugs"
     [lockedSlugs]="lockedSlugs"
     [renderSiteUrl]="renderSiteUrl"
@@ -49,6 +51,7 @@ export const MusicGoRoundStyles = () => ({
     [resourceID]="resourceID"
     [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
+    defaultListOptions: { filters: { ID: 'mgrdev-*|40009-*' } },
     renderSiteUrl: 'https://www.my-awesome-website.com',
     resourceType: 'Suppliers',
     resourceID: '40015',

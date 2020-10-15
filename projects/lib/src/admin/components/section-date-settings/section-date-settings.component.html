@@ -19,6 +19,7 @@
           type="date"
           class="form-control"
           [(ngModel)]="startDate"
+          [max]="endDate"
           aria-describedby="startDateHelp"
         />
         <small id="startDateHelp" class="form-text text-muted">
@@ -35,6 +36,7 @@
           type="date"
           class="form-control"
           [(ngModel)]="endDate"
+          [min]="startDate"
           aria-describedby="endDateHelp"
         />
         <small id="endDateHelp" class="form-text text-muted">

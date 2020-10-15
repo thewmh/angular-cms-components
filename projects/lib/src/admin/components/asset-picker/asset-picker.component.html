@@ -4,6 +4,7 @@
   </div>
   <cms-asset-management
     [selectable]="true"
+    [additionalFilters]="additionalFilters"
     [multiple]="multiple"
     [defaultListOptions]="defaultListOptions"
     [showListModeToggle]="false"
@@ -13,9 +14,15 @@
     [beforeAssetUpload]="beforeAssetUpload"
     [(selectedAsset)]="selectedAsset"
     [listMode]="'grid'"
-  ></cms-asset-management>
+  >
+  </cms-asset-management>
   <div class="modal-footer">
-    <button class="btn btn-light" (click)="modal.dismiss('user dismissed modal')">Cancel</button>
+    <button
+      class="btn btn-light"
+      (click)="modal.dismiss('user dismissed modal')"
+    >
+      Cancel
+    </button>
     <button
       class="btn btn-primary"
       (click)="modal.close(multiple ? selectedAsset : selectedAsset[0])"

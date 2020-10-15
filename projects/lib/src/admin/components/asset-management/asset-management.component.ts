@@ -6,6 +6,7 @@ import {
   OnChanges,
   Output,
   EventEmitter,
+  TemplateRef,
 } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -37,6 +38,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   @Input() multiple = false;
   @Input() selectedAsset: Asset[] = [];
   @Input() showAssetStatus = true;
+  @Input() additionalFilters?: TemplateRef<any>;
   @Input('assetTypes') assetTypesOverride?: ASSET_TYPES[];
   @Input('tagOptions') tagOptionsOverride?: string[];
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
@@ -53,6 +55,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   searchDebounce: any;
   items?: Asset[] = [];
   meta?: Meta;
+  currentRequestOptions?: ListArgs<Asset>;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -90,6 +93,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
       (changes.resourceID && !changes.resourceID.firstChange) ||
       (changes.resourceType && !changes.resourceType.firstChange)
     ) {
+      this.options.page = 1;
       this.ngOnInit();
     }
   }
@@ -108,6 +112,14 @@ export class AssetManagementComponent implements OnInit, OnChanges {
       }
     );
 
+    if (this.assetTypes.length === 1) {
+      requestOptions.filters.Type = this.assetTypes[0];
+    } else if (!(requestOptions.filters && requestOptions.filters.Type)) {
+      requestOptions.filters.Type = this.assetTypes.join('|');
+    }
+
+    this.currentRequestOptions = requestOptions;
+
     return (this.resourceID && this.resourceType
       ? this.listAssetsByResource(requestOptions)
       : this.listAssetsByFilters(requestOptions)
@@ -123,15 +135,19 @@ export class AssetManagementComponent implements OnInit, OnChanges {
       this.resourceID,
       options
     ).then((response: any) => {
-      this.items = response;
+      if (options === this.currentRequestOptions) {
+        this.items = response;
+      }
     });
   }
 
   listAssetsByFilters(options: ListArgs<Asset>) {
     return HeadStartSDK.Assets.List(options).then(
       (response: ListPage<Asset>) => {
-        this.items = response.Items;
-        this.meta = response.Meta;
+        if (options === this.currentRequestOptions) {
+          this.items = response.Items;
+          this.meta = response.Meta;
+        }
       }
     );
   }
@@ -188,6 +204,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   }
 
   handleFilterChange(selections: CmsAssetFilterSelections) {
+    this.options.page = 1;
     this.options.filters = {
       ...this.options.filters,
       Type: this.assetTypes.filter((k) => selections.types[k]).join('|'),
@@ -197,7 +214,6 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   }
 
   handlePageChange(page: number) {
-    this.spinner.show();
     this.options.page = page;
     this.listAssets();
   }

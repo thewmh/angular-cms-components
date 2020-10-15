@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Asset, HeadStartSDK, AssetUpload } from '@ordercloud/headstart-sdk';
+import { getGroupName, getExtension } from '@contentful/mimetype';
 import * as Q from 'q';
 
 @Component({
@@ -17,11 +18,22 @@ export class AssetUploadConfirmComponent {
 
   constructor() {}
 
+  ngOnInit(): void {
+    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    // Add 'implements OnInit' to the class.
+    this.files.forEach((f) => {
+      f.groupName = getGroupName({
+        type: f.type,
+        fallbackExt: getExtension(f.name),
+        fallbackFileName: f.name,
+      });
+    });
+  }
+
   handleUploadFiles() {
     this.uploading = true;
     this.files.forEach((f) => {
       const uploadAsset: AssetUpload = {
-        Type: 'Image',
         File: f,
         FileName: f.name,
         Title: f.name,

@@ -1,19 +1,42 @@
 <div class="border-left h-100">
   <div #assetImageView class="bg-dark asset-detail_image p-2">
     <button
-      class="btn btn-sm btn-outline-light float-left sticky-top shadow"
+      class="btn btn-sm btn-outline-light"
+      [ngClass]="{
+        'float-left sticky-top shadow':
+          asset.Type === 'Image' || asset.Type === 'Video'
+      }"
       (click)="closeClick.emit()"
     >
       Close
     </button>
     <a
-      class="btn btn-sm btn-outline-light float-right sticky-top shadow"
+      class="btn btn-sm btn-outline-light ml-2"
+      [ngClass]="{
+        'float-right sticky-top shadow':
+          asset.Type === 'Image' || asset.Type === 'Video'
+      }"
       [href]="asset.Url"
       target="_blank"
     >
-      View Fullsize
+      {{
+        asset.Type === "Image" || asset.Type === "Video"
+          ? "View Fullsize"
+          : "View / Download"
+      }}
     </a>
-    <figure>
+    <div class="w-100 text-center" *ngIf="asset.Type === 'Video'">
+      <video
+        [src]="asset.Url"
+        width="340"
+        controls
+        [title]="asset.Title"
+      ></video>
+    </div>
+    <div class="w-100 text-center" *ngIf="asset.Type === 'Audio'">
+      <audio [src]="asset.Url" controls [title]="asset.Title"></audio>
+    </div>
+    <figure *ngIf="asset.Type === 'Image'">
       <img
         (load)="loaded = true"
         [style.opacity]="loaded ? 1 : 0"

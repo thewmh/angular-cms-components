@@ -8,8 +8,9 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  TemplateRef,
 } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AssetPickerComponent } from '../asset-picker/asset-picker.component';
 import { CarouselEditorComponent } from '../carousel-editor/carousel-editor.component';
 import { v4 as guid } from 'uuid';
@@ -18,7 +19,9 @@ import { SectionDateSettingsComponent } from '../section-date-settings/section-d
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 import { Asset, ListArgs, AssetUpload } from '@ordercloud/headstart-sdk';
 import sectionPickerMock from '../section-picker/section-picker.mock';
-import { ASSET_TYPES } from '../../constants/asset-types.constants';
+import DEFAULT_ASSET_TYPES, {
+  ASSET_TYPES,
+} from '../../constants/asset-types.constants';
 
 @Component({
   selector: 'cms-html-editor',
@@ -27,10 +30,12 @@ import { ASSET_TYPES } from '../../constants/asset-types.constants';
   encapsulation: ViewEncapsulation.None,
 })
 export class HtmlEditorComponent implements OnInit, OnChanges {
+  constructor(private modalService: NgbModal, public zone: NgZone) {}
   @Input() initialValue: string;
   @Input() editorOptions: any;
   @Input() tagOptions?: string[];
-  @Input() assetTypes?: ASSET_TYPES[];
+  @Input() assetTypes: ASSET_TYPES[] = DEFAULT_ASSET_TYPES;
+  @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
@@ -38,9 +43,9 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   @Output() htmlChange = new EventEmitter<string>();
   @Output() charCountChange? = new EventEmitter<number>();
   html: string;
+  assetPickerModalRef: NgbModalRef;
   resolvedEditorOptions: any = {};
   componentMountedToDom: boolean;
-  private timer;
 
   tinymceId = `tiny-angular_${guid()}`;
 
@@ -100,7 +105,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       },
       insert: {
         title: 'Insert',
-        items: 'image link oc-section inserttable | charmap emoticons hr',
+        items: 'image link media oc-section inserttable | charmap emoticons hr',
       },
       format: {
         title: 'Format',
@@ -115,7 +120,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
       'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
     imagetools_toolbar:
       'rotateleft rotateright | flipv fliph | editimage imageoptions',
-    contextmenu: 'link image imagetools table oc-row oc-col',
+    contextmenu: 'link image imagetools media table oc-row oc-col',
     toolbar_sticky: true,
     autosave_ask_before_unload: true,
     autosave_interval: '30s',
@@ -141,7 +146,7 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     /**
      * Adds an upload tab (uploads to ordercloud cms)
      */
-    image_uploadtab: true,
+    image_uploadtab: false,
     images_upload_handler(blobInfo, successCallback, errorCallback) {
       // importing tinymce breaks things so we have to use instance from window
       /* tslint:disable: no-string-literal */
@@ -158,8 +163,6 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
 
     imagetools_cors_hosts: ['marktplacetest.blob.core.windows.net'],
   };
-
-  constructor(private modalService: NgbModal, public zone: NgZone) {}
 
   ngOnInit(): void {
     this.componentMountedToDom = false;
@@ -224,6 +227,15 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     ) {
       this.html = changes.initialValue.currentValue;
     }
+    if (
+      changes.defaultListOptions &&
+      !changes.defaultListOptions.firstChange &&
+      this.assetPickerModalRef &&
+      this.assetPickerModalRef.componentInstance
+    ) {
+      this.assetPickerModalRef.componentInstance.defaultListOptions =
+        changes.defaultListOptions.currentValue;
+    }
   }
 
   // TODO: Throttle this callback so that the emitter isn't fired multiple times for the same change.
@@ -239,29 +251,39 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
   }
 
   openAssetPicker(callback, value, meta): void {
-    const modalRef = this.modalService.open(AssetPickerComponent, {
+    this.assetPickerModalRef = this.modalService.open(AssetPickerComponent, {
       size: 'xl',
       centered: true,
       backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });
-    modalRef.componentInstance.multiple = false;
-    modalRef.componentInstance.tagOptions = this.tagOptions;
-    modalRef.componentInstance.assetTypes = this.assetTypes;
-    modalRef.componentInstance.defaultListOptions = this.defaultListOptions;
-    modalRef.componentInstance.beforeAssetUpload = this.beforeAssetUpload;
-    modalRef.result
+
+    // Restricting the asset types for specific insert actions
+    // Media embeds only works with video files for right now: https://github.com/tinymce/tinymce/issues/3610
+    // Since we have inserts for Image & Video (media), filter those types out when selecting a file (link)
+    const assetTypes =
+      meta.filetype === 'image'
+        ? ['Image']
+        : meta.filetype === 'media'
+        ? ['Video']
+        : this.assetTypes.filter((t) => t !== 'Image' && t !== 'Video');
+
+    this.assetPickerModalRef.componentInstance.multiple = false;
+    this.assetPickerModalRef.componentInstance.tagOptions = this.tagOptions;
+    this.assetPickerModalRef.componentInstance.assetTypes = assetTypes;
+    this.assetPickerModalRef.componentInstance.additionalFilters = this.additionalAssetFilters;
+    this.assetPickerModalRef.componentInstance.defaultListOptions = this.defaultListOptions;
+    this.assetPickerModalRef.componentInstance.beforeAssetUpload = this.beforeAssetUpload;
+    this.assetPickerModalRef.result
       .then((asset: Asset) => {
         if (meta.filetype === 'image') {
           callback(asset.Url, { alt: asset.Title });
-          this.selectedAssetChange.emit([asset]);
         } else if (meta.filetype === 'file') {
-          // TODO: do
-          console.error('Filetype is not yet implemented');
+          callback(asset.Url, { alt: asset.Title });
         } else if (meta.filetype === 'media') {
-          // TODO: do
-          console.error('Filetype is not yet implemented');
+          callback(asset.Url);
         }
+        this.selectedAssetChange.emit([asset]);
       })
       .catch((e) => {
         if (e !== 'user dismissed modal') {
@@ -305,8 +327,8 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
 
   openPreviewModal(data: { html: string; remoteCss: string }): Promise<any> {
     const modalRef = this.modalService.open(PagePreviewModalComponent, {
-      size: 'xl',
-      centered: true,
+      size: 'xxl',
+      centered: false,
       backdropClass: 'oc-tinymce-modal_backdrop',
       windowClass: 'oc-tinymce-modal_window',
     });

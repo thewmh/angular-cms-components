@@ -35,10 +35,12 @@
 <!-- ASSET PICKER MODAL -->
 <ng-template #assetPickerTemplate>
   <cms-asset-picker
+    [additionalFilters]="additionalFilters"
     [assetTypes]="assetTypes"
     [multiple]="multiple"
     [tagOptions]="tagOptions"
     [defaultListOptions]="defaultListOptions"
     [beforeAssetUpload]="beforeAssetUpload"
-  ></cms-asset-picker>
+  >
+  </cms-asset-picker>
 </ng-template>

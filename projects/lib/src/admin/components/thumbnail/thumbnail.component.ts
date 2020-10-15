@@ -13,7 +13,7 @@ import DEFAULT_ASSET_TYPES, {
   ASSET_TYPE,
   ASSET_TYPES,
 } from '../../constants/asset-types.constants';
-import { getGroupName } from '@contentful/mimetype';
+import { getGroupName, getExtension } from '@contentful/mimetype';
 
 @Component({
   selector: 'cms-thumbnail',
@@ -128,9 +128,10 @@ export class ThumbnailComponent implements OnInit, OnChanges {
   initFile(): void {
     this.fr.readAsDataURL(this.file);
     this.alt = this.file.name;
-    this.type = getGroupName({
-      type: this.file.type,
-    });
+    this.type =
+      this.file.type === 'application/json'
+        ? 'JSON'
+        : this.file.groupName || 'Unknown';
   }
 
   handleFileLoad(e: ProgressEvent<FileReader>): void {

@@ -6,7 +6,7 @@ import { Area } from '../../models/area.interface';
 @Component({
   selector: 'cms-page-preview',
   templateUrl: './page-preview.component.html',
-  styleUrls: ['./page-preview.component.scss']
+  styleUrls: ['./page-preview.component.scss'],
 })
 export class PagePreviewComponent implements OnInit {
   @Input() html: string;
@@ -21,12 +21,12 @@ export class PagePreviewComponent implements OnInit {
     },
     tablet: {
       height: 1024,
-      width: 768
+      width: 768,
     },
     desktop: {
-      height: 1080,
-      width: 1920
-    }
+      height: 768,
+      width: 1366,
+    },
   };
   height: number;
   width: number;
@@ -36,11 +36,15 @@ export class PagePreviewComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    if (!this.deviceDimensions){
+    if (!this.deviceDimensions) {
       this.deviceDimensions = {} as DeviceDimensions;
     }
     const resolvedDimensions = {} as DeviceDimensions;
-    Object.assign(resolvedDimensions, this.defaultDeviceDimensions, this.deviceDimensions);
+    Object.assign(
+      resolvedDimensions,
+      this.defaultDeviceDimensions,
+      this.deviceDimensions
+    );
     this.deviceDimensions = resolvedDimensions;
     this.preview(this.initialPreview || 'phone');
   }
@@ -49,5 +53,4 @@ export class PagePreviewComponent implements OnInit {
     this.selected = size;
     this.previewDimensions = this.deviceDimensions[size];
   }
-
 }

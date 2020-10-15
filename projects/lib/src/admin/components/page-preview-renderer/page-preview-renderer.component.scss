@@ -6,6 +6,12 @@
   &.loading {
     position: relative;
   }
+  max-height: calc(100vh - 200px);
+  overflow: auto;
+  background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  
 
   &.loading:after {
     content: ' ';

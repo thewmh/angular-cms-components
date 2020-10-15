@@ -2,7 +2,7 @@
   "name": "@ordercloud/angular-cms-components",
   "author": "Four51",
   "license": "MIT",
-  "version": "1.0.0-beta.41",
+  "version": "1.0.0-beta.47",
   "scripts": {
     "start": "run-s copy-constants buildconfig-dev app-watchmode",
     "build": "run-s copy-constants buildconfig-prod plugin-prod build-lib buildconfig-dev move-scripts build-storybook",
@@ -49,7 +49,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@contentful/mimetype": "^1.3.1",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
-    "@ordercloud/headstart-sdk": "^1.7.2",
+    "@ordercloud/headstart-sdk": "^1.8.4",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addon-notes": "^5.3.19",

@@ -48,19 +48,21 @@
       class="img-thumbnail__inner-icon"
       [ngClass]="size"
     >
-      <div *ngSwitchCase="assetType.Attachment">Attachment</div>
-      <div *ngSwitchCase="assetType.Theme">Theme</div>
-      <div *ngSwitchCase="assetType.Structured">Structured</div>
       <div *ngSwitchCase="assetType.Text">Text</div>
-      <div *ngSwitchCase="assetType.RichText">Rich Text</div>
+      <div *ngSwitchCase="'Plain text'">Text</div>
       <div *ngSwitchCase="assetType.Audio">Audio</div>
       <div *ngSwitchCase="assetType.Video">Video</div>
       <div *ngSwitchCase="assetType.Presentation">Presentation</div>
-      <div *ngSwitchCase="assetType.SpreadSheet">Spreadsheet</div>
-      <div *ngSwitchCase="assetType.PDF">PDF Document</div>
-      <div *ngSwitchCase="assetType.Archive">Archive (zip)</div>
+      <div *ngSwitchCase="assetType.SpreadSheet">SpreadSheet</div>
+      <div *ngSwitchCase="'Spreadsheet'">SpreadSheet</div>
+      <div *ngSwitchCase="assetType.PDF">PDF</div>
+      <div *ngSwitchCase="'PDF Document'">PDF</div>
+      <div *ngSwitchCase="assetType.Compressed">Zip</div>
+      <div *ngSwitchCase="'Archive'">Zip</div>
       <div *ngSwitchCase="assetType.Code">Code</div>
       <div *ngSwitchCase="assetType.Markup">Markup</div>
+      <div *ngSwitchCase="assetType.JSON">JSON</div>
+      <div *ngSwitchCase="assetType.Unknown">Unknown</div>
       <div *ngSwitchDefault><p class="text-danger">Error</p></div>
     </div>
   </div>
