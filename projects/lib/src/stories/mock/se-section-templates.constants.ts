@@ -1,41 +1,31 @@
 export default [
     `<div class="container">
-          <h2 class="h1 special-heading text-center border-bottom"> Here's How We Buy Your Gear </h2>
-          <div class="row mt-4">
+         <div class="row mt-4">
               <div class="col-md-4">
                   <div class="card border-0 bg-transparent">
-                      <div class="card-img-top w-50 mx-auto">
-                        <img class="img-fluid" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/1-bring-it-in.svg"/>
-                      </div>
                       <div class="card-body">
-                          <h3 class="h5 card-title font-weight-bold">Bring It In</h3>
-                          <p class="card-text"> Bring us your musical instruments like guitars, amps, drums, keyboards, MIDI equipment, mixers, pro sound equipment, band instruments as well as related accessories. We buy all day, every day! </p>
+                      <h2 class="font-weight-bold">N<sup>o.</sup> 1</h2>
+                          <p class="card-text">Bring in your stylish, gently used clothes, shoes, handbags, and accessories.</p>
                       </div>
                   </div>
               </div>
               <div class="col-md-4">
                   <div class="card border-0 bg-transparent">
-                      <div class="card-img-top w-50 mx-auto">
-                        <img class="img-fluid" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/2-take-a-look.svg"/>
-                      </div>
                       <div class="card-body">
-                          <h3 class="h5 card-title font-weight-bold">We'll Take a Look</h3>
-                          <p class="card-text">We’ll review and research each item and identify a fair market value for your products. While we are doing this, feel free to check out all of the cool used gear in our stores.</p>
+                      <h2 class="font-weight-bold">N<sup>o.</sup> 2</h2>
+                          <p class="card-text">We'll make you an offer on the selected items, and you'll go home with cash!</p>
                       </div>
                   </div>
               </div>
               <div class="col-md-4">
                   <div class="card border-0 bg-transparent">
-                      <div class="card-img-top w-50 mx-auto">
-                        <img class="img-fluid" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/3-make-an-offer.svg"/>
-                      </div>
                       <div class="card-body">
-                          <h3 class="h5 card-title font-weight-bold">We'll Make An Offer</h3>
+                            <h2 class="font-weight-bold">N<sup>o.</sup> 3</h2>
                           <p class="card-text">We will then make you an offer based on that fair market value. If you like the offer, we will pay you on the spot or you can trade against the cool, used gear you find in our stores.</p>
-                          <p class="small card-text text-muted font-italic"> All offers/quotes are subject to thorough testing of the product you are selling to Music Go Round. </p>
                       </div>
                   </div>
               </div>
+              <a href="#" class="btn btn-primary" contenteditable="true">Learn More About How To Sell To Us</a>
           </div>
         </div>`,
 
@@ -96,8 +86,8 @@ export default [
           </div>
         </div>`,
     `<div class="container">
-        <h2 class="h1 special-heading text-center">Add Your Sound To Ours... </h2>
-        <p class="lead text-center">AND JOIN THE MUSIC GO ROUND® TEAM</p>
+        <h2 class="h1 special-heading text-center">Add Your Style To Ours... </h2>
+        <p class="lead text-center">Join the Style Encore® Team. We're always looking for passionate fashionistas to join our team.</p>
         <div class="row mt-4">
             <div class="col-md-6">
                 <div class="card">
@@ -105,11 +95,11 @@ export default [
                         <h3 class="card-title font-weight-bold">Career Match Quiz</h3>
                     </div>
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item">Do you have a passion for music?</li>
-                      <li class="list-group-item">Do you like to stay up to date on the latest instrument, sound and gear trends?</li>
-                      <li class="list-group-item">Are you a musician who enjoys sharing their gear knowledge?</li>
-                      <li class="list-group-item">Do you enjoy helping other people find their sound and filter their creativity through music?</li>
-                      <li class="list-group-item">Do you like getting discounts on cool gear and musical instruments?</li>
+                      <li class="list-group-item">Do you like fashion and staying current with trends?</li>
+                      <li class="list-group-item">Do you find yourself checking out other women’s shoes and purses everywhere you go?</li>
+                      <li class="list-group-item">Do you enjoy helping other people find outfits that look great on them?</li>
+                      <li class="list-group-item">Do you enjoy working in a fast paced environment?</li>
+                      <li class="list-group-item">Do you like getting great discounts on cute, trendy apparel?</li>
                     </ul>
                 </div>
             </div>
@@ -117,19 +107,20 @@ export default [
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title font-weight-bold">Perfect Match</h3>
-                        <p class="card-text">If you answered "yes" to any or all of these questions, we'd love to meet you!</p>
-                        <p class="card-text">At Music Go Round, we offer:
+                        <p class="card-text">If you answered “yes” to most of these questions, we’d love to meet you.</p>
+                        <p class="card-text">At Style Encore, we offer:
                         <br/>
                         <ul>
                           <li>Full and part-time positions</li>
-                          <li>Flexible schedules to accommodate your busy life</li>
-                          <li>Employee discounts</li>
+                          <li>Competitive pay</li>
+                          <li>Flexible schedules that complement your busy life</li>
+                          <li>A great employee discount</li>
                         </ul>
                         </p>
-                        <p class="card-text">If you are interested in applying for a full or part-time job at Music Go Round, simply download, print* and fill out our Job Application and bring it to the Music Go Round nearest you.</p>
+                        <p class="card-text">Download* a Job Application. Either fill out the application online, save it and email it to us or print, fill out and bring it to the store.</p>
                     </div>
                     <div class="card-footer text-muted small">
-                      *You will need Adobe® Acrobat Reader to view and print the application. Please print out the form and fill out by hand as Acrobat doesn't allow you to edit documents online.
+                      *You will need Adobe® Acrobat Reader 8.0 or above to view ,print and fill out the application. Save your changes and email application to your nearest location. If you are unable to complete the application online, please print out the application, fill it out by hand and bring it to the store.
                     </div>
                 </div>
             </div>
@@ -165,7 +156,7 @@ export default [
               </div>
           </div>
         </div>`,
-    `<div style="background-image:url('https://musicgoround.imgix.net/buyerweb/assets/_mgr/_img/background__bassplayer--gradient.jpg');">
+    `<div style="background-image:url('https://styleencore.imgix.net/buyerweb/assets/_pias/_img/pias__footer--hockey.jpg');">
           <div class="container py-5">
               <div class="row">
                   <div class="col-md-5">
