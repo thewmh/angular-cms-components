@@ -26,7 +26,7 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
 
   // optional set of additional meta tags
   // will overwrite existing tags
-  additionalMetaTags?: MetaDefinition[];
+  additionalMetaTags?: MetaDefinition[] = [];
 
   constructor(
     private widgetService: WidgetService,
@@ -132,7 +132,9 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
     });
 
     // additional custom meta tags provided by implemeuploadAssetnt
-    this.additionalMetaTags.forEach(tag => this.metaService.updateTag(tag));
+    if (this.additionalMetaTags.length) {
+      this.additionalMetaTags.forEach(tag => this.metaService.updateTag(tag));
+    }
   }
 
   private loadScripts(headerEmbeds: string, footerEmbeds: string): void {
