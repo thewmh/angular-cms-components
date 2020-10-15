@@ -22,11 +22,12 @@ import * as $ from 'jquery';
 })
 export class PageRendererComponent implements OnChanges, AfterViewInit {
   @Input() pageDoc: JDocument;
-  content: string;
 
   // optional set of additional meta tags
   // will overwrite existing tags
-  additionalMetaTags?: MetaDefinition[] = [];
+  @Input() additionalMetaTags?: MetaDefinition[] = [];
+
+  content: string;
 
   constructor(
     private widgetService: WidgetService,
