@@ -23,35 +23,34 @@ export const FullExample = () => ({
   component: PageRendererComponent,
   props: {
     pageDoc: {
-      ID: '4ad8bd98-3fe8-4caa-9402-0c8f2769d156',
-      $schema:
-        'https://marketplace-middleware-test.azurewebsites.net/schema-specs/5539d88d-2787-476c-9b61-cdadd181f12d',
+      ID: 'he2ZJA2nJEe93c-996pH1g',
       Doc: {
-        Title: 'Locations',
-        Url: 'locations',
-        SiteUrl: 'https://www.my-awesome-website.com',
-        Description: '',
-        MetaImageUrl: '',
-        DateLastUpdated: '2020-07-30T21:48:54.957Z',
-        HeaderEmbeds: `
-        <script>
-          console.log('logged from header');
-        </script>
-        <script src="https://mgrstoragetest.azureedge.net/sellerweb/scripts.dcd3ae993464d9df675a.js"></script>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,700"></link>
-        `,
-        Content:
-          '<p><a name="top" href="#bottom">Go To Bottom</a></p>\n<p>&nbsp;</p>\n<div data-oc-widget="oc-section">\n<div class="jumbotron border-0">\n<div class="container text-center">\n<h1 contenteditable="true">Lorem ipsum dolor</h1>\n<p contenteditable="true">Donec fermentum magna at ex pulvinar, sit amet viverra ex suscipit. Integer fringilla mauris vitae eleifend dictum.</p>\n<a class="btn btn-primary" contenteditable="true" href="#">Start Now</a> <a class="btn btn-link" contenteditable="true" href="#">Read More</a></div>\n</div>\n</div>\n<div data-oc-widget="oc-section">\n<div class="jumbotron border-0">\n<div class="container text-center">\n<h1 contenteditable="true">Lorem ipsum dolor</h1>\n<p contenteditable="true">Donec fermentum magna at ex pulvinar, sit amet viverra ex suscipit. Integer fringilla mauris vitae eleifend dictum.</p>\n<a class="btn btn-primary" contenteditable="true" href="#">Start Now</a> <a class="btn btn-link" contenteditable="true" href="#">Read More</a></div>\n</div>\n</div>\n<div data-oc-widget="oc-section">\n<div class="jumbotron border-0">\n<div class="container text-center">\n<h1 contenteditable="true">Lorem ipsum dolor</h1>\n<p contenteditable="true">Donec fermentum magna at ex pulvinar, sit amet viverra ex suscipit. Integer fringilla mauris vitae eleifend dictum.</p>\n<a class="btn btn-primary" contenteditable="true" href="#">Start Now</a> <a class="btn btn-link" contenteditable="true" href="#">Read More</a></div>\n</div>\n</div>\n<div data-oc-widget="oc-section">\n<div class="jumbotron border-0">\n<div class="container text-center">\n<h1 contenteditable="true">Lorem ipsum dolor</h1>\n<p contenteditable="true">Donec fermentum magna at ex pulvinar, sit amet viverra ex suscipit. Integer fringilla mauris vitae eleifend dictum.</p>\n<a class="btn btn-primary" contenteditable="true" href="#">Start Now</a> <a class="btn btn-link" contenteditable="true" href="#">Read More</a></div>\n</div>\n</div>\n<p><a name="bottom" href="#top">Go To Top</a></p>',
-        FooterEmbeds: `
-        <script>
-          console.log('logged from footer');
-        </script>`,
-        Active: true,
-        NavigationTitle: 'Locations',
-        Author: 'Crhistian Ramirez',
-        DateCreated: '2020-07-29T02:28:01.114Z',
+         Title: 'test page1',
+         Url: 'test-page1',
+         Description: '',
+         HeaderEmbeds: '',
+         Content: '<div data-oc-widget="oc-section">\n<div class="card__translucent p-5 m-3 m-sm-0"><!-- Inline SVG: START --> Fivestars Rewards Logo <!-- Inline SVG: END -->\n<h2 class="text-uppercase short-underline short-underline--double">Get Rewarded</h2>\n<p>We all love points. Get rewarded every time you shop for or sell, classic and trendy, secondhand styles by signing up for our rewards program, where you&rsquo;ll get access to exclusive discounts, special promotions, store events, and more. <br />Never miss a beat!</p>\n<div class="mt-2"><a class="btn btn-sm btn-outline-primary mb-2" href="[[REWARDS_URL]]"> Sign up online </a></div>\n [[DUMMY_TEXT]] [[REWARDS_URL]]</div>\n</div>',
+         FooterEmbeds: '',
+         Active: false,
+         NavigationTitle: 'test page1',
+         MetaTitle: 'test page',
+         Author: 'Alexa Snyder',
+         DateCreated: '2020-10-16T18:53:34.272Z',
+         DateLastUpdated: '2020-10-16T18:53:34.272Z',
+         LastUpdatedBy: 'Alexa Snyder'
       },
+      SchemaSpecUrl: 'https://marketplace-middleware-test.azurewebsites.net/schema-specs/953ae2db-659d-4754-a53e-967927547b46',
+      History: {
+         DateCreated: '2020-10-16T18:53:34.1615401+00:00',
+         CreatedByUserID: 'asnyder',
+         DateUpdated: '2020-10-16T18:53:34.1615422+00:00',
+         UpdatedByUserID: 'asnyder'
+      }
     },
+    dynamicTextReplacements: {
+      '[[REWARDS_URL]]': 'testingtestingtesting',
+      '[[DUMMY_TEXT]]': 'hello!'
+    }
   },
 });
 

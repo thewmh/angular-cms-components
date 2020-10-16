@@ -1,41 +1,32 @@
 export default [
     `<div class="container">
-          <h2 class="h1 special-heading text-center border-bottom"> Here's How We Buy Your Gear </h2>
-          <div class="row mt-4">
+    <h2 class="h1 special-heading text-center border-bottom">Sell Clothes (And More) to Style Encore</h2>
+         <div class="row mt-4">
               <div class="col-md-4">
-                  <div class="card border-0 bg-transparent">
-                      <div class="card-img-top w-50 mx-auto">
-                        <img class="img-fluid" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/1-bring-it-in.svg"/>
-                      </div>
+                  <div class="card bg-transparent ml-0 mr-0 mr-sm-3 my-3 p-3 border border-dark">
                       <div class="card-body">
-                          <h3 class="h5 card-title font-weight-bold">Bring It In</h3>
-                          <p class="card-text"> Bring us your musical instruments like guitars, amps, drums, keyboards, MIDI equipment, mixers, pro sound equipment, band instruments as well as related accessories. We buy all day, every day! </p>
+                      <h2 class="font-weight-bold">N<sup>o.</sup> 1</h2>
+                          <p class="card-text">Bring in your stylish, gently used clothes, shoes, handbags, and accessories.</p>
                       </div>
                   </div>
               </div>
               <div class="col-md-4">
-                  <div class="card border-0 bg-transparent">
-                      <div class="card-img-top w-50 mx-auto">
-                        <img class="img-fluid" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/2-take-a-look.svg"/>
-                      </div>
+                  <div class="card bg-transparent ml-0 mr-0 mr-sm-3 my-3 p-3 border border-dark">
                       <div class="card-body">
-                          <h3 class="h5 card-title font-weight-bold">We'll Take a Look</h3>
-                          <p class="card-text">We’ll review and research each item and identify a fair market value for your products. While we are doing this, feel free to check out all of the cool used gear in our stores.</p>
+                      <h2 class="font-weight-bold">N<sup>o.</sup> 2</h2>
+                          <p class="card-text">We'll make you an offer on the selected items, and you'll go home with cash!</p>
                       </div>
                   </div>
               </div>
               <div class="col-md-4">
-                  <div class="card border-0 bg-transparent">
-                      <div class="card-img-top w-50 mx-auto">
-                        <img class="img-fluid" src="https://musicgoround.imgix.net/buyerweb/assets/_mgr/_svg/how-we-buy/3-make-an-offer.svg"/>
-                      </div>
+                  <div class="card bg-transparent ml-0 mr-0 mr-sm-3 my-3 p-3 border border-dark">
                       <div class="card-body">
-                          <h3 class="h5 card-title font-weight-bold">We'll Make An Offer</h3>
-                          <p class="card-text">We will then make you an offer based on that fair market value. If you like the offer, we will pay you on the spot or you can trade against the cool, used gear you find in our stores.</p>
-                          <p class="small card-text text-muted font-italic"> All offers/quotes are subject to thorough testing of the product you are selling to Music Go Round. </p>
+                            <h2 class="font-weight-bold">N<sup>o.</sup> 3</h2>
+                          <p class="card-text">We'll make you an offer on the selected items, and you'll go home with cash!</p>
                       </div>
                   </div>
               </div>
+              <a href="#" class="btn btn-primary" contenteditable="true">Learn More About How To Sell To Us</a>
           </div>
         </div>`,
 
@@ -96,8 +87,8 @@ export default [
           </div>
         </div>`,
     `<div class="container">
-        <h2 class="h1 special-heading text-center">Add Your Sound To Ours... </h2>
-        <p class="lead text-center">AND JOIN THE MUSIC GO ROUND® TEAM</p>
+        <h2 class="h1 special-heading text-center">Add Your Style To Ours... </h2>
+        <p class="lead text-center">Join the Style Encore® Team. We're always looking for passionate fashionistas to join our team.</p>
         <div class="row mt-4">
             <div class="col-md-6">
                 <div class="card">
@@ -105,11 +96,11 @@ export default [
                         <h3 class="card-title font-weight-bold">Career Match Quiz</h3>
                     </div>
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item">Do you have a passion for music?</li>
-                      <li class="list-group-item">Do you like to stay up to date on the latest instrument, sound and gear trends?</li>
-                      <li class="list-group-item">Are you a musician who enjoys sharing their gear knowledge?</li>
-                      <li class="list-group-item">Do you enjoy helping other people find their sound and filter their creativity through music?</li>
-                      <li class="list-group-item">Do you like getting discounts on cool gear and musical instruments?</li>
+                      <li class="list-group-item">Do you like fashion and staying current with trends?</li>
+                      <li class="list-group-item">Do you find yourself checking out other women’s shoes and purses everywhere you go?</li>
+                      <li class="list-group-item">Do you enjoy helping other people find outfits that look great on them?</li>
+                      <li class="list-group-item">Do you enjoy working in a fast paced environment?</li>
+                      <li class="list-group-item">Do you like getting great discounts on cute, trendy apparel?</li>
                     </ul>
                 </div>
             </div>
@@ -117,19 +108,20 @@ export default [
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title font-weight-bold">Perfect Match</h3>
-                        <p class="card-text">If you answered "yes" to any or all of these questions, we'd love to meet you!</p>
-                        <p class="card-text">At Music Go Round, we offer:
+                        <p class="card-text">If you answered “yes” to most of these questions, we’d love to meet you.</p>
+                        <p class="card-text">At Style Encore, we offer:
                         <br/>
                         <ul>
                           <li>Full and part-time positions</li>
-                          <li>Flexible schedules to accommodate your busy life</li>
-                          <li>Employee discounts</li>
+                          <li>Competitive pay</li>
+                          <li>Flexible schedules that complement your busy life</li>
+                          <li>A great employee discount</li>
                         </ul>
                         </p>
-                        <p class="card-text">If you are interested in applying for a full or part-time job at Music Go Round, simply download, print* and fill out our Job Application and bring it to the Music Go Round nearest you.</p>
+                        <p class="card-text">Download* a Job Application. Either fill out the application online, save it and email it to us or print, fill out and bring it to the store.</p>
                     </div>
                     <div class="card-footer text-muted small">
-                      *You will need Adobe® Acrobat Reader to view and print the application. Please print out the form and fill out by hand as Acrobat doesn't allow you to edit documents online.
+                      *You will need Adobe® Acrobat Reader 8.0 or above to view ,print and fill out the application. Save your changes and email application to your nearest location. If you are unable to complete the application online, please print out the application, fill it out by hand and bring it to the store.
                     </div>
                 </div>
             </div>
@@ -165,7 +157,7 @@ export default [
               </div>
           </div>
         </div>`,
-    `<div style="background-image:url('https://musicgoround.imgix.net/buyerweb/assets/_mgr/_img/background__bassplayer--gradient.jpg');">
+    `<div style="background-image:url('https://styleencore.imgix.net/buyerweb/assets/_pias/_img/pias__footer--hockey.jpg');">
           <div class="container py-5">
               <div class="row">
                   <div class="col-md-5">
@@ -228,4 +220,31 @@ export default [
                   </div>
               </div>
           </div>`,
+
+    `<div class="card__translucent p-5 m-3 m-sm-0">
+        <!-- Inline SVG: START -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            viewBox="0 0 401 79"
+            width="100px">
+            <text class="sr-only">Fivestars Rewards Logo</text>
+            <defs />
+            <path fill="#6b20ce"
+                  d="M75 24.7H55.4c-.9 0-1.7-.6-2-1.4l-6-18.6C46.5 1.8 44 0 40.9 0c-3 0-5.6 1.8-6.5 4.7l-6 18.6c-.3.9-1.1 1.4-2 1.4H6.9c-3 0-5.6 1.9-6.5 4.7-.9 2.9 0 5.9 2.5 7.7l14 10.2c1.8 1.3 2.6 3.6 1.9 5.8l-5.3 16.3c-.9 2.9 0 6.1 2.4 7.8 1.9 1.4 4.3 1.6 7 .6 1.3-.5 2.3-1.1 3.1-1.6 2.4-1.4 5.4-3.8 7.5-5.4 1-.8 1.2-2.3.4-3.4-.8-1-2.3-1.2-3.4-.4-2.5 2-5.2 4-7 5.1-.8.5-1.5.9-2.3 1.2-1.7.6-2.3.2-2.5 0-.6-.4-1-1.4-.7-2.5l5.3-16.3c1.3-4.1-.1-8.6-3.6-11.1l-14-10.2c-1.1-.8-.9-2-.8-2.3.1-.3.6-1.4 2-1.4h19.5c3 0 5.6-1.9 6.5-4.7l6-18.6c.4-1.3 1.6-1.4 2-1.4.4 0 1.6.1 2 1.4l6 18.6c.9 2.8 3.5 4.7 6.5 4.7H75c1.4 0 1.9 1.1 2 1.4.1.3.4 1.5-.7 2.3l-14 10.2c-3.5 2.5-4.9 7-3.6 11.1L64 70.7c.4 1.3-.1 2.1-.7 2.5-.5.4-1.1.5-2.7-.1l-.6-.2c-11.3-4.6-18.4-12.4-18.4-12.4l-.1-.1c-2.8-2.8-5-5.6-6.8-8.4-1.3-2-2.3-4.1-3-6.1-1.4-3.9-1.4-6.5.2-8.1.7-.7 2.3-1.2 3.3-.9 1.7.5 2.8 1.8 3.5 4.1.3 1 1.2 1.7 2.3 1.7 1.1 0 2-.7 2.3-1.7.5-1.6 1.8-4.2 4.5-4.2 1 0 1.9.4 2.6 1.2 1.3 1.6 1.3 4.2-.1 8-1 2.6-2.7 5.4-4.6 7.4-.9 1-.9 2.5.1 3.4 1 .9 2.5.9 3.4-.1 2.3-2.4 4.4-5.8 5.6-9 2-5.5 1.8-9.6-.7-12.7-1.5-1.9-3.8-3-6.3-3-2.6 0-5 1.2-6.7 3.2-1.5-1.7-3.2-2.6-4.6-3-2.8-.7-6.2.2-8.1 2.3-4.2 4.5-1.9 10.9-1.2 13 .8 2.3 2 4.7 3.5 7 2 3.1 4.4 6.1 7.4 9.2.7.7 8 8.6 19.9 13.5h.1c1 .4 2.5 1.1 4.3 1.1 1.3 0 2.6-.3 3.9-1.4 2.3-1.8 3.2-4.8 2.2-7.7L63.1 53c-.7-2.1.1-4.4 1.9-5.8L79 37c2.4-1.8 3.4-4.8 2.5-7.7-1-2.8-3.5-4.6-6.5-4.6M102.7 63c1.5 0 2.8-1.3 2.8-2.9V45.8h17.2c1.4 0 2.6-1.1 2.6-2.6 0-1.4-1.2-2.5-2.6-2.5h-17.2V29.6h17.6c1.4 0 2.6-1.1 2.6-2.5s-1.2-2.6-2.6-2.6h-20.2c-2 0-3.1 1.1-3.1 3V60c0 1.7 1.3 3 2.9 3m35.2-38.7c-1.6 0-2.9 1.3-2.9 2.9v32.9c0 1.5 1.3 2.9 2.9 2.9 1.5 0 2.8-1.3 2.8-2.9V27.2c0-1.6-1.3-2.9-2.8-2.9m24.7 35.5c.7 1.8 2.6 3.2 4.7 3.2 2.2 0 4-1.4 4.7-3.2l12.4-31.3c.2-.3.2-.7.2-1.1 0-1.7-1.3-3-3-3-1.3 0-2.4.8-2.8 1.9l-11.6 30.2-11.5-30.2c-.5-1.1-1.5-1.9-2.9-1.9-1.7 0-3 1.4-3 3 0 .4.1.7.3 1.1l12.5 31.3zm33.4 2.9h20.2c1.4 0 2.6-1.1 2.6-2.6 0-1.4-1.2-2.5-2.6-2.5h-17.6V45.8h17.2c1.4 0 2.6-1.1 2.6-2.6 0-1.4-1.2-2.5-2.6-2.5h-17.2V29.6h17.6c1.4 0 2.6-1.1 2.6-2.5s-1.2-2.6-2.6-2.6H196c-2 0-3.1 1.1-3.1 3v32c0 2.1 1.1 3.2 3.1 3.2m46-4.4c-4.2 0-7.5-1.6-10.1-3.7-.5-.3-1.1-.6-1.7-.6-1.5 0-2.7 1.3-2.7 2.7 0 .9.5 1.7 1.1 2.2 3.3 2.7 7.7 4.4 13.2 4.4 10.3 0 14.4-5.5 14.4-11.5 0-8.1-7.3-10-13.5-11.7-4.7-1.2-8.9-2.3-8.9-5.7 0-3.2 2.9-5.4 7.6-5.4 3.1 0 6.5.9 9.1 3 .4.3 1 .5 1.6.5 1.5 0 2.7-1.3 2.7-2.7 0-.9-.5-1.7-1.2-2.2-3.5-2.5-7.1-3.7-11.8-3.7-8.4 0-13.9 4.6-13.9 10.9 0 7.8 7.1 9.5 13.2 11.1 4.9 1.3 9.2 2.4 9.2 6.4 0 2.9-2.2 6-8.3 6m47.1-33.7h-24.8c-1.4 0-2.5 1.1-2.5 2.6 0 1.4 1.1 2.5 2.5 2.5h9.6v30.5c0 1.5 1.3 2.9 2.9 2.9 1.5 0 2.9-1.3 2.9-2.9V29.6h9.5c1.4 0 2.6-1.1 2.6-2.5-.1-1.3-1.3-2.5-2.7-2.5m98.2 15.6c-4.7-1.2-8.9-2.3-8.9-5.7 0-3.2 2.9-5.4 7.6-5.4 3.1 0 6.5.9 9.1 3 .4.3 1 .5 1.6.5 1.5 0 2.7-1.3 2.7-2.7 0-.9-.5-1.7-1.2-2.2-3.5-2.5-7.1-3.7-11.8-3.7-8.4 0-13.9 4.6-13.9 10.9 0 7.8 7.1 9.5 13.2 11.1 4.9 1.3 9.2 2.4 9.2 6.4 0 2.7-2.2 5.9-8.3 5.9-4.2 0-7.5-1.6-10.1-3.7-.5-.3-1.1-.6-1.7-.6-1.5 0-2.7 1.3-2.7 2.7 0 .9.5 1.7 1.1 2.2 3.3 2.7 7.7 4.4 13.2 4.4 10.3 0 14.4-5.5 14.4-11.5 0-8-7.3-9.9-13.5-11.6m-76.8-10.6l5.2 13.9h-10.4l5.2-13.9zm-9.4 25.2l1.9-5.1.5-1.3h14.2l.5 1.3 1.9 5.1 2.4 6.3c.3 1 1.4 1.8 2.7 1.8 1.6 0 2.9-1.3 2.9-2.9 0-.4-.1-.8-.2-1.1l-12.6-31.5c-.7-1.8-2.5-3.2-4.7-3.2-2.1 0-3.9 1.4-4.6 3.2L293.3 59c-.1.3-.2.7-.2 1.1 0 1.6 1.3 2.9 2.9 2.9 1.2 0 2.3-.8 2.7-1.8l2.4-6.4zm57.5-18.1c0 3.6-3.3 6.5-7.3 6.5h-9.6v-13h9.6c4.1 0 7.3 2.9 7.3 6.5M339 63c1.5 0 2.8-1.3 2.8-2.9V48.7h8.1l7.6 12.9c.5.8 1.3 1.3 2.3 1.4 1.6.1 2.8-1.2 2.9-2.4.1-.9-.1-1.4-.4-1.8L355.7 48c4.9-1.7 8.5-6.1 8.5-11.3 0-6.6-5.7-12-12.8-12h-12.2c-2 0-3.1 1.1-3.1 3v32.5c0 1.5 1.3 2.8 2.9 2.8" />
+        </svg>
+        <!-- Inline SVG: END -->
+        <h2 class="text-uppercase short-underline short-underline--double">Get
+            Rewarded </h2>
+        <p> We all love points. Get rewarded every time you shop for or sell,
+            classic and trendy, secondhand styles by signing up for our rewards
+            program, where you’ll get access to exclusive discounts, special
+            promotions, store events, and more. <br />Never miss a beat! </p>
+        <div class="mt-2">
+            <a class="btn btn-sm btn-outline-primary mb-2"
+                href="[[REWARDS_URL]]">
+                Sign up online
+            </a>
+        </div>
+        [[DUMMY_TEXT]]
+    </div>`
   ];
