@@ -52,6 +52,9 @@ export const FullExample = () => ({
         DateCreated: '2020-07-29T02:28:01.114Z',
       },
     },
+    dynamicTextReplacements: {
+      '[[REWARDS_URL]]': 'testingtestingtesting',
+    }
   },
 });
 
