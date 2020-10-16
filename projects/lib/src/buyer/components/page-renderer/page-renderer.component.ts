@@ -26,7 +26,7 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
   // optional set of additional meta tags
   // will overwrite existing tags
   @Input() additionalMetaTags?: MetaDefinition[] = [];
-  @Input() dynamicTextReplacements?: any = [];
+  @Input() dynamicTextReplacements?: any = {};
 
   content: string;
 
@@ -57,17 +57,17 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
       this.content = this.widgetService.stripEditableAttributes(content);
       this.setMetaData(page);
       this.loadScripts(page.HeaderEmbeds, page.FooterEmbeds);
-      if (this.dynamicTextReplacements && this.dynamicTextReplacements.length) {
-        this.replaceText(page.Content);
+      if (this.dynamicTextReplacements && Object.keys(this.dynamicTextReplacements).length) {
+        this.content = this.replaceText(page.Content);
       }
     }
   }
 
-  private replaceText(pageContent): void {
-    debugger;
+  private replaceText(pageContent): string {
     Object.keys(this.dynamicTextReplacements).forEach(key => {
-      pageContent.replace(`${key}/g`, this.dynamicTextReplacements[key]);
+      pageContent = pageContent.replaceAll(key, this.dynamicTextReplacements[key]);
     });
+    return pageContent;
   }
 
   private scrollTagIntoView(e: any): void {

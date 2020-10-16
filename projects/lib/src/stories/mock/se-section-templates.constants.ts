@@ -1,8 +1,9 @@
 export default [
     `<div class="container">
+    <h2 class="h1 special-heading text-center border-bottom">Sell Clothes (And More) to Style Encore</h2>
          <div class="row mt-4">
               <div class="col-md-4">
-                  <div class="card border-0 bg-transparent">
+                  <div class="card bg-transparent ml-0 mr-0 mr-sm-3 my-3 p-3 border border-dark">
                       <div class="card-body">
                       <h2 class="font-weight-bold">N<sup>o.</sup> 1</h2>
                           <p class="card-text">Bring in your stylish, gently used clothes, shoes, handbags, and accessories.</p>
@@ -10,7 +11,7 @@ export default [
                   </div>
               </div>
               <div class="col-md-4">
-                  <div class="card border-0 bg-transparent">
+                  <div class="card bg-transparent ml-0 mr-0 mr-sm-3 my-3 p-3 border border-dark">
                       <div class="card-body">
                       <h2 class="font-weight-bold">N<sup>o.</sup> 2</h2>
                           <p class="card-text">We'll make you an offer on the selected items, and you'll go home with cash!</p>
@@ -18,10 +19,10 @@ export default [
                   </div>
               </div>
               <div class="col-md-4">
-                  <div class="card border-0 bg-transparent">
+                  <div class="card bg-transparent ml-0 mr-0 mr-sm-3 my-3 p-3 border border-dark">
                       <div class="card-body">
                             <h2 class="font-weight-bold">N<sup>o.</sup> 3</h2>
-                          <p class="card-text">We will then make you an offer based on that fair market value. If you like the offer, we will pay you on the spot or you can trade against the cool, used gear you find in our stores.</p>
+                          <p class="card-text">We'll make you an offer on the selected items, and you'll go home with cash!</p>
                       </div>
                   </div>
               </div>
@@ -244,5 +245,6 @@ export default [
                 Sign up online
             </a>
         </div>
+        [[DUMMY_TEXT]]
     </div>`
   ];
