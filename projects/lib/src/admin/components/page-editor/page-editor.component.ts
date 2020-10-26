@@ -62,6 +62,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
+  @Input() beforeDocumentSave?: (page: Partial<PageContentDoc>) => Promise<Partial<PageContentDoc>>;
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
@@ -196,17 +197,27 @@ export class PageEditorComponent implements OnInit, OnChanges {
   }
 
   async saveChanges(): Promise<RequiredDeep<JDocument>> {
+    if (this.beforeDocumentSave) {
+      return this.beforeDocumentSave(this.page).then(async (page) => {
+        this.document.Doc = page;
+        return await this.saveDocument(this.document);
+      });
+    } else {
+      return await this.saveDocument(this.document);
+    }
+  }
+
+  async saveDocument(document): Promise<RequiredDeep<JDocument>> {
     const me = await OrderCloudSDK.Me.Get();
     const nowDate = new Date().toISOString();
     const fullName = `${me.FirstName} ${me.LastName}`;
     let updated: RequiredDeep<JDocument>;
-
-    if (this.document && this.document.ID) {
+    if (document && document.ID) {
       updated = await HeadStartSDK.Documents.Save(
         this.pageSchemaID,
-        this.document.ID,
+        document.ID,
         {
-          ID: this.document.ID,
+          ID: document.ID,
           Doc: {
             ...this.page,
             DateLastUpdated: nowDate,

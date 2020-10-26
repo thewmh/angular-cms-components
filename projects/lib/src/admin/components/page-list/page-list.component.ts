@@ -23,6 +23,7 @@ import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import DEFAULT_ASSET_TYPES, {
   ASSET_TYPES,
 } from '../../constants/asset-types.constants';
+import { PageContentDoc } from '../../models/page-content-doc.interface';
 
 @Component({
   selector: 'cms-page-list',
@@ -43,6 +44,7 @@ export class PageListComponent implements OnInit, OnChanges {
   @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
+  @Input() beforeDocumentSave?: (page: Partial<PageContentDoc>) => Promise<Partial<PageContentDoc>>;
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();

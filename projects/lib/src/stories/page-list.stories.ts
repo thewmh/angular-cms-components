@@ -149,18 +149,26 @@ export const WithBeforeAssetUpload = () => ({
         [resourceID]="resourceID"
         [editorOptions]="editorOptions"
         [beforeAssetUpload]="beforeAssetUpload"
+        [beforeDocumentSave]="beforeDocumentSave"
         >
         </cms-page-list>
     </div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
-    resourceType: 'Suppliers',
-    resourceID: '41106',
+    resourceType: 'Buyers',
+    resourceID: 'sedev',
     lockedSlugs: ['', 'about-us'],
     editorOptions: {},
     beforeAssetUpload: (asset) => {
       console.log('before asset upload was hit');
       return Promise.resolve(asset);
     },
+    beforeDocumentSave: (page) => {
+      const span = document.createElement('span');
+      span.innerHTML = page.Content;
+      const images = span.getElementsByTagName('img');
+      page.HeroImage = images.length ? images[0].currentSrc : null;
+      return Promise.resolve(page);
+    }
   },
 });
