@@ -29,7 +29,22 @@ export const FullExample = () => ({
          Url: 'test-page1',
          Description: '',
          HeaderEmbeds: '',
-         Content: '<div data-oc-widget="oc-section">\n<div class="card__translucent p-5 m-3 m-sm-0"><!-- Inline SVG: START --> Fivestars Rewards Logo <!-- Inline SVG: END -->\n<h2 class="text-uppercase short-underline short-underline--double">Get Rewarded</h2>\n<p>We all love points. Get rewarded every time you shop for or sell, classic and trendy, secondhand styles by signing up for our rewards program, where you&rsquo;ll get access to exclusive discounts, special promotions, store events, and more. <br />Never miss a beat!</p>\n<div class="mt-2"><a class="btn btn-sm btn-outline-primary mb-2" href="[[REWARDS_URL]]"> Sign up online </a></div>\n [[DUMMY_TEXT]] [[REWARDS_URL]]</div>\n</div>',
+         Content: `<div class="card__translucent p-5 m-3 m-sm-0">
+         <img src="https://marktplacetest.blob.core.windows.net/assets-6c4f4c59-0581-4c23-a0df-5905acf5869a/eca21e9e-452f-4fe1-987f-7e778ebe2f42" alt="fivestars.png" width="100" height="20" />
+             <h2 class="text-uppercase short-underline short-underline--double">Get
+                 Rewarded </h2>
+             <p> We all love points. Get rewarded every time you shop for or sell,
+                 classic and trendy, secondhand styles by signing up for our rewards
+                 program, where you’ll get access to exclusive discounts, special
+                 promotions, store events, and more. <br />Never miss a beat! </p>
+             <div class="mt-2">
+                 <a class="btn btn-sm btn-outline-primary mb-2"
+                     href="[[REWARDS_URL]]">
+                     Sign up online
+                 </a>
+             </div>
+             [[DUMMY_TEXT]]
+         </div>`,
          FooterEmbeds: '',
          Active: false,
          NavigationTitle: 'test page1',
