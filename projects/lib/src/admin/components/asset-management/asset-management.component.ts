@@ -39,6 +39,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   @Input() selectedAsset: Asset[] = [];
   @Input() showAssetStatus = true;
   @Input() additionalFilters?: TemplateRef<any>;
+  @Input() downloadableFileTypes?: string[] = [];
   @Input('assetTypes') assetTypesOverride?: ASSET_TYPES[];
   @Input('tagOptions') tagOptionsOverride?: string[];
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
