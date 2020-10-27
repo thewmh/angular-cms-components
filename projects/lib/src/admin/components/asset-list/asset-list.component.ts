@@ -28,12 +28,14 @@ export class AssetListComponent implements AfterViewInit, OnChanges, OnInit {
   @Input() items?: Asset[];
   @Input() meta?: Meta;
   @Input() selectedAsset: Asset[];
+  @Input() downloadableFileTypes?: string[] = [];
   @Output() selectedAssetChange = new EventEmitter<Asset[]>();
   @Input() assetDetail?: Asset;
   @Output() assetDetailChange = new EventEmitter<Asset>();
   @Output() pageChangeEvent = new EventEmitter<number>();
   @ViewChild('gridContainer') gridContainerEl: ElementRef;
   columnWidth: string | number;
+  showDownloadBtn = false;
 
   constructor() {
     window.addEventListener('resize', this.evaluateColumnWidth);
@@ -48,6 +50,10 @@ export class AssetListComponent implements AfterViewInit, OnChanges, OnInit {
   ngOnInit() {
     if (!this.selectedAsset) {
       this.selectedAsset = [];
+    }
+    if (this.items.length && this.downloadableFileTypes.length) {
+      this.showDownloadBtn = !!this.items.map(asset => asset.Metadata.ContentType)
+      .filter(type => this.downloadableFileTypes.includes(type)).length;
     }
   }
 
@@ -121,4 +127,5 @@ export class AssetListComponent implements AfterViewInit, OnChanges, OnInit {
       this.selectable && !!this.selectedAsset.find((a) => a.ID === asset.ID)
     );
   };
+  isDownloadableFileType = (fileType: string): boolean => this.downloadableFileTypes.includes(fileType);
 }

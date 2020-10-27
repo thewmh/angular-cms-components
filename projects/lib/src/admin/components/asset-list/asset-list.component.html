@@ -12,6 +12,7 @@
           <th *ngIf="!shrink">Dimensions</th>
           <th *ngIf="!shrink">Last Updated</th>
           <th *ngIf="!shrink && showAssetStatus">Status</th>
+          <th *ngIf="showDownloadBtn"></th>
         </tr>
       </thead>
       <tbody>
@@ -52,6 +53,13 @@
               inactiveText="Inactive"
               inline="true"
             ></cms-status-icon>
+          </td>
+          <td>
+            <a *ngIf="isDownloadableFileType(asset.Metadata.ContentType)" 
+               class="btn-sm btn-primary"
+               [href]="asset.Url"
+               target="_blank"
+               [download]="asset.Title">Download</a>
           </td>
         </tr>
       </tbody>
