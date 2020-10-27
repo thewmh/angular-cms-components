@@ -25,8 +25,8 @@ export class AssetListComponent implements AfterViewInit, OnChanges, OnInit {
   @Input() mode: AssetListMode = 'table';
   @Input() selectable = false;
   @Input() multiple = false;
-  @Input() items?: Asset[];
-  @Input() meta?: Meta;
+  @Input() items?: Asset[] = [];
+  @Input() meta?: Meta = {};
   @Input() selectedAsset: Asset[];
   @Input() downloadableFileTypes?: string[] = [];
   @Output() selectedAssetChange = new EventEmitter<Asset[]>();
