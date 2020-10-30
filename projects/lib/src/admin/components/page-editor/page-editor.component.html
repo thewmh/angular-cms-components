@@ -205,6 +205,7 @@
                       class="custom-control-input"
                       id="pageNavigation"
                       type="checkbox"
+                      [disabled]="isRequired"
                       (change)="onPageNavigationChange()"
                       [(ngModel)]="pageNavigation"
                     />
