@@ -92,6 +92,44 @@ export const EditPageExample = () => ({
   },
 });
 
+export const WithImages = () => ({
+  component: PageEditorComponent,
+  props: {
+    document: {
+      ID: '4ad8bd98-3fe8-4caa-9402-0c8f2769d156',
+      $schema:
+        'https://marketplace-middleware-test.azurewebsites.net/schema-specs/5539d88d-2787-476c-9b61-cdadd181f12d',
+      Doc: {
+        Title: 'Locations',
+        Url: 'locations',
+        SiteUrl: 'https://www.my-awesome-website.com',
+        Description: '',
+        MetaImageUrl: '',
+        HeaderEmbeds: 'console.log(\'logged from header\');',
+        Content:
+        "<p><img src=\"https://marktplacetest.blob.core.windows.net/assets-02aef4ce-2582-4417-bba4-41caec231527/de8fd7b4-7fa6-4070-9b8d-723bd5116944\" alt=\"products_greenfield.png\" width=\"1268\" height=\"746\" /></p>",
+        FooterEmbeds: 'console.log(\'logged from footer\');',
+        Active: true,
+        NavigationTitle: 'Locations',
+        Author: 'Crhistian Ramirez',
+        DateCreated: '2020-07-29T02:28:01.114Z',
+        LastUpdatedBy: 'Robert Watt',
+        DateLastUpdated: '2020-07-30T21:48:54.957Z',
+      },
+    },
+    resourceType: 'Suppliers',
+    resourceID: '41106',
+    editorOptions: {
+      content_css: [
+        // 'https://piasstorageprod.azureedge.net/buyerweb/styles.07d24b25eb6a60350a70.css',
+        'https://piasstoragetest.azureedge.net/buyerweb/styles.9583bf217aedd7b22e76.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css',
+      ],
+    },
+  },
+});
+
 export const DeletePageExample = () => ({
   component: PageEditorComponent,
   props: {
