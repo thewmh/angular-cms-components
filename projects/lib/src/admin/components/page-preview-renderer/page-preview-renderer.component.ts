@@ -36,7 +36,7 @@ export class PagePreviewRendererComponent implements OnInit {
       <head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
-      ${this.remoteCss ? `<style>@import url('${this.remoteCss}'); img { width: 100% !important; height: auto !important; } </style>` : ''}
+      ${this.remoteCss ? `<style>@import url('${this.remoteCss}'); img { max-width: 100% !important; height: auto !important; display: inline-block; } </style>` : ''}
       </head>
       <body style="padding-top:0 !important;">${this.html}</body>
       </html>`;
