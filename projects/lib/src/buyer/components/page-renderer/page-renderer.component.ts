@@ -58,7 +58,7 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
       this.setMetaData(page);
       this.loadScripts(page.HeaderEmbeds, page.FooterEmbeds);
       if (this.dynamicTextReplacements && Object.keys(this.dynamicTextReplacements).length) {
-        this.content = this.replaceText(page.Content);
+        this.content = this.replaceText(this.content);
       }
     }
   }
