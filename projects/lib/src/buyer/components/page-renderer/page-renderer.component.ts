@@ -53,12 +53,12 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
       changes.pageDoc.previousValue !== changes.pageDoc.currentValue
     ) {
       const page: PageContentDoc = this.pageDoc.Doc;
-      const content = this.widgetService.applyDateRules(page.Content);
-      this.content = this.widgetService.stripEditableAttributes(content);
+      const pageContent = this.widgetService.applyDateRules(page.Content);
+      this.content = this.widgetService.stripEditableAttributes(pageContent);
       this.setMetaData(page);
       this.loadScripts(page.HeaderEmbeds, page.FooterEmbeds);
       if (this.dynamicTextReplacements && Object.keys(this.dynamicTextReplacements).length) {
-        this.content = this.replaceText(page.Content);
+        this.content = this.replaceText(this.content);
       }
     }
   }
