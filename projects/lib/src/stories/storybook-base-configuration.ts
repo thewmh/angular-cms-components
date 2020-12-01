@@ -5,7 +5,7 @@ import * as HeadStartSDKInstance from '@ordercloud/headstart-sdk';
 import { Configuration } from 'ordercloud-javascript-sdk';
 
 Configuration.Set({
-  baseApiUrl: 'https://sandboxapi.ordercloud.io/v1',
+  baseApiUrl: 'https://sandboxapi.ordercloud.io',
 });
 
 HeadStartSDKInstance.Configuration.Set({
