@@ -40,7 +40,7 @@ export class PagePreviewRendererComponent implements OnInit {
     iframe {
       position: relative;
       display: block;
-      width: 100%;
+      max-width: 100%;
       padding: .5rem;
       overflow: hidden;
       margin: 0px auto;
