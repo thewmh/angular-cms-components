@@ -202,3 +202,38 @@ export const NoInputs = () => ({
     },
   },
 });
+
+export const WithVideo = () => ({
+  component: PageEditorComponent,
+  props: {
+    renderSiteUrl: 'https://marketplace-buyer-ui-test.azurewebsites.net/',
+    resourceType: 'ApiClients',
+    resourceID: '41106',
+    document: {
+      "ID":"0-7Pm63ckkKemcD1JrKx5Q",
+      "Doc":{
+         "Content":"<p>Once Upon A Child&reg; buys and sells gently used kids' clothing, shoes, toys, and baby gear. We pay you cash on the spot and provide a convenient way to recycle the items your children have outgrown, giving those items a second life. Every day you&rsquo;ll find an ever-changing selection of top name brands at up to 70% off regular retail prices. Get paid and save for being eco-friendly!</p>\n<p><img src=\"/users/ouac-20992/images/BuyProcess.png\" alt=\"\" width=\"681\" height=\"118\" /><img src=\"/users/ouac-20992/images/BuyProcess.png\" alt=\"\" width=\"681\" height=\"118\" /><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://cms-ordercloud.azureedge.net/assets-98c4f50e-1a2b-48ac-b1f3-78e77596187c/2852d57c-93bc-468a-82ed-01d92eb44789\" alt=\"Screen Shot 2020-12-06 at 8.37.28 PM.png\" width=\"700\" height=\"128\" /></p>\n<p style=\"text-align: center;\"><iframe title=\"How To Sell To Us\" src=\"https://www.youtube.com/embed/videoseries?list=PLDil4djtOFJxiSjdCC6ycYOnnLAL4PB6o\" width=\"560\" height=\"315\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\"></iframe></p>\n<p>&nbsp;</p>\n<div data-oc-widget=\"oc-section\">\n<div id=\"rewards_template\" class=\"card__translucent p-5 m-3 m-sm-0\"><img src=\"https://cms-ordercloud.azureedge.net/assets-e9570aef-d953-4841-a57c-f8cf2ec2e451/374000d8-0ea5-4256-9aa9-af89c26312bd-m\" alt=\"fivestars.png\" width=\"100\" height=\"20\" />\n<h2 class=\"text-uppercase short-underline short-underline--double\">Get Rewarded</h2>\n<p>Earn points every time you shop for or sell gently used kid&rsquo;s items when you sign up for our rewards program. By signing up you&rsquo;ll get access to exclusive discounts, special promotions, store events, and more.</p>\n<div class=\"mt-2\"><a class=\"btn btn-sm btn-outline-primary mb-2\" href=\"[[REWARDS_URL]]\"> Sign up online </a>\n<p>OR BY TEXTING - [[REWARDS_CODE]] to <strong>578-277</strong></p>\n<small class=\"text-muted\">Standard message and data rates may apply. Text STOP to cancel or HELP for help. Go to fivestars.com/terms for terms and privacy.</small></div>\n</div>\n</div>\n<p>&nbsp;</p>",
+         "FooterEmbeds":"",
+         "HeaderEmbed":"",
+         "NavigationTitle":"",
+         "Title":"Home",
+         "MetaTitle":"Buy & Sell Kids' Clothing, Shoes, Toys, Furniture, and Baby Gear | Once Upon A Child Nanaimo",
+         "Url":"",
+         "Description":"Once Upon A Child buys and sells gently used kids' clothing, shoes, toys, books, furniture, and baby gear, so you can recycle your children's nearly new items and get paid on the spot. Shop at Once Upon A Child to save up to 70% off regular retail prices.",
+         "Active":true,
+         "DateCreated":"2020-11-25T22:35:02.835Z",
+         "DateLastUpdated":"2020-12-07T04:38:58.794Z",
+         "Author":"Admin User",
+         "LastUpdatedBy":"Kyla Christy"
+      },
+      "SchemaSpecUrl":"https://marketplace-middleware.azurewebsites.net/schema-specs/6bb85681-173b-4d2e-93aa-7a9ad62fff33",
+      "History":{
+         "DateCreated":"2020-11-25T22:35:48.6301283+00:00",
+         "CreatedByUserID":"asnyder",
+         "DateUpdated":"2020-12-07T04:38:59.2728131+00:00",
+         "UpdatedByUserID":"Pwfh_P-nbkKAE8Txe6qO7A"
+      }
+   },
+  },
+});
+
