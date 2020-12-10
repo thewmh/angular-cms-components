@@ -30,13 +30,33 @@ export class PagePreviewRendererComponent implements OnInit {
   }
 
   initIframeSource(): SafeUrl {
+    // makes images and video responsive
+    const cssAdditions = `
+    img {
+      max-width: 100% !important;
+      height: auto !important;
+      display: inline-block;
+    }
+    iframe {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: .5rem;
+      overflow: hidden;
+      margin: 0px auto;
+      @media (max-width: 576px) {
+        min-height: 215px;
+        height: auto;
+      }
+    }
+    `
     const documentSource = `
     <!DOCTYPE html>
     <html>
       <head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
-      ${this.remoteCss ? `<style>@import url('${this.remoteCss}'); img { max-width: 100% !important; height: auto !important; display: inline-block; } </style>` : ''}
+      ${this.remoteCss ? `<style>@import url('${this.remoteCss}'); ${cssAdditions} } </style>` : `${cssAdditions}`}
       </head>
       <body style="padding-top:0 !important;">${this.html}</body>
       </html>`;
