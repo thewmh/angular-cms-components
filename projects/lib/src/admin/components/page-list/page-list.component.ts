@@ -9,12 +9,12 @@ import {
   TemplateRef,
 } from '@angular/core';
 import {
-  HeadStartSDK,
+  ContentManagementClient,
   JDocument,
   ListArgs,
   Asset,
   AssetUpload,
-} from '@ordercloud/headstart-sdk';
+} from '@ordercloud/cms-sdk'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
@@ -105,7 +105,7 @@ export class PageListComponent implements OnInit, OnChanges {
         'cms-page-list missing required props resourceType and resourceID for '
       );
     }
-    return HeadStartSDK.Documents.ListDocuments(
+    return ContentManagementClient.Documents.ListDocuments(
       this.pageSchemaID,
       this.resourceType,
       this.resourceID
@@ -123,7 +123,7 @@ export class PageListComponent implements OnInit, OnChanges {
             ...PAGE_SCHEMA,
             ID: this.pageSchemaID
           } as any;
-          return HeadStartSDK.Schemas.Create(schema).then(() =>
+          return ContentManagementClient.Schemas.Create(schema).then(() =>
             this.listDocs()
           );
         }
@@ -207,7 +207,7 @@ export class PageListComponent implements OnInit, OnChanges {
       const selectedIndex = this.list.findIndex(
         (d) => d.ID === this.selected.ID
       );
-      const selectedPage = await HeadStartSDK.Documents.Get(
+      const selectedPage = await ContentManagementClient.Documents.Get(
         this.pageSchemaID,
         this.selected.ID
       );

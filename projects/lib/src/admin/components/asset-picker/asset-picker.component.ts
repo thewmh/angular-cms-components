@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Asset, AssetUpload, ListArgs } from '@ordercloud/headstart-sdk';
+import { Asset, AssetUpload, ListArgs } from '@ordercloud/cms-sdk'
 import { ASSET_TYPES } from '../../constants/asset-types.constants';
 
 @Component({

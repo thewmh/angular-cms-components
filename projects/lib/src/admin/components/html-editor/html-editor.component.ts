@@ -17,7 +17,7 @@ import { v4 as guid } from 'uuid';
 import { SectionPickerComponent } from '../section-picker/section-picker.component';
 import { SectionDateSettingsComponent } from '../section-date-settings/section-date-settings.component';
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
-import { Asset, ListArgs, AssetUpload } from '@ordercloud/headstart-sdk';
+import { Asset, ListArgs, AssetUpload } from '@ordercloud/cms-sdk'
 import sectionPickerMock from '../section-picker/section-picker.mock';
 import DEFAULT_ASSET_TYPES, {
   ASSET_TYPES,

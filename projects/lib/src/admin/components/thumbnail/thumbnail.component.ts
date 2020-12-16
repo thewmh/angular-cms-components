@@ -8,12 +8,11 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { Asset } from '@ordercloud/headstart-sdk';
-import DEFAULT_ASSET_TYPES, {
+import { Asset } from '@ordercloud/cms-sdk'
+import {
   ASSET_TYPE,
   ASSET_TYPES,
 } from '../../constants/asset-types.constants';
-import { getGroupName, getExtension } from '@contentful/mimetype';
 
 @Component({
   selector: 'cms-thumbnail',

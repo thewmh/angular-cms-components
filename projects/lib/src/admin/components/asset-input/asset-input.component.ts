@@ -11,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Asset, AssetUpload, ListArgs } from '@ordercloud/headstart-sdk';
+import { Asset, AssetUpload, ListArgs } from '@ordercloud/cms-sdk'
 import { ASSET_TYPES } from '../../constants/asset-types.constants';
 import { AssetPickerComponent } from '../asset-picker/asset-picker.component';
 import { cloneDeep } from 'lodash';

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Asset, HeadStartSDK, AssetUpload } from '@ordercloud/headstart-sdk';
+import { Asset, ContentManagementClient, AssetUpload } from '@ordercloud/cms-sdk'
 import { getGroupName, getExtension } from '@contentful/mimetype';
 import * as Q from 'q';
 
@@ -64,9 +64,9 @@ export class AssetUploadConfirmComponent {
   uploadFile(asset: AssetUpload) {
     if (this.beforeAssetUpload) {
       return this.beforeAssetUpload(asset).then(
-        HeadStartSDK.Upload.UploadAsset
+        ContentManagementClient.Assets.Upload
       );
     }
-    return HeadStartSDK.Upload.UploadAsset(asset);
+    return ContentManagementClient.Assets.Upload(asset);
   }
 }

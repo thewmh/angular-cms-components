@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AssetListMode } from '../asset-list/asset-list.component';
-import { FormBuilder, FormGroup, NgModel } from '@angular/forms';
-import { Asset, AssetUpload } from '@ordercloud/headstart-sdk';
+import { Asset, AssetUpload } from '@ordercloud/cms-sdk'
 
 @Component({
   selector: 'cms-asset-toolbar',

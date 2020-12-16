@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   OnChanges,
 } from '@angular/core';
-import { Asset, HeadStartSDK } from '@ordercloud/headstart-sdk';
+import { Asset, ContentManagementClient } from '@ordercloud/cms-sdk'
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { cloneDeep } from 'lodash';
 
@@ -79,7 +79,7 @@ export class AssetDetailComponent implements OnInit, OnChanges {
   }
 
   handleDeleteAsset() {
-    HeadStartSDK.Assets.Delete(this.asset.ID).then(() => {
+    ContentManagementClient.Assets.Delete(this.asset.ID).then(() => {
       this.assetDeleted.emit(this.asset);
       this.confirmDeleteModal.close();
     });
@@ -90,7 +90,7 @@ export class AssetDetailComponent implements OnInit, OnChanges {
       return;
     }
     this.isLocked = true;
-    HeadStartSDK.Assets.Save(this.asset.ID, this.assetForm).then(
+    ContentManagementClient.Assets.Save(this.asset.ID, this.assetForm).then(
       (updated: Asset) => {
         this.assetSaved.emit(updated);
         this.isLocked = false;
