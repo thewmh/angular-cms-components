@@ -14,10 +14,10 @@ import {
   Asset,
   Meta,
   ListArgs,
-  HeadStartSDK,
+  ContentManagementClient,
   ListPage,
   AssetUpload,
-} from '@ordercloud/headstart-sdk';
+} from '@ordercloud/cms-sdk'
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { AssetListMode } from '../asset-list/asset-list.component';
 import DEFAULT_ASSET_TYPES, {
@@ -131,7 +131,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
 
   listAssetsByResource(options: ListArgs<Asset>) {
     // only page and pageSize are accepted parameters
-    return HeadStartSDK.Assets.ListAssets(
+    return ContentManagementClient.Assets.ListAssets(
       this.resourceType,
       this.resourceID,
       options
@@ -143,7 +143,7 @@ export class AssetManagementComponent implements OnInit, OnChanges {
   }
 
   listAssetsByFilters(options: ListArgs<Asset>) {
-    return HeadStartSDK.Assets.List(options).then(
+    return ContentManagementClient.Assets.List(options).then(
       (response: ListPage<Asset>) => {
         if (options === this.currentRequestOptions) {
           this.items = response.Items;

@@ -13,14 +13,14 @@ import * as OrderCloudSDK from 'ordercloud-javascript-sdk';
 import { PageContentDoc } from '../../models/page-content-doc.interface';
 import {
   JDocument,
-  HeadStartSDK,
+  ContentManagementClient,
   AssetUpload,
   ListArgs,
   Asset,
-} from '@ordercloud/headstart-sdk';
+  RequiredDeep
+} from '@ordercloud/cms-sdk'
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
-import { RequiredDeep } from '@ordercloud/headstart-sdk/dist/models/RequiredDeep';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { ParentResourceType } from '../../../shared/models/parent-resource-type.interface';
 import DEFAULT_ASSET_TYPES, {
@@ -213,7 +213,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     const fullName = `${me.FirstName} ${me.LastName}`;
     let updated: RequiredDeep<JDocument>;
     if (document && document.ID) {
-      updated = await HeadStartSDK.Documents.Save(
+      updated = await ContentManagementClient.Documents.Save(
         this.pageSchemaID,
         document.ID,
         {
@@ -226,7 +226,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
         }
       );
     } else {
-      updated = await HeadStartSDK.Documents.Create(this.pageSchemaID, {
+      updated = await ContentManagementClient.Documents.Create(this.pageSchemaID, {
         Doc: {
           ...this.page,
           Author: fullName,
@@ -238,7 +238,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     }
 
     if (this.resourceType && this.resourceID) {
-      await HeadStartSDK.Documents.SaveAssignment(this.pageSchemaID, {
+      await ContentManagementClient.Documents.SaveAssignment(this.pageSchemaID, {
         ResourceID: this.resourceID,
         ResourceType: this.resourceType,
         ParentResourceID: this.parentResourceID,
@@ -252,7 +252,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
 
   async onDelete(): Promise<void> {
     if (this.resourceType && this.resourceID) {
-      await HeadStartSDK.Documents.DeleteAssignment(
+      await ContentManagementClient.Documents.DeleteAssignment(
         this.pageSchemaID,
         this.document.ID,
         this.resourceID,
@@ -261,7 +261,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
         this.parentResourceType
       );
     }
-    await HeadStartSDK.Documents.Delete(this.pageSchemaID, this.document.ID);
+    await ContentManagementClient.Documents.Delete(this.pageSchemaID, this.document.ID);
     this.pageDeleted.emit(this.document.ID);
     this.confirmModal.close();
   }

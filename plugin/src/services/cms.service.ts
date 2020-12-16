@@ -1,15 +1,13 @@
-import { HeadStartSDK } from '@ordercloud/headstart-sdk';
+import { ContentManagementClient } from '@ordercloud/cms-sdk';
 
 export default function cmsUploadCommand(
   ignorethisparam,
   { blobInfo, successCallback, errorCallback }
 ) {
-  console.log(ignorethisparam);
   const filename = blobInfo.filename();
-  HeadStartSDK.Upload.UploadAsset({
+  ContentManagementClient.Assets.Upload({
     Active: true,
     File: blobInfo.blob(),
-    Type: 'Image',
     FileName: filename,
     Title: filename.split('.')[0],
   })

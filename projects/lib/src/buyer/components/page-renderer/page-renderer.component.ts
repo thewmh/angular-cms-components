@@ -8,7 +8,7 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { WidgetService } from '../../../shared/services/widget.service';
-import { JDocument } from '@ordercloud/headstart-sdk';
+import { JDocument } from '@ordercloud/cms-sdk'
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { PageContentDoc } from '../../../admin/models/page-content-doc.interface';

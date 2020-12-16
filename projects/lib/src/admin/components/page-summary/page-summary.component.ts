@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { JDocument } from '@ordercloud/headstart-sdk';
+import { Component, Input } from '@angular/core';
+import { JDocument } from '@ordercloud/cms-sdk'
 
 @Component({
   selector: 'cms-page-summary',

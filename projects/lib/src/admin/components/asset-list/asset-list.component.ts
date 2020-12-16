@@ -10,7 +10,7 @@ import {
   AfterViewInit,
   OnInit,
 } from '@angular/core';
-import { Asset, Meta } from '@ordercloud/headstart-sdk';
+import { Asset, Meta } from '@ordercloud/cms-sdk'
 
 export type AssetListMode = 'table' | 'grid';
 

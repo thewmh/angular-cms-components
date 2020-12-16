@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AssetMetadata } from '@ordercloud/headstart-sdk';
+import { AssetMetadata } from '@ordercloud/cms-sdk'
 
 @Pipe({
   name: 'assetDimensions',

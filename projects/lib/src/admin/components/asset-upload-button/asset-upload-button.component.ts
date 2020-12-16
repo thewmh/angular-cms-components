@@ -8,7 +8,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Asset, AssetUpload } from '@ordercloud/headstart-sdk';
+import { Asset, AssetUpload } from '@ordercloud/cms-sdk'
 
 @Component({
   selector: 'cms-asset-upload-button',

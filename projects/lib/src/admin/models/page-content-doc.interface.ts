@@ -1,4 +1,4 @@
-import { Asset, JDocument } from '@ordercloud/headstart-sdk';
+import { Asset } from '@ordercloud/cms-sdk'
 
 export interface PageContentDoc {
   Url: string;
