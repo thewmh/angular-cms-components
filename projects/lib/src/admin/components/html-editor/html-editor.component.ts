@@ -130,6 +130,9 @@ export class HtmlEditorComponent implements OnInit, OnChanges {
     importcss_append: true,
     toolbar_mode: 'sliding',
     extended_valid_elements: 'script[src|async|defer|type|charset]',
+    paste_preprocess: function (plugin, args) {
+      args.content = `<div contenteditable="true">${args.content}</div>`;
+    },
 
     /**
      * Adds an advanced tab to set things like style/border/space
