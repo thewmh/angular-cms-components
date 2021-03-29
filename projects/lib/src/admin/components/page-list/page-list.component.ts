@@ -24,6 +24,7 @@ import DEFAULT_ASSET_TYPES, {
   ASSET_TYPES,
 } from '../../constants/asset-types.constants';
 import { PageContentDoc } from '../../models/page-content-doc.interface';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'cms-page-list',
@@ -56,8 +57,9 @@ export class PageListComponent implements OnInit, OnChanges {
   loading = true;
   list: JDocument[];
   selected?: JDocument;
+  sortOptions = ["Name (A-Z)","Date Created (Newest-Oldest)", "Date Created (Oldest-Newest)", "Date Updated (Oldest-Newest)", "Date Updated (Newest-Oldest)"];
 
-  constructor(private spinner: NgxSpinnerService) { }
+  constructor(private spinner: NgxSpinnerService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.pageSchemaID = this.schemaID || PAGE_SCHEMA.ID;
@@ -67,6 +69,7 @@ export class PageListComponent implements OnInit, OnChanges {
       );
     }
     this.listDocs();
+    
 
     // debounce search for 300ms
     this.searchTermChanged
@@ -98,6 +101,32 @@ export class PageListComponent implements OnInit, OnChanges {
            changes[propertyName].previousValue !== changes[propertyName].currentValue;
   }
 
+ 
+  sortDocs() {
+    // console.log(value)
+    const sortStyles = document.getElementById("sortStyles") as HTMLSelectElement;
+    const sortStyles2 = document.getElementById("sortStyles");
+    const testval = sortStyles2.nodeValue;
+    console.log(testval)
+    const value = sortStyles.options.selectedIndex.toString()
+    // return this.list.sort((a,b) => (a.Doc.DateUpdated > b.Doc.DateUpdated) ? 1 : -1);
+    console.log(value)
+    switch (value){
+      case "1":
+        return this.list.sort((a,b) => (a.Doc.Name > b.Doc.Name) ? 1 : -1); 
+      case "2":
+        return this.list.sort((a,b) => (a.Doc.DateCreated < b.Doc.DateCreated) ? 1 : -1);
+      case "3":
+          return this.list.sort((a,b) => (a.Doc.DateCreated > b.Doc.DateCreated) ? 1 : -1);
+      case "4":
+        return this.list.sort((a,b) => (a.Doc.DateLastUpdated > b.Doc.DateLastUpdated) ? 1 : -1);
+        case "5":
+        return this.list.sort((a,b) => (a.Doc.DateLastUpdated < b.Doc.DateLastUpdated) ? 1 : -1);
+    }
+
+    
+  }
+
   listDocs(): Promise<void> {
     this.spinner.show();
     if (!this.resourceType || !this.resourceID) {
@@ -123,6 +152,7 @@ export class PageListComponent implements OnInit, OnChanges {
             ...PAGE_SCHEMA,
             ID: this.pageSchemaID
           } as any;
+          
           return ContentManagementClient.Schemas.Create(schema).then(() =>
             this.listDocs()
           );
@@ -169,6 +199,7 @@ export class PageListComponent implements OnInit, OnChanges {
     this.selected = undefined;
     this.ngOnInit();
     this.backClicked.emit(e);
+    console.log(this.list)
   }
 
   async selectPage(page): Promise<void> {

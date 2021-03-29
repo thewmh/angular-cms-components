@@ -44,6 +44,15 @@
           <th>Created By</th>
           <th>Date Created</th>
           <th>Last Updated</th>
+          <th>          
+            <select (change)="sortDocs()" id="sortStyles" >
+            <option disabled value="">Sort By:</option>
+            <option *ngFor="let options of sortOptions">{{options}}</option>
+            <!-- <option value="Date Created (oldest-newest)" >Date Created (Newest-Oldest)</option>
+            <option value="Date Created" >Date Created (Oldest-Newest)</option>
+            <option value="Date Updated" >Date Updated</option> -->
+          </select>
+        </th>
         </tr>
       </thead>
       <tbody>
