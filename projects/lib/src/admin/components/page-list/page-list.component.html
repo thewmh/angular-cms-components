@@ -1,15 +1,17 @@
 <!-- LIST VIEW -->
 <div *ngIf="!selected" class="main-content">
   <div class="d-flex align-items-center justify-content-start p-3">
-    <div class="flex-grow-0 flex-shrink-1 pr-2">
-      <button
-        type="button"
-        (click)="selectPage()"
-        class="btn btn-outline-primary w-100"
-      >
-        New Page
+    <div class="d-flex flex-wrap align-items-center justify-content-between my-3">
+      <button type="button" (click)="selectPage()" class="btn btn-outline-primary">
+          New Page
       </button>
-    </div>
+      <div class="input-group">
+          <select (change)="sortDocs()" class="custom-select" id="sortStyles" aria-label="Sort By Dropdown">
+              <option selected disabled value="">Sort By:</option>
+              <option *ngFor="let options of sortOptions">{{options}}</option>
+          </select>
+      </div>
+  </div>
     <!-- TODO: enable search/filter once it works better -->
     <!-- <div class="flex-grow-0 flex-shrink-1 pr-2">
       <input
@@ -40,21 +42,12 @@
     <table class="table table-hover page-list-table">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Created By</th>
-          <th>Date Created</th>
-          <th>Last Updated</th>
-          <th>          
-            <select (change)="sortDocs()" id="sortStyles" >
-            <option disabled value="">Sort By:</option>
-            <option *ngFor="let options of sortOptions">{{options}}</option>
-            <!-- <option value="Date Created (oldest-newest)" >Date Created (Newest-Oldest)</option>
-            <option value="Date Created" >Date Created (Oldest-Newest)</option>
-            <option value="Date Updated" >Date Updated</option> -->
-          </select>
-        </th>
+            <th>Title</th>
+            <th>Created By</th>
+            <th>Date Created</th>
+            <th>Last Updated</th>
         </tr>
-      </thead>
+    </thead>
       <tbody>
         <tr *ngFor="let contentDoc of list" (click)="selectPage(contentDoc)">
           <td>
