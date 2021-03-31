@@ -28,6 +28,7 @@ import DEFAULT_ASSET_TYPES, {
 } from '../../constants/asset-types.constants';
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
 import * as $ from 'jquery';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -80,6 +81,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
   isLocked: boolean;
   isRequired: boolean;
   errorMessage: string;
+
+  faQuestionCircle = faQuestionCircle;
 
   constructor(private modalService: NgbModal) {}
 
