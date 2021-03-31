@@ -166,6 +166,7 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
         console.error(
           `ERROR: ${embed} embeds did not execute because plain text is not supported in the embeds. Please review what is supported in the ${embed} embeds in the CMS to prevent this error.`
         );
+        return;
       }
 
       const scripts = element.filter(function () {
@@ -192,10 +193,12 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
       });
 
       nonScripts.each(function () {
-        if (appendTo === 'body')
+        if (appendTo === 'body') {
           console.error(
             `ERROR: Footer embeds did not execute because <${this.tagName.toLocaleLowerCase()}> is not supported in the footer. Please review what is supported in the footer embeds in the CMS to prevent this error.`
           );
+          return;
+        }
 
         // non scripts like html/css can just be added to dom
         // unlike javascript they will still be applied even after first page load
