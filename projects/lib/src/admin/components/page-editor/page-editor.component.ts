@@ -322,21 +322,23 @@ export class PageEditorComponent implements OnInit, OnChanges {
     if (!this.page.HeaderEmbeds && !this.page.FooterEmbeds) return true;
 
     const embeds = ['HeaderEmbeds', 'FooterEmbeds'];
-    const supportedTags = ['LINK', 'META', 'STYLE', 'NOSCRIPT', 'SCRIPT'];
     let hasValidTags = true;
+    let element;
     embeds.forEach((embed) => {
       try {
-        const element = $(this.page[`${embed}`]);
-        element.each(function () {
-          if (!this.tagName) return;
-
-          const tagNotSupported = !supportedTags.includes(this.tagName);
-          if (tagNotSupported) hasValidTags = false;
-        });
-        hasValidTags = !!element && hasValidTags;
+        element = $(this.page[`${embed}`]);
       } catch {
+        // if plain text is added to the header embed, a syntax err will be thrown on the page preview
+        // for consistency, do no allow plain text for both header and footer embeds
         hasValidTags = false;
       }
+      element.each(function () {
+        if (embed === 'FooterEmbeds') {
+          // if non SCRIPT tags are added to the footer embed, it will break the page
+          // therefore, only allow script tags to be used in the footer
+          if (this.tagName !== 'SCRIPT') hasValidTags = false;
+        }
+      });
     });
     return hasValidTags;
   }
