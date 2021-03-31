@@ -359,6 +359,17 @@
       <li ngbNavItem="3" [destroyOnHide]="false">
         <a ngbNavLink>Embeds</a>
         <ng-template ngbNavContent>
+          <div class="alert alert-warning py-3 my-3">
+            The following tags are what is supported in the header and footer
+            embeds:
+            <ul>
+              <li>link</li>
+              <li>meta</li>
+              <li>style</li>
+              <li>script</li>
+              <li>noscript</li>
+            </ul>
+          </div>
           <div class="form-group">
             <label for="pageHeaderEmbeds">Header Embeds</label>
             <textarea

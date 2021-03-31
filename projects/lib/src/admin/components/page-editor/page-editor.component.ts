@@ -27,6 +27,7 @@ import DEFAULT_ASSET_TYPES, {
   ASSET_TYPES,
 } from '../../constants/asset-types.constants';
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
+import * as $ from 'jquery';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -299,6 +300,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
       this.errorMessage = 'SEO > Meta Title is required';
     } else if (this.duplicateUrl) {
       this.errorMessage = 'The selected URL is already in use.';
+    } else if (!this.hasValidEmbeds()) {
+      this.errorMessage = 'Please review the supported tags for the embeds';
     } else {
       this.errorMessage = undefined;
     }
@@ -310,7 +313,31 @@ export class PageEditorComponent implements OnInit, OnChanges {
         this.page.MetaTitle &&
         (this.page.Url || this.isLocked) &&
         ((this.page.Active && this.isRequired) || !this.isRequired) &&
-        !this.duplicateUrl
+        !this.duplicateUrl &&
+        this.hasValidEmbeds()
     );
+  }
+
+  private hasValidEmbeds(): boolean {
+    if (!this.page.HeaderEmbeds && !this.page.FooterEmbeds) return true;
+
+    const embeds = ['HeaderEmbeds', 'FooterEmbeds'];
+    const supportedTags = ['LINK', 'META', 'STYLE', 'NOSCRIPT', 'SCRIPT'];
+    let hasValidTags = true;
+    embeds.forEach((embed) => {
+      try {
+        const element = $(this.page[`${embed}`]);
+        element.each(function () {
+          if (!this.tagName) return;
+
+          const tagNotSupported = !supportedTags.includes(this.tagName);
+          if (tagNotSupported) hasValidTags = false;
+        });
+        hasValidTags = !!element && hasValidTags;
+      } catch {
+        hasValidTags = false;
+      }
+    });
+    return hasValidTags;
   }
 }
