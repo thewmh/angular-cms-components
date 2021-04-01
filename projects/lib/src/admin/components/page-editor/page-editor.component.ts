@@ -304,7 +304,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
     } else if (this.duplicateUrl) {
       this.errorMessage = 'The selected URL is already in use.';
     } else if (!this.hasValidEmbeds()) {
-      this.errorMessage = 'Please review the supported tags for the embeds';
+      this.errorMessage =
+        'Please review the supported content for the header and footer embeds';
     } else {
       this.errorMessage = undefined;
     }
