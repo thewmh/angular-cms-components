@@ -330,16 +330,14 @@ export class PageEditorComponent implements OnInit, OnChanges {
     let element;
     embeds.forEach((embed) => {
       try {
-        element = $(this.page[`${embed}`]);
+        element = $(this.page[embed]);
       } catch {
-        // if symbols/special characters are added to the header embed, a syntax err will be thrown on the page preview
-        // for consistency, do no allow special characters for both header and footer embeds
+        // catch syntax err
         hasValidTags = false;
         return;
       }
 
-      // if plain text is added to the header embed, a syntax err will be thrown on the page preview
-      // for consistency, do no allow plain text for both header and footer embeds
+      // do no allow plain text for both header and footer embeds
       if (element.length === 0) {
         hasValidTags = false;
         return;
