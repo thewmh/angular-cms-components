@@ -168,15 +168,6 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
         return;
       }
 
-      // plain text is not supported in embeds
-      if (element.length == 0) {
-        const embed = appendTo === 'head' ? 'Header' : 'Footer';
-        console.error(
-          `ERROR: ${embed} embeds did not execute because plain text is not supported in the embeds. Please review what is supported in the ${embed} embeds in the CMS to prevent this error.`
-        );
-        return;
-      }
-
       const scripts = element.filter(function () {
         return this.tagName === 'SCRIPT';
       });
