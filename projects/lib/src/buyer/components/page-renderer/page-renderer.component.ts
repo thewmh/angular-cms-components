@@ -193,7 +193,7 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
       });
 
       nonScripts.each(function () {
-        if (appendTo === 'body') {
+        if (appendTo === 'body' && this.tagName) {
           console.error(
             `ERROR: Footer embeds did not execute because <${this.tagName.toLocaleLowerCase()}> is not supported in the footer. Please review what is supported in the footer embeds in the CMS to prevent this error.`
           );
