@@ -159,8 +159,19 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
     const target = component.document.getElementsByTagName(appendTo)[0];
 
     if (content) {
-      const element = $(content);
+      let element;
+      try {
+        element = $(content);
+      } catch {
+        // catch syntax err that will be thrown on the page preview, if symbols/special characters are added to the embeds
+        const embed = appendTo === 'head' ? 'Header' : 'Footer';
+        console.error(
+          `ERROR: ${embed} embeds did not execute because plain text with symbols/special characters are not supported in the embeds. Please review what is supported in the ${embed} embeds in the CMS to prevent this error.`
+        );
+        return;
+      }
 
+      // catch syntax err that will be thrown on the page preview, if plain text is added to embeds
       if (element.length == 0) {
         const embed = appendTo === 'head' ? 'Header' : 'Footer';
         console.error(

@@ -332,10 +332,19 @@ export class PageEditorComponent implements OnInit, OnChanges {
       try {
         element = $(this.page[`${embed}`]);
       } catch {
-        // if plain text is added to the header embed, a syntax err will be thrown on the page preview
-        // for consistency, do no allow plain text for both header and footer embeds
+        // if symbols/special characters are added to the header embed, a syntax err will be thrown on the page preview
+        // for consistency, do no allow special characters for both header and footer embeds
         hasValidTags = false;
+        return;
       }
+
+      // if plain text is added to the header embed, a syntax err will be thrown on the page preview
+      // for consistency, do no allow plain text for both header and footer embeds
+      if (element.length === 0) {
+        hasValidTags = false;
+        return;
+      }
+
       element.each(function () {
         if (embed === 'FooterEmbeds') {
           // if non SCRIPT tags are added to the footer embed, it will break the page
