@@ -26,6 +26,7 @@ import { AssetUploadButtonComponent } from './components/asset-upload-button/ass
 import { AssetPickerComponent } from './components/asset-picker/asset-picker.component';
 import { AssetInputComponent } from './components/asset-input/asset-input.component';
 import { ThumbnailComponent } from './components/thumbnail/thumbnail.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const declarations = [
   HtmlEditorComponent,
@@ -66,7 +67,7 @@ const declarations = [
     SectionDateSettingsComponent,
     PagePreviewModalComponent,
   ],
-  imports: [CmsSharedModule, CmsBuyerModule],
+  imports: [CmsSharedModule, CmsBuyerModule, FontAwesomeModule],
   exports: declarations,
 })
 export class CmsAdminModule {}

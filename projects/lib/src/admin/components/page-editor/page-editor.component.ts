@@ -27,6 +27,8 @@ import DEFAULT_ASSET_TYPES, {
   ASSET_TYPES,
 } from '../../constants/asset-types.constants';
 import { PagePreviewModalComponent } from '../page-preview-modal/page-preview-modal.component';
+import * as $ from 'jquery';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 export const EMPTY_PAGE_CONTENT_DOC: Partial<PageContentDoc> = {
   Title: '',
@@ -79,6 +81,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
   isLocked: boolean;
   isRequired: boolean;
   errorMessage: string;
+
+  faQuestionCircle = faQuestionCircle;
 
   constructor(private modalService: NgbModal) {}
 
@@ -299,6 +303,9 @@ export class PageEditorComponent implements OnInit, OnChanges {
       this.errorMessage = 'SEO > Meta Title is required';
     } else if (this.duplicateUrl) {
       this.errorMessage = 'The selected URL is already in use.';
+    } else if (!this.hasValidEmbeds()) {
+      this.errorMessage =
+        'Please review the supported content for the header and footer embeds';
     } else {
       this.errorMessage = undefined;
     }
@@ -310,7 +317,40 @@ export class PageEditorComponent implements OnInit, OnChanges {
         this.page.MetaTitle &&
         (this.page.Url || this.isLocked) &&
         ((this.page.Active && this.isRequired) || !this.isRequired) &&
-        !this.duplicateUrl
+        !this.duplicateUrl &&
+        this.hasValidEmbeds()
     );
+  }
+
+  private hasValidEmbeds(): boolean {
+    if (!this.page.HeaderEmbeds && !this.page.FooterEmbeds) return true;
+
+    const embeds = ['HeaderEmbeds', 'FooterEmbeds'];
+    let hasValidTags = true;
+    let element;
+    embeds.forEach((embed) => {
+      try {
+        element = $(this.page[embed]);
+      } catch {
+        // catch syntax err
+        hasValidTags = false;
+        return;
+      }
+
+      // do no allow plain text for both header and footer embeds
+      if (element.length === 0) {
+        hasValidTags = false;
+        return;
+      }
+
+      element.each(function () {
+        if (embed === 'FooterEmbeds') {
+          // if non SCRIPT tags are added to the footer embed, it will break the page
+          // therefore, only allow script tags to be used in the footer
+          if (this.tagName !== 'SCRIPT') hasValidTags = false;
+        }
+      });
+    });
+    return hasValidTags;
   }
 }
