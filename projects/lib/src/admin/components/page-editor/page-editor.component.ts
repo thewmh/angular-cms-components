@@ -346,7 +346,8 @@ export class PageEditorComponent implements OnInit, OnChanges {
         }
 
         // do no allow plain text for both header and footer embeds
-        if (element.length === 0) {
+        // all content should begin with < (even if they want to add comments)
+        if (element.length === 0 || content.trim()[0] !== '<') {
           hasValidTags = false;
           return;
         }
