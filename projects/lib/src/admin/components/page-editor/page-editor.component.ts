@@ -329,27 +329,30 @@ export class PageEditorComponent implements OnInit, OnChanges {
     let hasValidTags = true;
     let element;
     embeds.forEach((embed) => {
-      try {
-        element = $(this.page[embed]);
-      } catch {
-        // catch syntax err
-        hasValidTags = false;
-        return;
-      }
-
-      // do no allow plain text for both header and footer embeds
-      if (element.length === 0) {
-        hasValidTags = false;
-        return;
-      }
-
-      element.each(function () {
-        if (embed === 'FooterEmbeds') {
-          // if non SCRIPT tags are added to the footer embed, it will break the page
-          // therefore, only allow script tags to be used in the footer
-          if (this.tagName !== 'SCRIPT') hasValidTags = false;
+      const content = this.page[embed];
+      if (content) {
+        try {
+          element = $(content);
+        } catch {
+          // catch syntax err
+          hasValidTags = false;
+          return;
         }
-      });
+
+        // do no allow plain text for both header and footer embeds
+        if (element.length === 0) {
+          hasValidTags = false;
+          return;
+        }
+
+        element.each(function () {
+          if (embed === 'FooterEmbeds') {
+            // if non SCRIPT tags are added to the footer embed, it will break the page
+            // therefore, only allow script tags to be used in the footer
+            if (this.tagName !== 'SCRIPT') hasValidTags = false;
+          }
+        });
+      }
     });
     return hasValidTags;
   }
