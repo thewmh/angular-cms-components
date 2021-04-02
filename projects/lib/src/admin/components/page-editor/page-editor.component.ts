@@ -81,6 +81,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   isLocked: boolean;
   isRequired: boolean;
   errorMessage: string;
+  hasValidEmbeds: boolean;
 
   faQuestionCircle = faQuestionCircle;
 
@@ -108,6 +109,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.duplicateUrl = false;
     this.isLocked = this.determineLocked();
     this.isRequired = this.determineRequired();
+    this.hasValidEmbeds = this.checkEmbeds();
     this.checkErrorMessage();
   }
 
@@ -174,6 +176,10 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.page.Url = kebab(this.page.Url);
     this.onPageUrlKeyUp();
     this.checkErrorMessage();
+  }
+
+  onEmbedsChange() {
+    this.hasValidEmbeds = this.checkEmbeds();
   }
 
   onPageNavigationChange(): void {
@@ -303,7 +309,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
       this.errorMessage = 'SEO > Meta Title is required';
     } else if (this.duplicateUrl) {
       this.errorMessage = 'The selected URL is already in use.';
-    } else if (!this.hasValidEmbeds()) {
+    } else if (!this.hasValidEmbeds) {
       this.errorMessage =
         'Please review the supported content for the header and footer embeds';
     } else {
@@ -318,11 +324,11 @@ export class PageEditorComponent implements OnInit, OnChanges {
         (this.page.Url || this.isLocked) &&
         ((this.page.Active && this.isRequired) || !this.isRequired) &&
         !this.duplicateUrl &&
-        this.hasValidEmbeds()
+        this.hasValidEmbeds
     );
   }
 
-  private hasValidEmbeds(): boolean {
+  private checkEmbeds(): boolean {
     if (!this.page.HeaderEmbeds && !this.page.FooterEmbeds) return true;
 
     const embeds = ['HeaderEmbeds', 'FooterEmbeds'];
