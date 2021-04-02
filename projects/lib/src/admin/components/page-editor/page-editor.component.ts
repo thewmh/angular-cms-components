@@ -370,39 +370,34 @@ export class PageEditorComponent implements OnInit, OnChanges {
   }
 
   private checkForClosingTags(content: string, embed: string): string {
-    let DOMHolderArray = [];
+    let openingTags = []; // TODO: rename?
     let tagsArray = [];
-    var lines = content.split('\n');
-    for (var x = 0; x < lines.length; x++) {
-      tagsArray = lines[x].match(
+    const lines = content.split('\n');
+    lines.forEach((line: string) => {
+      tagsArray = line.match(
         /<(\/{1})?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[^'">\s]+))?)+\s*|\s*)>/g
       );
       if (tagsArray) {
         tagsArray.forEach((currentTag: string) => {
-          if (currentTag.indexOf('</') >= 0) {
+          const isClosingTag = currentTag.indexOf('</') >= 0;
+          if (isClosingTag) {
             let elementToRemove = currentTag.substr(2, currentTag.length - 3);
             elementToRemove = elementToRemove.replace(/ /g, '');
-            for (var j = DOMHolderArray.length - 1; j >= 0; j--) {
-              if (DOMHolderArray[j].element == elementToRemove) {
-                DOMHolderArray.splice(j, 1);
+            // TODO: can we use filter() here instead of for loop?
+            for (var j = openingTags.length - 1; j >= 0; j--) {
+              if (openingTags[j] == elementToRemove) {
+                openingTags.splice(j, 1);
                 if (elementToRemove != 'html') {
                   break;
                 }
               }
             }
           } else {
-            let tagNEW = currentTag;
-            var tag = new Object();
-            tag['full'] = currentTag;
-            if (tag['full'].indexOf(' ') > 0) {
-              tag['element'] = tag['full'].substr(
-                1,
-                tag['full'].indexOf(' ') - 1
-              );
-            } else {
-              tag['element'] = tag['full'].substr(1, tag['full'].length - 2);
-            }
-            var selfClosingTags = [
+            let tag = currentTag;
+            const length =
+              tag.indexOf(' ') > 0 ? tag.indexOf(' ') - 1 : tag.length - 2;
+            tag = currentTag.substr(1, length);
+            const selfClosingTags = [
               'area',
               'base',
               'br',
