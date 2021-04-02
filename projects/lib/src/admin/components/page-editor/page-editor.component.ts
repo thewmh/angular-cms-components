@@ -309,9 +309,6 @@ export class PageEditorComponent implements OnInit, OnChanges {
       this.errorMessage = 'SEO > Meta Title is required';
     } else if (this.duplicateUrl) {
       this.errorMessage = 'The selected URL is already in use.';
-    } else if (!this.hasValidEmbeds) {
-      this.errorMessage =
-        'Please review the supported content for the header and footer embeds';
     } else {
       this.errorMessage = undefined;
     }
@@ -334,6 +331,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     const embeds = ['HeaderEmbeds', 'FooterEmbeds'];
     let hasValidTags = true;
     let element;
+    let isMissingClosingTagsMsg;
     embeds.forEach((embed) => {
       const content = this.page[embed];
       if (content) {
@@ -359,8 +357,97 @@ export class PageEditorComponent implements OnInit, OnChanges {
             if (this.tagName !== 'SCRIPT') hasValidTags = false;
           }
         });
+        if (hasValidTags)
+          isMissingClosingTagsMsg = this.checkForClosingTags(content, embed);
       }
     });
-    return hasValidTags;
+    this.errorMessage = !!isMissingClosingTagsMsg
+      ? isMissingClosingTagsMsg
+      : !hasValidTags
+      ? 'Please review the supported content for the header and footer embeds'
+      : undefined;
+    return hasValidTags && !isMissingClosingTagsMsg;
+  }
+
+  private checkForClosingTags(content: string, embed: string): string {
+    let DOMHolderArray = [];
+    let tagsArray = [];
+    var lines = content.split('\n');
+    for (var x = 0; x < lines.length; x++) {
+      tagsArray = lines[x].match(
+        /<(\/{1})?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[^'">\s]+))?)+\s*|\s*)>/g
+      );
+      if (tagsArray) {
+        tagsArray.forEach((currentTag: string) => {
+          if (currentTag.indexOf('</') >= 0) {
+            let elementToRemove = currentTag.substr(2, currentTag.length - 3);
+            elementToRemove = elementToRemove.replace(/ /g, '');
+            for (var j = DOMHolderArray.length - 1; j >= 0; j--) {
+              if (DOMHolderArray[j].element == elementToRemove) {
+                DOMHolderArray.splice(j, 1);
+                if (elementToRemove != 'html') {
+                  break;
+                }
+              }
+            }
+          } else {
+            let tagNEW = currentTag;
+            var tag = new Object();
+            tag['full'] = currentTag;
+            if (tag['full'].indexOf(' ') > 0) {
+              tag['element'] = tag['full'].substr(
+                1,
+                tag['full'].indexOf(' ') - 1
+              );
+            } else {
+              tag['element'] = tag['full'].substr(1, tag['full'].length - 2);
+            }
+            var selfClosingTags = [
+              'area',
+              'base',
+              'br',
+              'col',
+              'command',
+              'embed',
+              'hr',
+              'img',
+              'input',
+              'keygen',
+              'link',
+              'meta',
+              'param',
+              'source',
+              'track',
+              'wbr',
+            ];
+            var isSelfClosing = false;
+            selfClosingTags.forEach((selfClosingTag) => {
+              if (selfClosingTag.localeCompare(tag['element']) == 0) {
+                isSelfClosing = true;
+              }
+            });
+            if (!isSelfClosing) {
+              DOMHolderArray.push(tag);
+            }
+          }
+        });
+      }
+    }
+
+    var message: string;
+    if (DOMHolderArray.length > 0) {
+      message = `The following tags don't seem to be closed in the ${embed
+        .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+        .toLocaleLowerCase()}: `;
+      let tags = [];
+      for (var i = 0; i < DOMHolderArray.length; i++) {
+        // var tagSanitized = DOMHolderArray[i].full.replace(/>/g, '&gt;');
+        // tagSanitized = DOMHolderArray[i].full.replace(/</g, '&lt;');
+        tags = [...tags, `<${DOMHolderArray[i].element}>`];
+      }
+      const stringifyTags = tags.join(', ');
+      message = message.concat(stringifyTags);
+    }
+    return message;
   }
 }
