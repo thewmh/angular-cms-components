@@ -81,6 +81,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   isLocked: boolean;
   isRequired: boolean;
   errorMessage: string;
+  hasValidEmbeds: boolean;
 
   faQuestionCircle = faQuestionCircle;
 
@@ -108,6 +109,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.duplicateUrl = false;
     this.isLocked = this.determineLocked();
     this.isRequired = this.determineRequired();
+    this.hasValidEmbeds = this.checkEmbeds();
     this.checkErrorMessage();
   }
 
@@ -174,6 +176,10 @@ export class PageEditorComponent implements OnInit, OnChanges {
     this.page.Url = kebab(this.page.Url);
     this.onPageUrlKeyUp();
     this.checkErrorMessage();
+  }
+
+  onEmbedsChange() {
+    this.hasValidEmbeds = this.checkEmbeds();
   }
 
   onPageNavigationChange(): void {
@@ -303,9 +309,6 @@ export class PageEditorComponent implements OnInit, OnChanges {
       this.errorMessage = 'SEO > Meta Title is required';
     } else if (this.duplicateUrl) {
       this.errorMessage = 'The selected URL is already in use.';
-    } else if (!this.hasValidEmbeds()) {
-      this.errorMessage =
-        'Please review the supported content for the header and footer embeds';
     } else {
       this.errorMessage = undefined;
     }
@@ -318,39 +321,122 @@ export class PageEditorComponent implements OnInit, OnChanges {
         (this.page.Url || this.isLocked) &&
         ((this.page.Active && this.isRequired) || !this.isRequired) &&
         !this.duplicateUrl &&
-        this.hasValidEmbeds()
+        this.hasValidEmbeds
     );
   }
 
-  private hasValidEmbeds(): boolean {
+  private checkEmbeds(): boolean {
     if (!this.page.HeaderEmbeds && !this.page.FooterEmbeds) return true;
 
     const embeds = ['HeaderEmbeds', 'FooterEmbeds'];
     let hasValidTags = true;
     let element;
+    let isMissingClosingTagsMsg;
     embeds.forEach((embed) => {
-      try {
-        element = $(this.page[embed]);
-      } catch {
-        // catch syntax err
-        hasValidTags = false;
-        return;
-      }
-
-      // do no allow plain text for both header and footer embeds
-      if (element.length === 0) {
-        hasValidTags = false;
-        return;
-      }
-
-      element.each(function () {
-        if (embed === 'FooterEmbeds') {
-          // if non SCRIPT tags are added to the footer embed, it will break the page
-          // therefore, only allow script tags to be used in the footer
-          if (this.tagName !== 'SCRIPT') hasValidTags = false;
+      const content = this.page[embed];
+      if (content) {
+        try {
+          element = $(content);
+        } catch {
+          // catch syntax err
+          hasValidTags = false;
+          return;
         }
-      });
+
+        // do no allow plain text for both header and footer embeds
+        // all content should begin with < (even if they want to add comments)
+        if (element.length === 0 || content.trim()[0] !== '<') {
+          hasValidTags = false;
+          return;
+        }
+
+        element.each(function () {
+          if (embed === 'FooterEmbeds') {
+            // if non SCRIPT tags are added to the footer embed, it will break the page
+            // therefore, only allow script tags to be used in the footer
+            if (this.tagName !== 'SCRIPT') hasValidTags = false;
+          }
+        });
+        // confirm all non self closing tags are closed
+        if (hasValidTags)
+          isMissingClosingTagsMsg = this.checkForClosingTags(content, embed);
+      }
     });
-    return hasValidTags;
+    this.errorMessage = !!isMissingClosingTagsMsg
+      ? isMissingClosingTagsMsg
+      : !hasValidTags
+      ? 'Please review the supported content for the header and footer embeds'
+      : undefined;
+    return hasValidTags && !isMissingClosingTagsMsg;
+  }
+
+  private checkForClosingTags(content: string, embed: string): string {
+    let openingTags = [];
+    let tagsArray = [];
+    const lines = content.split('\n');
+    lines.forEach((line: string) => {
+      tagsArray = line.match(
+        /<(\/{1})?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[^'">\s]+))?)+\s*|\s*)>/g
+      );
+      if (tagsArray) {
+        tagsArray.forEach((currentTag: string) => {
+          const isClosingTag = currentTag.indexOf('</') >= 0;
+          if (isClosingTag) {
+            let closingTag = currentTag.substr(2, currentTag.length - 3);
+            closingTag = closingTag.replace(/ /g, '');
+            for (var j = openingTags.length - 1; j >= 0; j--) {
+              if (openingTags[j] == closingTag) {
+                openingTags.splice(j, 1);
+                if (closingTag != 'html') {
+                  break;
+                }
+              }
+            }
+          } else {
+            let tag = currentTag;
+            const length =
+              tag.indexOf(' ') > 0 ? tag.indexOf(' ') - 1 : tag.length - 2;
+            tag = currentTag.substr(1, length);
+            const selfClosingTags = [
+              'area',
+              'base',
+              'br',
+              'col',
+              'command',
+              'embed',
+              'hr',
+              'img',
+              'input',
+              'keygen',
+              'link',
+              'meta',
+              'param',
+              'source',
+              'track',
+              'wbr',
+            ];
+            let isSelfClosing = false;
+            selfClosingTags.forEach((selfClosingTag) => {
+              if (selfClosingTag.includes(tag)) isSelfClosing = true;
+            });
+            if (!isSelfClosing) {
+              openingTags.push(tag);
+            }
+          }
+        });
+      }
+    });
+
+    let message: string;
+    if (openingTags.length > 0) {
+      message = `The following tags don't seem to be closed in the ${embed
+        .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+        .toLocaleLowerCase()}: `;
+      let tags = [];
+      tags = openingTags.map((element) => `<${element}>`);
+      const stringifyTagsArray = tags.join(', ');
+      message = message.concat(stringifyTagsArray);
+    }
+    return message;
   }
 }
