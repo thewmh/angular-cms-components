@@ -357,6 +357,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
             if (this.tagName !== 'SCRIPT') hasValidTags = false;
           }
         });
+        // confirm all non self closing tags are closed
         if (hasValidTags)
           isMissingClosingTagsMsg = this.checkForClosingTags(content, embed);
       }
@@ -370,7 +371,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   }
 
   private checkForClosingTags(content: string, embed: string): string {
-    let openingTags = []; // TODO: rename?
+    let openingTags = [];
     let tagsArray = [];
     const lines = content.split('\n');
     lines.forEach((line: string) => {
@@ -381,13 +382,12 @@ export class PageEditorComponent implements OnInit, OnChanges {
         tagsArray.forEach((currentTag: string) => {
           const isClosingTag = currentTag.indexOf('</') >= 0;
           if (isClosingTag) {
-            let elementToRemove = currentTag.substr(2, currentTag.length - 3);
-            elementToRemove = elementToRemove.replace(/ /g, '');
-            // TODO: can we use filter() here instead of for loop?
+            let closingTag = currentTag.substr(2, currentTag.length - 3);
+            closingTag = closingTag.replace(/ /g, '');
             for (var j = openingTags.length - 1; j >= 0; j--) {
-              if (openingTags[j] == elementToRemove) {
+              if (openingTags[j] == closingTag) {
                 openingTags.splice(j, 1);
-                if (elementToRemove != 'html') {
+                if (closingTag != 'html') {
                   break;
                 }
               }
@@ -415,33 +415,27 @@ export class PageEditorComponent implements OnInit, OnChanges {
               'track',
               'wbr',
             ];
-            var isSelfClosing = false;
+            let isSelfClosing = false;
             selfClosingTags.forEach((selfClosingTag) => {
-              if (selfClosingTag.localeCompare(tag['element']) == 0) {
-                isSelfClosing = true;
-              }
+              if (selfClosingTag.includes(tag)) isSelfClosing = true;
             });
             if (!isSelfClosing) {
-              DOMHolderArray.push(tag);
+              openingTags.push(tag);
             }
           }
         });
       }
-    }
+    });
 
-    var message: string;
-    if (DOMHolderArray.length > 0) {
+    let message: string;
+    if (openingTags.length > 0) {
       message = `The following tags don't seem to be closed in the ${embed
         .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
         .toLocaleLowerCase()}: `;
       let tags = [];
-      for (var i = 0; i < DOMHolderArray.length; i++) {
-        // var tagSanitized = DOMHolderArray[i].full.replace(/>/g, '&gt;');
-        // tagSanitized = DOMHolderArray[i].full.replace(/</g, '&lt;');
-        tags = [...tags, `<${DOMHolderArray[i].element}>`];
-      }
-      const stringifyTags = tags.join(', ');
-      message = message.concat(stringifyTags);
+      tags = openingTags.map((element) => `<${element}>`);
+      const stringifyTagsArray = tags.join(', ');
+      message = message.concat(stringifyTagsArray);
     }
     return message;
   }
