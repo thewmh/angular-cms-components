@@ -5,11 +5,13 @@
       <button type="button" (click)="selectPage()" class="btn btn-outline-primary">
           New Page
       </button>
-      <div class="input-group">
-          <select (change)="sortDocs()" class="custom-select" id="sortStyles" aria-label="Sort By Dropdown">
-              <option selected disabled value="">Sort By:</option>
-              <option *ngFor="let options of sortOptions">{{options}}</option>
+      <div class="flex-grow-0 flex-shrink-1 pl-2 pr-2">
+        <form [formGroup]="form">
+          <select formControlName="sorter" (change)="sortDocs()" class="custom-select" aria-label="Sort By Dropdown">
+              <option disabled value="null">Sort By:</option>
+              <option *ngFor="let options of sortOptions" [ngValue]="options">{{options}}</option>
           </select>
+        </form>
       </div>
   </div>
     <!-- TODO: enable search/filter once it works better -->

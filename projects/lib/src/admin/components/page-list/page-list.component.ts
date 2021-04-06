@@ -57,7 +57,15 @@ export class PageListComponent implements OnInit, OnChanges {
   loading = true;
   list: JDocument[];
   selected?: JDocument;
-  sortOptions = ["Name (A-Z)","Date Created (Newest-Oldest)", "Date Created (Oldest-Newest)", "Date Updated (Oldest-Newest)", "Date Updated (Newest-Oldest)"];
+  sortOptions = [
+    "Title (A-Z)",
+    "Date Created (Newest-Oldest)",
+    "Date Created (Oldest-Newest)",
+    "Date Updated (Newest-Oldest)",
+    "Date Updated (Oldest-Newest)", 
+  ];
+  form: FormGroup;
+  _sortStrategy: string;
 
   constructor(private spinner: NgxSpinnerService, private formBuilder: FormBuilder) { }
 
@@ -69,7 +77,7 @@ export class PageListComponent implements OnInit, OnChanges {
       );
     }
     this.listDocs();
-    
+    this.setForm();
 
     // debounce search for 300ms
     this.searchTermChanged
@@ -101,30 +109,28 @@ export class PageListComponent implements OnInit, OnChanges {
            changes[propertyName].previousValue !== changes[propertyName].currentValue;
   }
 
- 
-  sortDocs() {
-    // console.log(value)
-    const sortStyles = document.getElementById("sortStyles") as HTMLSelectElement;
-    const sortStyles2 = document.getElementById("sortStyles");
-    const testval = sortStyles2.nodeValue;
-    console.log(testval)
-    const value = sortStyles.options.selectedIndex.toString()
-    // return this.list.sort((a,b) => (a.Doc.DateUpdated > b.Doc.DateUpdated) ? 1 : -1);
-    console.log(value)
-    switch (value){
-      case "1":
-        return this.list.sort((a,b) => (a.Doc.Name > b.Doc.Name) ? 1 : -1); 
-      case "2":
-        return this.list.sort((a,b) => (a.Doc.DateCreated < b.Doc.DateCreated) ? 1 : -1);
-      case "3":
-          return this.list.sort((a,b) => (a.Doc.DateCreated > b.Doc.DateCreated) ? 1 : -1);
-      case "4":
-        return this.list.sort((a,b) => (a.Doc.DateLastUpdated > b.Doc.DateLastUpdated) ? 1 : -1);
-        case "5":
-        return this.list.sort((a,b) => (a.Doc.DateLastUpdated < b.Doc.DateLastUpdated) ? 1 : -1);
-    }
+  private setForm() {
+    this.form = this.formBuilder.group({
+      sorter: this._sortStrategy,
+    });
+  }
 
-    
+  sortDocs() {
+    const sortStrategy = this.form.get("sorter").value !== "sortBy"
+    ? this.form.get("sorter").value : undefined;
+    switch (sortStrategy){
+      case this.sortOptions[0]:
+        return this.list.sort((a,b) => (a.Doc.Title > b.Doc.Title) ? 1 : -1); 
+      case this.sortOptions[1]:
+        return this.list.sort((a,b) => (a.Doc.DateCreated < b.Doc.DateCreated) ? 1 : -1);
+      case this.sortOptions[2]:
+          return this.list.sort((a,b) => (a.Doc.DateCreated > b.Doc.DateCreated) ? 1 : -1);
+      case this.sortOptions[3]:
+        return this.list.sort((a,b) => (a.Doc.DateLastUpdated < b.Doc.DateLastUpdated) ? 1 : -1);
+      case this.sortOptions[4]:
+        return this.list.sort((a,b) => (a.Doc.DateLastUpdated > b.Doc.DateLastUpdated) ? 1 : -1);
+      default: return;
+      }
   }
 
   listDocs(): Promise<void> {
