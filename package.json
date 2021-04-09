@@ -2,7 +2,7 @@
   "name": "@ordercloud/angular-cms-components",
   "author": "Four51",
   "license": "MIT",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "scripts": {
     "start": "run-s copy-constants buildconfig-dev app-watchmode",
     "build": "run-s copy-constants buildconfig-prod plugin-prod build-lib buildconfig-dev move-scripts build-storybook",
@@ -31,6 +31,11 @@
     "@angular/platform-browser": "~10.0.2",
     "@angular/platform-browser-dynamic": "~10.0.2",
     "@angular/router": "~10.0.2",
+    "@fortawesome/angular-fontawesome": "^0.8.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/free-regular-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

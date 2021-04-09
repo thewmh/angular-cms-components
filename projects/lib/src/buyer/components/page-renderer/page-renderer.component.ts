@@ -159,14 +159,22 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
     const target = component.document.getElementsByTagName(appendTo)[0];
 
     if (content) {
-      const element = $(content);
-      const scripts = element.filter(function() {
+      let element;
+      try {
+        element = $(content);
+      } catch (e) {
+        // catch syntax err
+        console.error(e);
+        return;
+      }
+
+      const scripts = element.filter(function () {
         return this.tagName === 'SCRIPT';
       });
-      const nonScripts = element.filter(function() {
+      const nonScripts = element.filter(function () {
         return this.tagName !== 'SCRIPT';
       });
-      scripts.each(function() {
+      scripts.each(function () {
         // in order to run javascript after first page loads we need to append it as an html element
 
         // create script
@@ -183,7 +191,14 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
         component.renderer.appendChild(target, script);
       });
 
-      nonScripts.each(function() {
+      nonScripts.each(function () {
+        if (appendTo === 'body' && this.tagName) {
+          console.error(
+            `ERROR: Footer embeds did not execute because <${this.tagName.toLocaleLowerCase()}> is not supported in the footer. Please review what is supported in the footer embeds in the CMS to prevent this error.`
+          );
+          return;
+        }
+
         // non scripts like html/css can just be added to dom
         // unlike javascript they will still be applied even after first page load
         if (this.outerHTML) {
