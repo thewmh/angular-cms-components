@@ -205,7 +205,6 @@ export class PageListComponent implements OnInit, OnChanges {
     this.selected = undefined;
     this.ngOnInit();
     this.backClicked.emit(e);
-    console.log(this.list)
   }
 
   async selectPage(page): Promise<void> {
