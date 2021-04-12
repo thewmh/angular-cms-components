@@ -48,7 +48,18 @@
                 ></fa-icon>
               </fa-layers>
             </th>
-            <th>Created By</th>
+            <th (click)="changeSortStrategy('CreatedBy')">Created By
+              <fa-layers class="fa-fw">
+                <fa-icon
+                  [icon]="faSortUp"
+                  [ngClass]="{ inactive: sortBy != 'CreatedBy' }" 
+                ></fa-icon>
+                <fa-icon
+                  [icon]="faSortDown"
+                  [ngClass]="{ inactive: sortBy != '!CreatedBy' }" 
+                ></fa-icon>
+              </fa-layers>
+            </th>
             <th (click)="changeSortStrategy('DateCreated')">Date Created
               <fa-layers class="fa-fw">
                 <fa-icon

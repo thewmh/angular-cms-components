@@ -117,6 +117,10 @@ export class PageListComponent implements OnInit, OnChanges {
         return this.list.sort((a,b) => (a.Doc.Title > b.Doc.Title) ? 1 : -1); 
       case "!Title":
         return this.list.sort((a,b) => (a.Doc.Title < b.Doc.Title) ? 1 : -1); 
+        case "CreatedBy":
+        return this.list.sort((a,b) => (a.Doc.Author > b.Doc.Author) ? 1 : -1);
+      case "!CreatedBy":
+        return this.list.sort((a,b) => (a.Doc.Author < b.Doc.Author) ? 1 : -1);
       case "DateCreated":
         return this.list.sort((a,b) => (a.Doc.DateCreated < b.Doc.DateCreated) ? 1 : -1);
       case "!DateCreated":
