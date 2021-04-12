@@ -40,23 +40,23 @@
               <fa-layers class="fa-fw">
                 <fa-icon
                   [icon]="faSortUp"
-                  [ngClass]="{ inactive: sortBy != 'Title' }" 
+                  [ngClass]="{ inactive: sortBy != '!Title' }" 
                 ></fa-icon>
                 <fa-icon
                   [icon]="faSortDown"
-                  [ngClass]="{ inactive: sortBy != '!Title' }" 
+                  [ngClass]="{ inactive: sortBy != 'Title' }" 
                 ></fa-icon>
               </fa-layers>
             </th>
-            <th (click)="changeSortStrategy('CreatedBy')">Created By
+            <th (click)="changeSortStrategy('Author')">Created By
               <fa-layers class="fa-fw">
                 <fa-icon
                   [icon]="faSortUp"
-                  [ngClass]="{ inactive: sortBy != 'CreatedBy' }" 
+                  [ngClass]="{ inactive: sortBy != '!Author' }" 
                 ></fa-icon>
                 <fa-icon
                   [icon]="faSortDown"
-                  [ngClass]="{ inactive: sortBy != '!CreatedBy' }" 
+                  [ngClass]="{ inactive: sortBy != 'Author' }" 
                 ></fa-icon>
               </fa-layers>
             </th>
@@ -73,15 +73,15 @@
                 ></fa-icon>
               </fa-layers>
             </th>
-            <th (click)="changeSortStrategy('DateUpdated')">Last Updated
+            <th (click)="changeSortStrategy('DateLastUpdated')">Last Updated
               <fa-layers class="fa-fw">
                 <fa-icon
                   [icon]="faSortUp" 
-                  [ngClass]="{ inactive: sortBy != 'DateUpdated' }" 
+                  [ngClass]="{ inactive: sortBy != 'DateLastUpdated' }" 
                 ></fa-icon>
                 <fa-icon
                   [icon]="faSortDown"
-                  [ngClass]="{ inactive: sortBy != '!DateUpdated' }" 
+                  [ngClass]="{ inactive: sortBy != '!DateLastUpdated' }" 
 
                 ></fa-icon>
               </fa-layers>

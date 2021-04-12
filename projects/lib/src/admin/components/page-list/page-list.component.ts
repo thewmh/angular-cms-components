@@ -28,7 +28,6 @@ import DEFAULT_ASSET_TYPES, {
   ASSET_TYPES,
 } from '../../constants/asset-types.constants';
 import { PageContentDoc } from '../../models/page-content-doc.interface';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'cms-page-list',
@@ -65,7 +64,7 @@ export class PageListComponent implements OnInit, OnChanges {
   faSortUp = faSortUp;
   faSortDown = faSortDown;
 
-  constructor(private spinner: NgxSpinnerService, private formBuilder: FormBuilder) { }
+  constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.pageSchemaID = this.schemaID || PAGE_SCHEMA.ID;
@@ -106,31 +105,12 @@ export class PageListComponent implements OnInit, OnChanges {
            changes[propertyName].previousValue !== changes[propertyName].currentValue;
   }
 
-  changeSortStrategy(sortBy: string) {
+  changeSortStrategy(sortBy: string): JDocument[] {
     if (this.sortBy && this.sortBy === sortBy){
       sortBy = "!" + this.sortBy;
-      this.sortBy = sortBy;
     }
-    else {this.sortBy = sortBy}
-    switch (sortBy){
-      case "Title":
-        return this.list.sort((a,b) => (a.Doc.Title > b.Doc.Title) ? 1 : -1); 
-      case "!Title":
-        return this.list.sort((a,b) => (a.Doc.Title < b.Doc.Title) ? 1 : -1); 
-        case "CreatedBy":
-        return this.list.sort((a,b) => (a.Doc.Author > b.Doc.Author) ? 1 : -1);
-      case "!CreatedBy":
-        return this.list.sort((a,b) => (a.Doc.Author < b.Doc.Author) ? 1 : -1);
-      case "DateCreated":
-        return this.list.sort((a,b) => (a.Doc.DateCreated < b.Doc.DateCreated) ? 1 : -1);
-      case "!DateCreated":
-          return this.list.sort((a,b) => (a.Doc.DateCreated > b.Doc.DateCreated) ? 1 : -1);
-      case "DateUpdated":
-        return this.list.sort((a,b) => (a.Doc.DateLastUpdated < b.Doc.DateLastUpdated) ? 1 : -1);
-      case "!DateUpdated":
-        return this.list.sort((a,b) => (a.Doc.DateLastUpdated > b.Doc.DateLastUpdated) ? 1 : -1);
-      default: return;
-      }
+   this.sortBy = sortBy;
+   return this.list.sort((a,b) => (a.Doc[sortBy] < b.Doc[sortBy]) ? 1 : -1);
   }
 
   listDocs(): Promise<void> {
