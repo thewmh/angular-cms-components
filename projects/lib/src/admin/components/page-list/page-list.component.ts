@@ -106,11 +106,17 @@ export class PageListComponent implements OnInit, OnChanges {
   }
 
   changeSortStrategy(sortBy: string): JDocument[] {
-    if (this.sortBy && this.sortBy === sortBy){
-      sortBy = "!" + this.sortBy;
+    if (this.sortBy && this.sortBy === sortBy) {
+      sortBy = '!' + this.sortBy;
     }
-   this.sortBy = sortBy;
-   return this.list.sort((a,b) => (a.Doc[sortBy] < b.Doc[sortBy]) ? 1 : -1);
+    this.sortBy = sortBy;
+    const compareFn = (a: JDocument, b: JDocument): 1 | -1 => {
+      const sort = sortBy.includes('!')
+        ? a.Doc[sortBy.replace('!', '')] > b.Doc[sortBy.replace('!', '')]
+        : a.Doc[sortBy] < b.Doc[sortBy];
+      return sort ? 1 : -1;
+    };
+    return this.list.sort((a, b) => compareFn(a, b));
   }
 
   listDocs(): Promise<void> {
