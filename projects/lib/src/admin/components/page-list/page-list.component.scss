@@ -40,3 +40,7 @@
 .table-responsive>.table>tbody>tr:first-of-type>td {
   border-top: 0;
 }
+
+.inactive {
+  color: lighten($color: #000000, $amount: 65);
+}

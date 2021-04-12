@@ -5,15 +5,7 @@
       <button type="button" (click)="selectPage()" class="btn btn-outline-primary">
           New Page
       </button>
-      <div class="flex-grow-0 flex-shrink-1 pl-2 pr-2">
-        <form [formGroup]="form">
-          <select formControlName="sorter" (change)="sortDocs()" class="custom-select" aria-label="Sort By Dropdown">
-              <option disabled value="null">Sort By:</option>
-              <option *ngFor="let options of sortOptions" [ngValue]="options">{{options}}</option>
-          </select>
-        </form>
-      </div>
-  </div>
+    </div>
     <!-- TODO: enable search/filter once it works better -->
     <!-- <div class="flex-grow-0 flex-shrink-1 pr-2">
       <input
@@ -44,10 +36,45 @@
     <table class="table table-hover page-list-table">
       <thead>
         <tr>
-            <th>Title</th>
+            <th (click)="changeSortStrategy('Title')">Title
+              <fa-layers class="fa-fw">
+                <fa-icon
+                  [icon]="faSortUp"
+                  [ngClass]="{ inactive: sortBy != 'Title' }" 
+                ></fa-icon>
+                <fa-icon
+                  [icon]="faSortDown"
+                  [ngClass]="{ inactive: sortBy != '!Title' }" 
+                ></fa-icon>
+              </fa-layers>
+            </th>
             <th>Created By</th>
-            <th>Date Created</th>
-            <th>Last Updated</th>
+            <th (click)="changeSortStrategy('DateCreated')">Date Created
+              <fa-layers class="fa-fw">
+                <fa-icon
+                  [icon]="faSortUp" 
+                  [ngClass]="{ inactive: sortBy != 'DateCreated' }" 
+                ></fa-icon>
+                <fa-icon
+                  [icon]="faSortDown"
+                  [ngClass]="{ inactive: sortBy != '!DateCreated' }" 
+
+                ></fa-icon>
+              </fa-layers>
+            </th>
+            <th (click)="changeSortStrategy('DateUpdated')">Last Updated
+              <fa-layers class="fa-fw">
+                <fa-icon
+                  [icon]="faSortUp" 
+                  [ngClass]="{ inactive: sortBy != 'DateUpdated' }" 
+                ></fa-icon>
+                <fa-icon
+                  [icon]="faSortDown"
+                  [ngClass]="{ inactive: sortBy != '!DateUpdated' }" 
+
+                ></fa-icon>
+              </fa-layers>
+            </th>
         </tr>
     </thead>
       <tbody>

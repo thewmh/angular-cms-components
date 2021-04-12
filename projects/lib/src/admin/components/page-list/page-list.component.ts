@@ -14,7 +14,11 @@ import {
   ListArgs,
   Asset,
   AssetUpload,
-} from '@ordercloud/cms-sdk'
+} from '@ordercloud/cms-sdk';
+import {
+  faSortDown,
+  faSortUp,
+} from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
@@ -57,15 +61,9 @@ export class PageListComponent implements OnInit, OnChanges {
   loading = true;
   list: JDocument[];
   selected?: JDocument;
-  sortOptions = [
-    "Title (A-Z)",
-    "Date Created (Newest-Oldest)",
-    "Date Created (Oldest-Newest)",
-    "Date Updated (Newest-Oldest)",
-    "Date Updated (Oldest-Newest)", 
-  ];
-  form: FormGroup;
-  _sortStrategy: string;
+  sortBy: string;
+  faSortUp = faSortUp;
+  faSortDown = faSortDown;
 
   constructor(private spinner: NgxSpinnerService, private formBuilder: FormBuilder) { }
 
@@ -77,7 +75,6 @@ export class PageListComponent implements OnInit, OnChanges {
       );
     }
     this.listDocs();
-    this.setForm();
 
     // debounce search for 300ms
     this.searchTermChanged
@@ -109,25 +106,24 @@ export class PageListComponent implements OnInit, OnChanges {
            changes[propertyName].previousValue !== changes[propertyName].currentValue;
   }
 
-  private setForm() {
-    this.form = this.formBuilder.group({
-      sorter: this._sortStrategy,
-    });
-  }
-
-  sortDocs() {
-    const sortStrategy = this.form.get("sorter").value !== "sortBy"
-    ? this.form.get("sorter").value : undefined;
-    switch (sortStrategy){
-      case this.sortOptions[0]:
+  changeSortStrategy(sortBy: string) {
+    if (this.sortBy && this.sortBy === sortBy){
+      sortBy = "!" + this.sortBy;
+      this.sortBy = sortBy;
+    }
+    else {this.sortBy = sortBy}
+    switch (sortBy){
+      case "Title":
         return this.list.sort((a,b) => (a.Doc.Title > b.Doc.Title) ? 1 : -1); 
-      case this.sortOptions[1]:
+      case "!Title":
+        return this.list.sort((a,b) => (a.Doc.Title < b.Doc.Title) ? 1 : -1); 
+      case "DateCreated":
         return this.list.sort((a,b) => (a.Doc.DateCreated < b.Doc.DateCreated) ? 1 : -1);
-      case this.sortOptions[2]:
+      case "!DateCreated":
           return this.list.sort((a,b) => (a.Doc.DateCreated > b.Doc.DateCreated) ? 1 : -1);
-      case this.sortOptions[3]:
+      case "DateUpdated":
         return this.list.sort((a,b) => (a.Doc.DateLastUpdated < b.Doc.DateLastUpdated) ? 1 : -1);
-      case this.sortOptions[4]:
+      case "!DateUpdated":
         return this.list.sort((a,b) => (a.Doc.DateLastUpdated > b.Doc.DateLastUpdated) ? 1 : -1);
       default: return;
       }
