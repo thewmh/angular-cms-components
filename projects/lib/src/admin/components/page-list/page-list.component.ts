@@ -14,7 +14,11 @@ import {
   ListArgs,
   Asset,
   AssetUpload,
-} from '@ordercloud/cms-sdk'
+} from '@ordercloud/cms-sdk';
+import {
+  faSortDown,
+  faSortUp,
+} from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
@@ -56,6 +60,9 @@ export class PageListComponent implements OnInit, OnChanges {
   loading = true;
   list: JDocument[];
   selected?: JDocument;
+  sortBy: string;
+  faSortUp = faSortUp;
+  faSortDown = faSortDown;
 
   constructor(private spinner: NgxSpinnerService) { }
 
@@ -98,6 +105,20 @@ export class PageListComponent implements OnInit, OnChanges {
            changes[propertyName].previousValue !== changes[propertyName].currentValue;
   }
 
+  changeSortStrategy(sortBy: string): JDocument[] {
+    if (this.sortBy && this.sortBy === sortBy) {
+      sortBy = '!' + this.sortBy;
+    }
+    this.sortBy = sortBy;
+    const compareFn = (a: JDocument, b: JDocument): 1 | -1 => {
+      const sort = sortBy.includes('!')
+        ? a.Doc[sortBy.replace('!', '')] > b.Doc[sortBy.replace('!', '')]
+        : a.Doc[sortBy] < b.Doc[sortBy];
+      return sort ? 1 : -1;
+    };
+    return this.list.sort((a, b) => compareFn(a, b));
+  }
+
   listDocs(): Promise<void> {
     this.spinner.show();
     if (!this.resourceType || !this.resourceID) {
@@ -123,6 +144,7 @@ export class PageListComponent implements OnInit, OnChanges {
             ...PAGE_SCHEMA,
             ID: this.pageSchemaID
           } as any;
+          
           return ContentManagementClient.Schemas.Create(schema).then(() =>
             this.listDocs()
           );

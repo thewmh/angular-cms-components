@@ -1,13 +1,9 @@
 <!-- LIST VIEW -->
 <div *ngIf="!selected" class="main-content">
   <div class="d-flex align-items-center justify-content-start p-3">
-    <div class="flex-grow-0 flex-shrink-1 pr-2">
-      <button
-        type="button"
-        (click)="selectPage()"
-        class="btn btn-outline-primary w-100"
-      >
-        New Page
+    <div class="d-flex flex-wrap align-items-center justify-content-between my-3">
+      <button type="button" (click)="selectPage()" class="btn btn-outline-primary">
+          New Page
       </button>
     </div>
     <!-- TODO: enable search/filter once it works better -->
@@ -40,12 +36,58 @@
     <table class="table table-hover page-list-table">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Created By</th>
-          <th>Date Created</th>
-          <th>Last Updated</th>
+            <th (click)="changeSortStrategy('Title')">Title
+              <fa-layers class="fa-fw">
+                <fa-icon
+                  [icon]="faSortUp"
+                  [ngClass]="{ inactive: sortBy != '!Title' }" 
+                ></fa-icon>
+                <fa-icon
+                  [icon]="faSortDown"
+                  [ngClass]="{ inactive: sortBy != 'Title' }" 
+                ></fa-icon>
+              </fa-layers>
+            </th>
+            <th (click)="changeSortStrategy('Author')">Created By
+              <fa-layers class="fa-fw">
+                <fa-icon
+                  [icon]="faSortUp"
+                  [ngClass]="{ inactive: sortBy != '!Author' }" 
+                ></fa-icon>
+                <fa-icon
+                  [icon]="faSortDown"
+                  [ngClass]="{ inactive: sortBy != 'Author' }" 
+                ></fa-icon>
+              </fa-layers>
+            </th>
+            <th (click)="changeSortStrategy('DateCreated')">Date Created
+              <fa-layers class="fa-fw">
+                <fa-icon
+                  [icon]="faSortUp" 
+                  [ngClass]="{ inactive: sortBy != 'DateCreated' }" 
+                ></fa-icon>
+                <fa-icon
+                  [icon]="faSortDown"
+                  [ngClass]="{ inactive: sortBy != '!DateCreated' }" 
+
+                ></fa-icon>
+              </fa-layers>
+            </th>
+            <th (click)="changeSortStrategy('DateLastUpdated')">Last Updated
+              <fa-layers class="fa-fw">
+                <fa-icon
+                  [icon]="faSortUp" 
+                  [ngClass]="{ inactive: sortBy != 'DateLastUpdated' }" 
+                ></fa-icon>
+                <fa-icon
+                  [icon]="faSortDown"
+                  [ngClass]="{ inactive: sortBy != '!DateLastUpdated' }" 
+
+                ></fa-icon>
+              </fa-layers>
+            </th>
         </tr>
-      </thead>
+    </thead>
       <tbody>
         <tr *ngFor="let contentDoc of list" (click)="selectPage(contentDoc)">
           <td>
