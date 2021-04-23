@@ -388,7 +388,6 @@
               class="form-control"
               [(ngModel)]="page.HeaderEmbeds"
               placeholder="Copy and paste any scripts you want to execute in the <head> element"
-              (keyup)="onEmbedsChange()"
             ></textarea>
           </div>
           <div class="form-group">
@@ -409,7 +408,6 @@
               class="form-control"
               [(ngModel)]="page.FooterEmbeds"
               placeholder="Copy and paste any scripts you want to execute at the bottom of the <body> element"
-              (keyup)="onEmbedsChange()"
             ></textarea>
           </div>
         </ng-template>
