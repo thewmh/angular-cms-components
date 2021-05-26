@@ -214,9 +214,9 @@ export class PageEditorComponent implements OnInit, OnChanges {
     const me = await OrderCloudSDK.Me.Get();
     const nowDate = new Date().toISOString();
     const fullName = `${me.FirstName} ${me.LastName}`;
+    this.setNoRobotIndexing();
     let updated: RequiredDeep<JDocument>;
     if (document && document.ID) {
-      this.setNoRobotIndexing();
       updated = await ContentManagementClient.Documents.Save(
         this.pageSchemaID,
         document.ID,
