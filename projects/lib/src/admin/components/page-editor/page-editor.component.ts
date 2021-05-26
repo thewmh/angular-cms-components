@@ -216,12 +216,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     const fullName = `${me.FirstName} ${me.LastName}`;
     let updated: RequiredDeep<JDocument>;
     if (document && document.ID) {
-      debugger;
-      if ((this.isLocked || this.isRequired) && !document.Doc.Active) {
-        this.page.NoRobotsIndexing = !this.page.NoRobotsIndexing;
-      } else if ((this.isLocked || this.isRequired) && document.Doc.Active) {
-        this.page.NoRobotsIndexing = !this.page.NoRobotsIndexing;
-      }
+      this.setNoRobotIndexing();
       updated = await ContentManagementClient.Documents.Save(
         this.pageSchemaID,
         document.ID,
@@ -321,5 +316,16 @@ export class PageEditorComponent implements OnInit, OnChanges {
         ((this.page.Active && this.isRequired) || !this.isRequired) &&
         !this.duplicateUrl
     );
+  }
+
+  private setNoRobotIndexing(): void {
+    const robotIndexingIsLocked = this.isLocked || this.isRequired;
+    if (robotIndexingIsLocked) {
+      // allow page to be crawled if page is active, do not allow if page is disabled
+      this.page.NoRobotsIndexing = !this.page.Active;
+    } else if (!this.page.NoRobotsIndexing && !this.page.Active) {
+      // set to true if page is disabled AND NoRobotsIndexing is undefined or false so that the page is not crawled
+      this.page.NoRobotsIndexing = true;
+    }
   }
 }
