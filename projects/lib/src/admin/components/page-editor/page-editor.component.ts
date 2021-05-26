@@ -216,6 +216,12 @@ export class PageEditorComponent implements OnInit, OnChanges {
     const fullName = `${me.FirstName} ${me.LastName}`;
     let updated: RequiredDeep<JDocument>;
     if (document && document.ID) {
+      debugger;
+      if ((this.isLocked || this.isRequired) && !document.Doc.Active) {
+        this.page.NoRobotsIndexing = !this.page.NoRobotsIndexing;
+      } else if ((this.isLocked || this.isRequired) && document.Doc.Active) {
+        this.page.NoRobotsIndexing = !this.page.NoRobotsIndexing;
+      }
       updated = await ContentManagementClient.Documents.Save(
         this.pageSchemaID,
         document.ID,
