@@ -321,7 +321,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   private setNoRobotIndexing(): void {
     const robotIndexingIsLocked = this.isLocked || this.isRequired;
     if (robotIndexingIsLocked) {
-      // allow page to be crawled if page is active, do not allow if page is disabled
+      // allow locked page to be crawled if page is active, do not allow if page is disabled
       this.page.NoRobotsIndexing = !this.page.Active;
     } else if (!this.page.NoRobotsIndexing && !this.page.Active) {
       // set to true if page is disabled AND NoRobotsIndexing is undefined or false so that the page is not crawled
