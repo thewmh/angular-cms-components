@@ -91,7 +91,7 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
     // addTag results in dupes, so we use updateTag instead
 
     // normal metadata
-    if (page.NoRobotsIndexing || (!page.Active && !page.NoRobotsIndexing)) {
+    if (page.NoRobotsIndexing || !page.Active) {
       this.metaService.updateTag({ property: 'robots', content: 'noindex' });
     } else {
       this.metaService.removeTag('property = "robots"');
