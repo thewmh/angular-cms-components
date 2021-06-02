@@ -214,6 +214,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
     const me = await OrderCloudSDK.Me.Get();
     const nowDate = new Date().toISOString();
     const fullName = `${me.FirstName} ${me.LastName}`;
+    this.setNoRobotIndexing();
     let updated: RequiredDeep<JDocument>;
     if (document && document.ID) {
       updated = await ContentManagementClient.Documents.Save(
@@ -315,5 +316,16 @@ export class PageEditorComponent implements OnInit, OnChanges {
         ((this.page.Active && this.isRequired) || !this.isRequired) &&
         !this.duplicateUrl
     );
+  }
+
+  private setNoRobotIndexing(): void {
+    const robotIndexingIsLocked = this.isLocked || this.isRequired;
+    if (robotIndexingIsLocked) {
+      // allow locked page to be crawled if page is active, do not allow if page is disabled
+      this.page.NoRobotsIndexing = !this.page.Active;
+    } else if (!this.page.NoRobotsIndexing && !this.page.Active) {
+      // set to true if page is disabled AND NoRobotsIndexing is undefined or false so that the page is not crawled
+      this.page.NoRobotsIndexing = true;
+    }
   }
 }
