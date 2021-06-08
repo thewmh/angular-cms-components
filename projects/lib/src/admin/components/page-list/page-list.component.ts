@@ -21,7 +21,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/internal/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ResourceType } from '../../../shared/models/resource-type.interface';
 import { PAGE_SCHEMA } from '../../constants/page-schema.constants';
 import DEFAULT_ASSET_TYPES, {
@@ -101,8 +101,8 @@ export class PageListComponent implements OnInit, OnChanges {
 
   valueChanged(changes: SimpleChanges, propertyName: string): boolean {
     return changes[propertyName] &&
-           !changes[propertyName].firstChange &&
-           changes[propertyName].previousValue !== changes[propertyName].currentValue;
+      !changes[propertyName].firstChange &&
+      changes[propertyName].previousValue !== changes[propertyName].currentValue;
   }
 
   changeSortStrategy(sortBy: string): JDocument[] {
@@ -144,7 +144,7 @@ export class PageListComponent implements OnInit, OnChanges {
             ...PAGE_SCHEMA,
             ID: this.pageSchemaID
           } as any;
-          
+
           return ContentManagementClient.Schemas.Create(schema).then(() =>
             this.listDocs()
           );
