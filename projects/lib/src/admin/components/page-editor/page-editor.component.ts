@@ -68,6 +68,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Output() backClicked = new EventEmitter<MouseEvent>();
   @Output() pageSaved = new EventEmitter<JDocument>();
   @Output() pageDeleted = new EventEmitter<string>();
+  @Output() pageIsSaving = new EventEmitter<boolean>();
 
   pageSchemaID: string;
   page: Partial<PageContentDoc>;
@@ -193,8 +194,12 @@ export class PageEditorComponent implements OnInit, OnChanges {
 
   async onSubmit(): Promise<void> {
     this.isLoadingSave = true;
+    this.pageIsSaving.emit(true);
     const updated = await this.saveChanges().finally(
-      () => (this.isLoadingSave = false)
+      () => {
+        this.isLoadingSave = false;
+        this.pageIsSaving.emit(false);
+      }
     );
     this.pageSaved.emit(updated);
   }
