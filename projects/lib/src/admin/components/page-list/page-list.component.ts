@@ -201,7 +201,7 @@ export class PageListComponent implements OnInit, OnChanges {
   async selectPage(page): Promise<void> {
     // if a page is in the process of saving, do not allow users to select another page
     // this is to avoid pages from getting overwritten with the other pages content
-    if (this.pageIsSaving) {
+    if (this.selected && this.pageIsSaving) {
       return;
     }
 
