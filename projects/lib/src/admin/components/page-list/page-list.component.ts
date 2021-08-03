@@ -63,7 +63,8 @@ export class PageListComponent implements OnInit, OnChanges {
   sortBy: string;
   faSortUp = faSortUp;
   faSortDown = faSortDown;
-
+  pageIsSaving = false;
+  
   constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -187,6 +188,10 @@ export class PageListComponent implements OnInit, OnChanges {
     this.pageDeleted.emit(deletedId);
   }
 
+  isPageSaving(isSaving: boolean) {
+    this.pageIsSaving = isSaving;
+  }
+
   goToList(e: MouseEvent): void {
     this.selected = undefined;
     this.ngOnInit();
@@ -194,6 +199,12 @@ export class PageListComponent implements OnInit, OnChanges {
   }
 
   async selectPage(page): Promise<void> {
+    // if a page is in the process of saving, do not allow users to select another page
+    // this is to avoid pages from getting overwritten with the other pages content
+    if (this.selected && this.pageIsSaving) {
+      return;
+    }
+
     if (!page) {
       // create new page
       page = {
