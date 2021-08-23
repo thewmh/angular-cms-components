@@ -98,11 +98,11 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
     }
     this.titleService.setTitle(page.MetaTitle);
     this.metaService.updateTag({
-      property: 'application-name',
+      name: 'application-name',
       content: page.SiteUrl,
     });
     this.metaService.updateTag({
-      property: 'description',
+      name: 'description',
       content: page.Description,
     });
 
