@@ -102,7 +102,7 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
       content: page.SiteUrl,
     });
     this.metaService.updateTag({
-      property: 'description',
+      name: 'description',
       content: page.Description,
     });
 
