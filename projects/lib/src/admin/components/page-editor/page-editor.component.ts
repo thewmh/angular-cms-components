@@ -62,6 +62,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   @Input() assetTypes: ASSET_TYPES[] = DEFAULT_ASSET_TYPES;
   @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
+  @Input() isWinmarkApp?: boolean = false;
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @Input() beforeDocumentSave?: (page: Partial<PageContentDoc>) => Promise<Partial<PageContentDoc>>;
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
@@ -87,6 +88,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {
+    console.log(this.isWinmarkApp)
     if (!this.document) {
       throw new Error(
         'cms-page-editor requires the content document (JDocument) to be edited'
@@ -235,15 +237,20 @@ export class PageEditorComponent implements OnInit, OnChanges {
         }
       );
     } else {
-      updated = await ContentManagementClient.Documents.Create(this.pageSchemaID, {
+      const doc = {
         Doc: {
           ...this.page,
           Author: fullName,
           DateCreated: nowDate,
           DateLastUpdated: nowDate,
           LastUpdatedBy: fullName,
-        },
-      });
+        }
+      }
+      const shouldUseWinmarkMethods = this.isWinmarkApp && this.pageSchemaID == 'cms-page-schema'
+      const CreatePage = shouldUseWinmarkMethods 
+      ? ContentManagementClient['WinmarkPages']['CreateWinmarkPage'](this.resourceType, this.resourceID, doc) 
+      : ContentManagementClient['Documents']['Create'](this.pageSchemaID, doc)
+      updated = await CreatePage as RequiredDeep<JDocument>;
     }
 
     if (this.resourceType && this.resourceID) {
