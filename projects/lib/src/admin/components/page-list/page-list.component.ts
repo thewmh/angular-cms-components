@@ -47,8 +47,6 @@ export class PageListComponent implements OnInit, OnChanges {
   @Input() assetTypes: ASSET_TYPES[] = DEFAULT_ASSET_TYPES;
   @Input() additionalAssetFilters?: TemplateRef<any>;
   @Input() defaultListOptions?: ListArgs<Asset> = { filters: { Active: true } };
-  @Input() isWinmarkApp?: boolean = false;
-  @Input() marketplaceID?: string = null;
   @Input() beforeAssetUpload?: (asset: AssetUpload) => Promise<AssetUpload>;
   @Input() beforeDocumentSave?: (page: Partial<PageContentDoc>) => Promise<Partial<PageContentDoc>>;
   @Output() selectedAssetChange = new EventEmitter<Asset | Asset[]>();
@@ -129,12 +127,8 @@ export class PageListComponent implements OnInit, OnChanges {
         'cms-page-list missing required props resourceType and resourceID for '
       );
     }
-    console.log(this.isWinmarkApp)
-    const ListPages = this.isWinmarkApp
-      ? ContentManagementClient['WinmarkPages']['ListWinmarkPages']
-      : ContentManagementClient['Documents']['ListDocuments'];
-    return ListPages(
-      this.isWinmarkApp ? this.marketplaceID : this.pageSchemaID,
+    return ContentManagementClient.Documents.ListDocuments(
+      this.pageSchemaID,
       this.resourceType,
       this.resourceID
     )
