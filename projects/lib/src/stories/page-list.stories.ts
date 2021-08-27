@@ -102,6 +102,7 @@ export const PlayItAgainSportsStyles = () => ({
     [resourceType]="resourceType"
     [resourceID]="resourceID"
     [isWinmarkApp]="isWinmarkApp"
+    [marketplaceID]="marketplaceID"
     [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
