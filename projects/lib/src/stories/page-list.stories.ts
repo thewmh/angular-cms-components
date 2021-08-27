@@ -28,13 +28,17 @@ export const DefaultStyles = () => ({
     [renderSiteUrl]="renderSiteUrl"
     [resourceType]="resourceType"
     [resourceID]="resourceID"
-    [editorOptions]="editorOptions"></cms-page-list></div>`,
+    [editorOptions]="editorOptions"
+    [isWinmarkApp]="isWinmarkApp"
+    [marketplaceID]="marketplaceID"></cms-page-list></div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
     resourceType: 'Suppliers',
     resourceID: '41106',
     requiredSlugs: [''],
     lockedSlugs: ['', 'about-us'],
+    isWinmarkApp: true,
+    marketplaceID: '', // Insert marketplaceID
     editorOptions: {},
   },
 });
@@ -49,6 +53,8 @@ export const MusicGoRoundStyles = () => ({
     [renderSiteUrl]="renderSiteUrl"
     [resourceType]="resourceType"
     [resourceID]="resourceID"
+    [marketplaceID]="marketplaceID"
+    [isWinmarkApp]="isWinmarkApp"
     [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
     defaultListOptions: { filters: { ID: 'mgrdev-*|40009-*' } },
@@ -68,6 +74,8 @@ export const MusicGoRoundStyles = () => ({
       'faq',
       'in-store-pickup',
     ],
+    isWinmarkApp: true,
+    marketplaceID: '', // Insert marketplaceID
 
     editorOptions: {
       resize: false,
@@ -93,14 +101,18 @@ export const PlayItAgainSportsStyles = () => ({
     [renderSiteUrl]="renderSiteUrl"
     [resourceType]="resourceType"
     [resourceID]="resourceID"
+    [isWinmarkApp]="isWinmarkApp"
+    [schemaID]="schemaID"
     [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
     resourceType: 'Suppliers',
-    resourceID: '400015',
+    resourceID: '11506',
     requiredSlugs: [''],
     lockedSlugs: ['', 'about', 'community'],
-
+    schemaID: 'cms-frca-page-schema',
+    isWinmarkApp: true,
+    marketplaceID: '', // Insert marketplaceID
     editorOptions: {
       ordercloud: {
         get_section_templates_callback: () =>
@@ -125,6 +137,8 @@ export const WithTranscludedToolbarAdditions = () => ({
         [resourceType]="resourceType"
         [resourceID]="resourceID"
         [editorOptions]="editorOptions"
+        [isWinmarkApp]="isWinmarkApp"
+        [marketplaceID]="marketplaceID"
         >
         <button class="btn btn-secondary cms-toolbar-additions">Custom Button</button>
         </cms-page-list>
@@ -136,6 +150,8 @@ export const WithTranscludedToolbarAdditions = () => ({
     requiredSlugs: [''],
     lockedSlugs: ['', 'about-us'],
     editorOptions: {},
+    isWinmarkApp: true,
+    marketplaceID: '', // Insert marketplaceID
   },
 });
 
@@ -150,6 +166,8 @@ export const WithBeforeAssetUpload = () => ({
         [editorOptions]="editorOptions"
         [beforeAssetUpload]="beforeAssetUpload"
         [beforeDocumentSave]="beforeDocumentSave"
+        [isWinmarkApp]="isWinmarkApp"
+        [marketplaceID]="marketplaceID"
         >
         </cms-page-list>
     </div>`,
@@ -159,6 +177,8 @@ export const WithBeforeAssetUpload = () => ({
     resourceID: 'sedev',
     lockedSlugs: ['', 'about-us'],
     editorOptions: {},
+    isWinmarkApp: true,
+    marketplaceID: '', // Insert marketplaceID
     beforeAssetUpload: (asset) => {
       console.log('before asset upload was hit');
       return Promise.resolve(asset);
