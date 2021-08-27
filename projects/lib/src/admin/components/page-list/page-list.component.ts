@@ -130,7 +130,7 @@ export class PageListComponent implements OnInit, OnChanges {
       );
     }
     const isWinmarkAndCmsPageSchema =
-      this.isWinmarkApp && this.schemaID == 'cms-page-schema';
+      this.isWinmarkApp && this.pageSchemaID == 'cms-page-schema';
     const ListPages = isWinmarkAndCmsPageSchema
       ? ContentManagementClient['WinmarkPages']['ListWinmarkPages']
       : ContentManagementClient['Documents']['ListDocuments'];

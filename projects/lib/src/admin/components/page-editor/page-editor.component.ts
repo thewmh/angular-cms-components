@@ -246,7 +246,7 @@ export class PageEditorComponent implements OnInit, OnChanges {
         },
       };
       const CreatePage =
-        this.isWinmarkApp && this.schemaID == 'cms-page-schema'
+        this.isWinmarkApp && this.pageSchemaID == 'cms-page-schema'
           ? ContentManagementClient['WinmarkPages']['CreateWinmarkPage'](
               this.resourceType,
               this.resourceID,
