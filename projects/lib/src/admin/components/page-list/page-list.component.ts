@@ -129,12 +129,13 @@ export class PageListComponent implements OnInit, OnChanges {
         'cms-page-list missing required props resourceType and resourceID for '
       );
     }
-    console.log(this.isWinmarkApp)
-    const ListPages = this.isWinmarkApp
+    const isWinmarkAndCmsPageSchema =
+      this.isWinmarkApp && this.schemaID == 'cms-page-schema';
+    const ListPages = isWinmarkAndCmsPageSchema
       ? ContentManagementClient['WinmarkPages']['ListWinmarkPages']
       : ContentManagementClient['Documents']['ListDocuments'];
     return ListPages(
-      this.isWinmarkApp ? this.marketplaceID : this.pageSchemaID,
+      isWinmarkAndCmsPageSchema ? this.marketplaceID : this.pageSchemaID,
       this.resourceType,
       this.resourceID
     )

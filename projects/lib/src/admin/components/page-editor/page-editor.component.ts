@@ -88,7 +88,6 @@ export class PageEditorComponent implements OnInit, OnChanges {
   constructor(private modalService: NgbModal) {}
 
   ngOnInit(): void {
-    console.log(this.isWinmarkApp)
     if (!this.document) {
       throw new Error(
         'cms-page-editor requires the content document (JDocument) to be edited'
@@ -244,13 +243,20 @@ export class PageEditorComponent implements OnInit, OnChanges {
           DateCreated: nowDate,
           DateLastUpdated: nowDate,
           LastUpdatedBy: fullName,
-        }
-      }
-      const shouldUseWinmarkMethods = this.isWinmarkApp && this.pageSchemaID == 'cms-page-schema'
-      const CreatePage = shouldUseWinmarkMethods 
-      ? ContentManagementClient['WinmarkPages']['CreateWinmarkPage'](this.resourceType, this.resourceID, doc) 
-      : ContentManagementClient['Documents']['Create'](this.pageSchemaID, doc)
-      updated = await CreatePage as RequiredDeep<JDocument>;
+        },
+      };
+      const CreatePage =
+        this.isWinmarkApp && this.schemaID == 'cms-page-schema'
+          ? ContentManagementClient['WinmarkPages']['CreateWinmarkPage'](
+              this.resourceType,
+              this.resourceID,
+              doc
+            )
+          : ContentManagementClient['Documents']['Create'](
+              this.pageSchemaID,
+              doc
+            );
+      updated = await CreatePage;
     }
 
     if (this.resourceType && this.resourceID) {
