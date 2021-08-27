@@ -102,7 +102,6 @@ export const PlayItAgainSportsStyles = () => ({
     [resourceType]="resourceType"
     [resourceID]="resourceID"
     [isWinmarkApp]="isWinmarkApp"
-    [schemaID]="schemaID"
     [editorOptions]="editorOptions"></cms-page-list></div>`,
   props: {
     renderSiteUrl: 'https://www.my-awesome-website.com',
@@ -110,7 +109,6 @@ export const PlayItAgainSportsStyles = () => ({
     resourceID: '11506',
     requiredSlugs: [''],
     lockedSlugs: ['', 'about', 'community'],
-    schemaID: 'cms-frca-page-schema',
     isWinmarkApp: true,
     marketplaceID: '', // Insert marketplaceID
     editorOptions: {
