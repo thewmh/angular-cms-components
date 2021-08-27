@@ -38,6 +38,7 @@ export const NewPageExample = () => ({
     },
     resourceType: 'Suppliers',
     resourceID: '41106',
+    isWinmarkApp: true,
     editorOptions: {
       ordercloud: {
         get_section_templates_callback: () =>
@@ -81,6 +82,7 @@ export const EditPageExample = () => ({
     },
     resourceType: 'Suppliers',
     resourceID: '41106',
+    isWinmarkApp: true,
     editorOptions: {
       content_css: [
         // 'https://piasstorageprod.azureedge.net/buyerweb/styles.07d24b25eb6a60350a70.css',

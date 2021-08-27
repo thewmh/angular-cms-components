@@ -4,7 +4,7 @@ import { ContentManagementClient, CMSConfiguration } from '@ordercloud/cms-sdk'
 import { Configuration } from 'ordercloud-javascript-sdk';
 
 Configuration.Set({
-  baseApiUrl: 'https://sandboxapi.ordercloud.io',
+  baseApiUrl: 'https://sandboxapi.ordercloud.io/v1',
 });
 
 CMSConfiguration.Set({
