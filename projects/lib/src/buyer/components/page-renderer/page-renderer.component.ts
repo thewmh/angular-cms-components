@@ -180,7 +180,10 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
         // create script
         const script = component.renderer.createElement('script');
         script.type = 'text/javascript';
-
+        
+        if ((this as any).id) {
+          script.id = (this as any).id
+        }
         if ((this as any).src) {
           script.src = (this as any).src;
         } else {
