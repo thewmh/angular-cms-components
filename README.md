@@ -1,4 +1,4 @@
-# OrderCloud Angular CMS components
+# DEPRECATED
 
 A component library that can be used to quickly integrate with the OrderCloud CMS API
 
