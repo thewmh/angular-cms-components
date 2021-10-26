@@ -1,6 +1,6 @@
 # DEPRECATED
 
-A component library that can be used to quickly integrate with the OrderCloud CMS API
+This project is no longer maintained.
 
 ## Requirements
 
