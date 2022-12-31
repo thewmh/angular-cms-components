@@ -76,7 +76,7 @@ export class PageRendererComponent implements OnChanges, AfterViewInit {
     if (!linkTarget) {
       return;
     }
-    const linkTargetEl = document.querySelector(`[name="${linkTarget}"]`);
+    const linkTargetEl = document.querySelector(`[name="${linkTarget}"]`) !== null ? document.querySelector(`[name="${linkTarget}"]`) : document.querySelector(`[id="${linkTarget}"]`);
     if (!linkTargetEl) {
       return;
     }
